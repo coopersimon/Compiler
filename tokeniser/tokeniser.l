@@ -8,18 +8,15 @@ enum token_type {_AUTO = 256, _BREAK, _CAS, _CHAR, _CONST, _CONTINUE, _DEFAULT, 
 
 DIGIT		[0-9]
 LETTER		[a-zA-Z_]
-CHAR		({DIGIT}|{LETTER})	
+CHAR		[0-9a-zA-Z_]
 STRING		\".+\"
 HEX			[0-9a-fA-F]
 OCT			[0-7]
-S			[uUlL]?
+S			(([uU][lL]?)|([lL][uU]?))?
 
-FP1			{DIGIT}*\.{DIGIT}+
-FP2			{DIGIT}+\.{DIGIT}*
-FP3			({FP1}|{FP2})
-EXP1		{DIGIT}+[eE]{DIGIT}+
-EXP2		{FP3}[eE]{DIGIT}+
-FLOAT		({FP3}|{EXP1}|{EXP2})[fFlL]?
+FLOAT1		[+-]?(([0-9]*\.[0-9]+)|([0-9]+\.[0-9]*))[ffll]?
+FLOAT2		[+-]?[0-9]+[eE][+-]?[0-9]+[fFlL]?
+FLOAT3		[+-]?(([0-9]*\.[0-9]+)|([0-9]+\.[0-9]*))[eE][+-]?[0-9]+[fFlL]?
 
 WHITESPACE	[ \t]
 
@@ -114,10 +111,10 @@ while			 return _WHILE;
 \]				return _RBRAK;
 
 
-[1-9]{DIGIT}*{S}	return _CDEC;
-{FLOAT}				return _CFP;
-0[xX]{HEX}+{S}		return _CHEX;
-0{OCT}*{S}			return _COCT;
+[+-]?[1-9]{DIGIT}*{S}			return _CDEC;
+({FLOAT1}|{FLOAT2}|{FLOAT3})	return _CFP;
+[+-]?0[xX]{HEX}+{S}				return _CHEX;
+[+-]?0{OCT}*{S}					return _COCT;
 
 
 {STRING}		return _STR;
@@ -135,261 +132,267 @@ int main()
 	using namespace std;
 
 	int line_num = 1;
-	int source_line = 0;
-	string source_file;
+	int source_line = 1;
+	string source_file = "";
+
+	bool print;
+	string t_class_type;
 
 	int ttcode = yylex();
 	
 	while(ttcode != 0)
 	{
+		print = true;
+
 		switch(ttcode)
 		{
 			case _AUTO:
-				cout << yytext << " Keyword T_AUTO " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_AUTO ";
 				break;
 			case _BREAK:
-				cout << yytext << " Keyword T_BREAK " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_BREAK ";
 				break;
 			case _CAS:
-				cout << yytext << " Keyword T_CASE " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_CASE ";
 				break;
 			case _CHAR:
-				cout << yytext << " Keyword T_CHAR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_CHAR ";
 				break;
 			case _CONST:
-				cout << yytext << " Keyword T_CONST " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_CONST ";
 				break;
 			case _CONTINUE:
-				cout << yytext << " Keyword T_CONTINUE " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_CONTINUE ";
 				break;
 			case _DEFAULT:
-				cout << yytext << " Keyword T_DEFAULT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_DEFAULT ";
 				break;
 			case _DO:
-				cout << yytext << " Keyword T_DO " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_DO ";
 				break;
 			case _DOUBLE:
-				cout << yytext << " Keyword T_DOUBLE " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_DOUBLE ";
 				break;
 			case _ELSE:
-				cout << yytext << " Keyword T_ELSE " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_ELSE ";
 				break;
 			case _ENUM:
-				cout << yytext << " Keyword T_ENUM " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_ENUM ";
 				break;
 			case _EXTERN:
-				cout << yytext << " Keyword T_EXTERN " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_EXTERN ";
 				break;
 			case _FLOAT:
-				cout << yytext << " Keyword T_FLOAT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_FLOAT ";
 				break;
 			case _FOR:
-				cout << yytext << " Keyword T_FOR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_FOR ";
 				break;
 			case _GOTO:
-				cout << yytext << " Keyword T_GOTO " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_GOTO ";
 				break;
 			case _IF:
-				cout << yytext << " Keyword T_IF " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_IF ";
 				break;
 			case _INT:
-				cout << yytext << " Keyword T_INT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_INT ";
 				break;
 			case _LONG:
-				cout << yytext << " Keyword T_LONG " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_LONG ";
 				break;
 			case _REGISTER:
-				cout << yytext << " Keyword T_REGISTER " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_REGISTER ";
 				break;
 			case _RETURN:
-				cout << yytext << " Keyword T_RETURN " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_RETURN ";
 				break;
 			case _SHORT:
-				cout << yytext << " Keyword T_SHORT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_SHORT ";
 				break;
 			case _SIGNED:
-				cout << yytext << " Keyword T_SIGNED " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_SIGNED ";
 				break;
 			case _SIZEOF:
-				cout << yytext << " Keyword T_SIZEOF " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_SIZEOF ";
 				break;
 			case _STATIC:
-				cout << yytext << " Keyword T_STATIC " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_STATIC ";
 				break;
 			case _STRUCT:
-				cout << yytext << " Keyword T_STRUCT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_STRUCT ";
 				break;
 			case _SWITCH:
-				cout << yytext << " Keyword T_SWITCH " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_SWITCH ";
 				break;
 			case _TYPEDEF:
-				cout << yytext << " Keyword T_TYPEDEF " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_TYPEDEF ";
 				break;
 			case _UNION:
-				cout << yytext << " Keyword T_UNION " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_UNION ";
 				break;
 			case _UNSIGNED:
-				cout << yytext << " Keyword T_UNSIGNED " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_UNSIGNED ";
 				break;
 			case _VOID:
-				cout << yytext << " Keyword T_VOID " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_VOID ";
 				break;
 			case _VOLATILE:
-				cout << yytext << " Keyword T_VOLATILE " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_VOLATILE ";
 				break;
 			case _WHILE:
-				cout << yytext << " Keyword T_WHILE " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_WHILE ";
 				break;
 			case _ID:
-				cout << yytext << " Identifier T_ID " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Identifier T_ID ";
 				break;
 			case _ADD:
-				cout << yytext << " Operator T_ADD " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_ADD ";
 				break;
 			case _SUB:
-				cout << yytext << " Operator T_SUB " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_SUB ";
 				break;
 			case _MULT:
-				cout << yytext << " Operator T_MULT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_MULT ";
 				break;
 			case _DIV:
-				cout << yytext << " Operator T_DIV " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_DIV ";
 				break;
 			case _MOD:
-				cout << yytext << " Operator T_MOD " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_MOD ";
 				break;
 			case _AND:
-				cout << yytext << " Operator T_AND " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_AND ";
 				break;
 			case _OR:
-				cout << yytext << " Operator T_OR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_OR ";
 				break;
 			case _XOR:
-				cout << yytext << " Operator T_XOR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_XOR ";
 				break;
 			case _LSHIFT:
-				cout << yytext << " Operator T_LSHIFT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LSHIFT ";
 				break;
 			case _RSHIFT:
-				cout << yytext << " Operator T_RSHIFT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_RSHIFT ";
 				break;
 			case _ASSIGN:
-				cout << yytext << " Operator T_ASSIGN " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_ASSIGN ";
 				break;
 			case _ADDA:
-				cout << yytext << " Operator T_ADDA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_ADDA ";
 				break;
 			case _SUBA:
-				cout << yytext << " Operator T_SUBA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_SUBA ";
 				break;
 			case _MULTA:
-				cout << yytext << " Operator T_MULTA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_MULTA ";
 				break;
 			case _DIVA:
-				cout << yytext << " Operator T_DIVA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_DIVA ";
 				break;
 			case _MODA:
-				cout << yytext << " Operator T_MODA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_MODA ";
 				break;
 			case _ANDA:
-				cout << yytext << " Operator T_ANDA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_ANDA ";
 				break;
 			case _ORA:
-				cout << yytext << " Operator T_ORA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_ORA ";
 				break;
 			case _XORA:
-				cout << yytext << " Operator T_XORA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_XORA ";
 				break;
 			case _LSHIFTA:
-				cout << yytext << " Operator T_LSHIFTA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LSHIFTA ";
 				break;
 			case _RSHIFTA:
-				cout << yytext << " Operator T_RSHIFTA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_RSHIFTA ";
 				break;
 			case _LAND:
-				cout << yytext << " Operator T_LAND " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LAND ";
 				break;
 			case _LOR:
-				cout << yytext << " Operator T_LOR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LOR ";
 				break;
 			case _EQUAL:
-				cout << yytext << " Operator T_EQUAL " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_EQUAL ";
 				break;
 			case _NEQUAL:
-				cout << yytext << " Operator T_NEQUAL " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_NEQUAL ";
 				break;
 			case _LESSEQUAL:
-				cout << yytext << " Operator T_LESSEQUAL " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LESSEQUAL ";
 				break;
 			case _GREATEQUAL:
-				cout << yytext << " Operator T_GREATEQUAL " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_GREATEQUAL ";
 				break;
 			case _LESSTHAN:
-				cout << yytext << " Operator T_LESSTHAN " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LESSTHAN ";
 				break;
 			case _GREATTHAN:
-				cout << yytext << " Operator T_GREATTHAN " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_GREATTHAN ";
 				break;
 			case _BITCOMP:
-				cout << yytext << " Operator T_BITCOMP " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_BITCOMP ";
 				break;
 			case _COMP:
-				cout << yytext << " Operator T_COMP " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_COMP ";
 				break;
 			case _INC:
-				cout << yytext << " Operator T_INC " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_INC ";
 				break;
 			case _DEC:
-				cout << yytext << " Operator T_DEC " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_DEC ";
 				break;
 			case _COMMA:
-				cout << yytext << " Operator T_COMMA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_COMMA ";
 				break;
 			case _CASE:
-				cout << yytext << " Operator T_CASE " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_CASE ";
 				break;
 			case _COND:
-				cout << yytext << " Operator T_COND " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_COND ";
 				break;
 			case _SEMI:
-				cout << yytext << " Operator T_SEMI " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_SEMI ";
 				break;
 			case _LPAR:
-				cout << yytext << " Operator T_LPAR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LPAR ";
 				break;
 			case _RPAR:
-				cout << yytext << " Operator T_RPAR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_RPAR ";
 				break;
 			case _LCBRA:
-				cout << yytext << " Operator T_LBRA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LBRA ";
 				break;
 			case _RCBRA:
-				cout << yytext << " Operator T_RBRA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_RBRA ";
 				break;
 			case _LBRAK:
-				cout << yytext << " Operator T_LBRAK " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LBRAK ";
 				break;
 			case _RBRAK:
-				cout << yytext << " Operator T_RBRAK " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_RBRAK ";
 				break;
 			case _CDEC:
-				cout << yytext << " Constant T_CDEC " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Constant T_CDEC ";
 				break;
 			case _CFP:
-				cout << yytext << " Constant T_CFP " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Constant T_CFP ";
 				break;
 			case _CHEX:
-				cout << yytext << " Constant T_CHEX " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Constant T_CHEX ";
 				break;
 			case _COCT:
-				cout << yytext << " Constant T_COCT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Constant T_COCT ";
 				break;
 			case _STR:
-				cout << yytext << " StringLiteral T_STR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " StringLiteral T_STR ";
 				break;
 			case _NEWLINE:
 				line_num++;
 				source_line++;
+				print = false;
 				break;
 			case _PREP:
 			{
@@ -407,12 +410,16 @@ int main()
 				string num = prep.substr(2);
 				source_line = strtol(num.c_str(), NULL, 10);
 				source_line--;
+				print = false;
 			}
 				break;
 			default:
-				cout << yytext << " invalid T_INVALID " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " invalid T_INVALID ";
 				break;
 		}
+		
+		if (print)
+			cout << yytext << t_class_type << line_num << " " << source_file << " " << source_line << endl;
 
 		ttcode = yylex();
 	}
