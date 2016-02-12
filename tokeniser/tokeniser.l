@@ -3,59 +3,61 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
-enum token_type {_AUTO = 256, _BREAK, _CAS, _CHAR, _CONST, _CONTINUE, _DEFAULT, _DO, _DOUBLE, _ELSE, _ENUM, _EXTERN, _FLOAT, _FOR, _GOTO, _IF, _INT, _LONG, _REGISTER, _RETURN, _SHORT, _SIGNED, _SIZEOF, _STATIC, _STRUCT, _SWITCH, _TYPEDEF, _UNION, _UNSIGNED, _VOID, _VOLATILE, _WHILE, _ID, _ADD, _SUB, _MULT, _DIV, _MOD, _AND, _OR, _XOR, _LSHIFT, _RSHIFT, _ASSIGN, _ADDA, _SUBA, _MULTA, _DIVA, _MODA, _ANDA, _ORA, _XORA, _LSHIFTA, _RSHIFTA, _LAND, _LOR, _EQUAL, _NEQUAL, _LESSEQUAL, _GREATEQUAL, _LESSTHAN, _GREATTHAN, _BITCOMP, _COMP, _INC, _DEC, _COMMA, _CASE, _COND, _SEMI, _LPAR, _RPAR, _LCBRA, _RCBRA, _LBRAK, _RBRAK, _CDEC, _CFP, _CHEX, _COCT, _STR, _WSPACE, _NEWLINE, _PREP };
+enum token_type {_AUTO = 256, _BREAK, _CAS, _CHAR, _CONST, _CONTINUE, _DEFAULT, _DO, _DOUBLE, _ELSE, _ENUM, _EXTERN, _FLOAT, _FOR, _GOTO, _IF, _INT, _LONG, _REGISTER, _RETURN, _SHORT, _SIGNED, _SIZEOF, _STATIC, _STRUCT, _SWITCH, _TYPEDEF, _UNION, _UNSIGNED, _VOID, _VOLATILE, _WHILE, _ID, _ADD, _SUB, _MULT, _DIV, _MOD, _AND, _OR, _XOR, _LSHIFT, _RSHIFT, _ASSIGN, _ADDA, _SUBA, _MULTA, _DIVA, _MODA, _ANDA, _ORA, _XORA, _LSHIFTA, _RSHIFTA, _LAND, _LOR, _EQUAL, _NEQUAL, _LESSEQUAL, _GREATEQUAL, _LESSTHAN, _GREATTHAN, _BITCOMP, _COMP, _INC, _DEC, _COMMA, _CASE, _COND, _SEMI, _LPAR, _RPAR, _LCBRA, _RCBRA, _LBRAK, _RBRAK, _CDEC, _CFP, _CHEX, _COCT, _STR, _WSPACE, _NEWLINE, _PREP, _DOT, _ARROW, _ELLIPSIS, _CCHAR, _INVALID };
 %}
 
 DIGIT		[0-9]
 LETTER		[a-zA-Z_]
 CHAR		[0-9a-zA-Z_]
-STRING		\".+\"
+STRING		\"[^\n\"\\]*\"
 HEX			[0-9a-fA-F]
 OCT			[0-7]
 S			(([uU][lL]?)|([lL][uU]?))?
 
-FLOAT1		[+-]?(([0-9]*\.[0-9]+)|([0-9]+\.[0-9]*))[ffll]?
-FLOAT2		[+-]?[0-9]+[eE][+-]?[0-9]+[fFlL]?
-FLOAT3		[+-]?(([0-9]*\.[0-9]+)|([0-9]+\.[0-9]*))[eE][+-]?[0-9]+[fFlL]?
+FLOAT1		(([0-9]*\.[0-9]+)|([0-9]+\.[0-9]*))[fFlL]?
+FLOAT2		[0-9]+[eE][+-]?[0-9]+[fFlL]?
+FLOAT3		(([0-9]*\.[0-9]+)|([0-9]+\.[0-9]*))[eE][+-]?[0-9]+[fFlL]?
+
+CCHAR		\'[^\n'\\]+\'
 
 WHITESPACE	[ \t]
 
 SOURCE		#[ ]{DIGIT}+[ ]{STRING}([ ]1)?([ ]2)?([ ]3)?([ ]4)?
 
 %%
-auto			 return _AUTO;
-break			 return _BREAK;
-case			 return _CAS;
-char			 return _CHAR;
-const			 return _CONST;
-continue		 return _CONTINUE;
-default			 return _DEFAULT;
-do				 return _DO;
-double			 return _DOUBLE;
-else			 return _ELSE;
-enum			 return _ENUM;
-extern			 return _EXTERN;
-float			 return _FLOAT;
-for				 return _FOR;
-goto			 return _GOTO;
-if				 return _IF;
-int				 return _INT;
-long			 return _LONG;
-register		 return _REGISTER;
-return			 return _RETURN;
-short			 return _SHORT;
-signed			 return _SIGNED;
-sizeof			 return _SIZEOF;
-static			 return _STATIC;
-struct			 return _STRUCT;
-switch			 return _SWITCH;
-typedef			 return _TYPEDEF;
-union			 return _UNION;
-unsigned		 return _UNSIGNED;
-void			 return _VOID;
-volatile		 return _VOLATILE;
-while			 return _WHILE;
+auto			return _AUTO;
+break			return _BREAK;
+case			return _CAS;
+char			return _CHAR;
+const			return _CONST;
+continue		return _CONTINUE;
+default			return _DEFAULT;
+do				return _DO;
+double			return _DOUBLE;
+else			return _ELSE;
+enum			return _ENUM;
+extern			return _EXTERN;
+float			return _FLOAT;
+for				return _FOR;
+goto			return _GOTO;
+if				return _IF;
+int				return _INT;
+long			return _LONG;
+register		return _REGISTER;
+return			return _RETURN;
+short			return _SHORT;
+signed			return _SIGNED;
+static			return _STATIC;
+struct			return _STRUCT;
+switch			return _SWITCH;
+typedef			return _TYPEDEF;
+union			return _UNION;
+unsigned		return _UNSIGNED;
+void			return _VOID;
+volatile		return _VOLATILE;
+while			return _WHILE;
 
+sizeof			return _SIZEOF;
 
 {LETTER}{CHAR}*	return _ID;
 
@@ -102,6 +104,7 @@ while			 return _WHILE;
 :				return _CASE;
 \?				return _COND;
 ;				return _SEMI;
+\.\.\.			return _ELLIPSIS;
 
 \(				return _LPAR;
 \)				return _RPAR;
@@ -110,14 +113,17 @@ while			 return _WHILE;
 \[				return _LBRAK;
 \]				return _RBRAK;
 
+\.				return _DOT;
+->				return _ARROW;
 
-[+-]?[1-9]{DIGIT}*{S}			return _CDEC;
+[1-9]{DIGIT}*{S}			return _CDEC;
 ({FLOAT1}|{FLOAT2}|{FLOAT3})	return _CFP;
-[+-]?0[xX]{HEX}+{S}				return _CHEX;
-[+-]?0{OCT}*{S}					return _COCT;
+0[xX]{HEX}+{S}				return _CHEX;
+0{OCT}*{S}					return _COCT;
+[L]?{CCHAR}						return _CCHAR;
 
 
-{STRING}		return _STR;
+[L]?{STRING}		return _STR;
 
 
 \n				return _NEWLINE;
@@ -211,9 +217,6 @@ int main()
 				break;
 			case _SIGNED:
 				t_class_type = " Keyword T_SIGNED ";
-				break;
-			case _SIZEOF:
-				t_class_type = " Keyword T_SIZEOF ";
 				break;
 			case _STATIC:
 				t_class_type = " Keyword T_STATIC ";
@@ -374,6 +377,18 @@ int main()
 			case _RBRAK:
 				t_class_type = " Operator T_RBRAK ";
 				break;
+			case _SIZEOF:
+				t_class_type = " Operator T_SIZEOF ";
+				break;
+			case _DOT:
+				t_class_type = " Operator T_DOT ";
+				break;
+			case _ARROW:
+				t_class_type = " Operator T_ARROW ";
+				break;
+			case _ELLIPSIS:
+				t_class_type = " Operator T_ELLIPSIS ";
+				break;
 			case _CDEC:
 				t_class_type = " Constant T_CDEC ";
 				break;
@@ -385,6 +400,9 @@ int main()
 				break;
 			case _COCT:
 				t_class_type = " Constant T_COCT ";
+				break;
+			case _CCHAR:
+				t_class_type = " Constant T_CCHAR ";
 				break;
 			case _STR:
 				t_class_type = " StringLiteral T_STR ";
@@ -408,8 +426,7 @@ int main()
 				prep.erase(first - 1);
 				// get just the source line
 				string num = prep.substr(2);
-				source_line = strtol(num.c_str(), NULL, 10);
-				source_line--;
+				source_line = strtol(num.c_str(), NULL, 10) - 1;
 				print = false;
 			}
 				break;
