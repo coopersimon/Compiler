@@ -381,34 +381,35 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[232] =
+static yyconst flex_int16_t yy_accept[248] =
     {   0,
         0,    0,   87,   86,   83,   82,   84,   64,   86,   86,
        38,   39,   71,   72,   36,   34,   67,   35,   86,   37,
        80,   77,   68,   70,   61,   44,   62,   69,   33,   75,
        76,   41,   33,   33,   33,   33,   33,   33,   33,   33,
        33,   33,   33,   33,   33,   33,   33,   73,   40,   74,
-       63,   58,    0,    0,   49,   55,   50,   47,   65,   45,
-       66,   46,   78,   48,   78,   80,    0,    0,   80,    0,
-       77,   77,   42,   59,   57,   60,   43,   33,   52,   33,
-       33,   33,   33,   33,   33,    8,   33,   33,   33,   33,
-       33,   33,   16,   33,   33,   33,   33,   33,   33,   33,
+       63,   58,    0,    0,   49,   55,   50,   47,   65,    0,
+       80,   77,   45,   66,   46,   78,   48,   78,   80,    0,
+        0,   80,   80,    0,   77,   77,   77,   42,   59,   57,
+       60,   43,   33,   52,   33,   33,   33,   33,   33,   33,
+        8,   33,   33,   33,   33,   33,   33,   16,   33,   33,
 
-       33,   33,   33,   33,   51,   56,   81,    0,    0,   78,
-       78,   78,   79,   53,   54,   33,   33,   33,   33,   33,
+       33,   33,   33,   33,   33,   33,   33,   33,   33,   51,
+       56,   81,    0,    0,   78,   78,    0,   78,   80,   80,
+       79,   77,   77,   53,   54,   33,   33,   33,   33,   33,
        33,   33,   33,   33,   33,   33,   14,   33,   17,   33,
        33,   33,   33,   33,   33,   33,   33,   33,   33,   33,
-       33,   33,   33,   33,    0,   78,   79,    1,   33,    3,
-        4,   33,   33,   33,   33,   10,   11,   33,   33,   15,
-       18,   33,   33,   33,   33,   33,   33,   33,   33,   33,
-       33,   33,   30,   33,   33,    0,    2,    5,   33,   33,
-       33,   33,   13,   33,   33,   21,   33,   33,   33,   33,
-       33,   33,   28,   33,   33,   32,    0,   33,   33,    9,
+       33,   33,   33,   33,    0,    0,   78,   78,   79,   79,
+        1,   33,    3,    4,   33,   33,   33,   33,   10,   11,
+       33,   33,   15,   18,   33,   33,   33,   33,   33,   33,
+       33,   33,   33,   33,   33,   30,   33,   33,    0,   78,
+       79,   79,    2,    5,   33,   33,   33,   33,   13,   33,
 
-       12,   33,   20,   22,   23,   24,   25,   26,   33,   33,
-       33,   85,   33,    7,   33,   27,   33,   33,    0,    6,
-       19,   29,   31,   85,   85,   85,   85,    0,    0,    0,
-        0
+       33,   21,   33,   33,   33,   33,   33,   33,   28,   33,
+       33,   32,    0,   33,   33,    9,   12,   33,   20,   22,
+       23,   24,   25,   26,   33,   33,   33,   85,   33,    7,
+       33,   27,   33,   33,    0,    6,   19,   29,   31,   85,
+       85,   85,   85,    0,    0,    0,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -448,73 +449,77 @@ static yyconst flex_int32_t yy_meta[69] =
         1,    1,    2,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    3,    3,    3,
         3,    3,    3,    3,    1,    1,    1,    1,    1,    1,
-        4,    4,    3,    5,    6,    5,    5,    1,    1,    1,
-        4,    4,    4,    4,    4,    3,    5,    5,    5,    5,
-        6,    5,    5,    5,    5,    5,    5,    5,    5,    5,
-        5,    5,    5,    5,    1,    1,    1,    1
+        4,    5,    6,    7,    8,    7,    7,    1,    1,    1,
+        4,    4,    4,    4,    5,    3,    7,    7,    7,    7,
+        9,    7,    7,    7,    7,    7,    7,    7,    7,    7,
+        7,    7,    7,    7,    1,    1,    1,    1
     } ;
 
-static yyconst flex_int16_t yy_base[238] =
+static yyconst flex_int16_t yy_base[256] =
     {   0,
-        0,    0,  379,  380,  380,  380,  380,  350,    0,  373,
-      348,   60,  380,  380,  347,   57,  380,   56,   54,  346,
-       73,  120,  380,  380,   52,  345,   53,  380,    0,  380,
-      380,  344,  312,  314,   58,   53,   49,   32,  315,   67,
-      314,  322,   67,  303,  312,  310,  315,  380,   91,  380,
-      380,  380,  356,  127,  380,  380,  380,  380,  380,  380,
-      380,  380,  162,  380,  196,   64,  180,  140,  380,    0,
-        0,  380,  333,  380,  380,  380,  332,    0,  380,  301,
-      313,  300,  315,  302,  308,  294,  295,  292,  292,  295,
-      292,  289,    0,  288,  292,   56,  290,   40,   81,  294,
+        0,    0,  439,  440,  440,  440,  440,  410,    0,  433,
+      408,   60,  440,  440,  407,   57,  440,   71,   82,  406,
+       91,  138,  440,  440,   44,  405,   54,  440,    0,  440,
+      440,  404,  372,  374,   76,   71,   67,   68,  375,   85,
+      374,  382,   85,  363,  372,  370,  375,  440,   69,  440,
+      440,  440,  416,  145,  440,  440,  440,  440,  440,  157,
+        0,    0,  440,  440,  440,  139,  440,  150,   59,  184,
+      199,   96,  137,    0,    0,  150,  159,  393,  440,  440,
+      440,  392,    0,  440,  361,  373,  360,  375,  362,  368,
+      354,  355,  352,  352,  355,  352,  349,    0,  348,  352,
 
-      287,   72,   82,  292,  380,  380,  334,  169,  214,  380,
-        0,  176,  118,  380,  380,  285,  297,  292,  280,  109,
-      294,  292,  288,  280,  286,  289,    0,  275,    0,  281,
-      278,  267,  269,  271,  278,  264,  262,  262,  274,  264,
-      268,  272,  274,  263,  307,  210,  380,    0,  262,    0,
-        0,  253,  261,  250,  257,    0,    0,  251,  248,    0,
-        0,  248,  248,  245,  257,  247,  251,  256,  255,  253,
-      243,  248,    0,  236,  248,    0,    0,    0,  239,  240,
-      241,  230,    0,  224,  226,    0,  234,  220,  219,  199,
-      203,  205,    0,  196,  197,    0,  234,  171,  166,    0,
+       90,  350,  151,  170,  354,  347,   90,  100,  352,  440,
+      440,  394,  220,  212,  440,  205,  239,  219,  440,  440,
+      213,  440,  440,  440,  440,  345,  357,  352,  340,   83,
+      354,  352,  348,  340,  346,  349,    0,  335,    0,  341,
+      338,  327,  329,  331,  338,  324,  322,  322,  334,  324,
+      328,  332,  334,  323,  367,  255,  220,  440,  209,  232,
+        0,  322,    0,    0,  313,  321,  310,  317,    0,    0,
+      311,  308,    0,    0,  308,  301,  295,  306,  296,  297,
+      301,  300,  292,  282,  287,    0,  274,  284,    0,  440,
+      440,  440,    0,    0,  275,  276,  280,  256,    0,  244,
 
-        0,  161,    0,    0,    0,    0,    0,    0,  159,  130,
-       83,  164,   85,    0,   71,    0,   79,   72,  233,    0,
-        0,    0,    0,  168,  172,  217,   84,  238,  242,  204,
-      380,  264,  268,  272,  274,  278,  284
+      248,    0,  256,  253,  255,  234,  242,  224,    0,  194,
+      197,    0,  222,  154,  141,    0,    0,  147,    0,    0,
+        0,    0,    0,    0,  141,  107,   94,  187,   99,    0,
+       52,    0,   54,   39,  274,    0,    0,    0,    0,  278,
+      281,  282,   68,  283,  285,  275,  440,  307,  314,  321,
+      328,  335,  339,  346,  355
     } ;
 
-static yyconst flex_int16_t yy_def[238] =
+static yyconst flex_int16_t yy_def[256] =
     {   0,
-      231,    1,  231,  231,  231,  231,  231,  231,  232,  231,
-      231,  231,  231,  231,  231,  231,  231,  231,  231,  231,
-      231,  231,  231,  231,  231,  231,  231,  231,  233,  231,
-      231,  231,  233,  233,  233,  233,  233,  233,  233,  233,
-      233,  233,  233,  233,  233,  233,  233,  231,  231,  231,
-      231,  231,  232,  231,  231,  231,  231,  231,  231,  231,
-      231,  231,  231,  231,  231,   21,  231,  231,  231,  234,
-       22,  231,  231,  231,  231,  231,  231,  233,  231,  233,
-      233,  233,  233,  233,  233,  233,  233,  233,  233,  233,
-      233,  233,  233,  233,  233,  233,  233,  233,  233,  233,
+      247,    1,  247,  247,  247,  247,  247,  247,  248,  247,
+      247,  247,  247,  247,  247,  247,  247,  247,  247,  247,
+      247,  247,  247,  247,  247,  247,  247,  247,  249,  247,
+      247,  247,  249,  249,  249,  249,  249,  249,  249,  249,
+      249,  249,  249,  249,  249,  249,  249,  247,  247,  247,
+      247,  247,  248,  247,  247,  247,  247,  247,  247,  247,
+       21,   22,  247,  247,  247,  250,  247,  251,   21,  247,
+      247,  247,  247,  252,   22,  247,  247,  247,  247,  247,
+      247,  247,  249,  247,  249,  249,  249,  249,  249,  249,
+      249,  249,  249,  249,  249,  249,  249,  249,  249,  249,
 
-      233,  233,  233,  233,  231,  231,  232,  231,  231,  231,
-       65,  235,  234,  231,  231,  233,  233,  233,  233,  233,
-      233,  233,  233,  233,  233,  233,  233,  233,  233,  233,
-      233,  233,  233,  233,  233,  233,  233,  233,  233,  233,
-      233,  233,  233,  233,  231,  236,  231,  233,  233,  233,
-      233,  233,  233,  233,  233,  233,  233,  233,  233,  233,
-      233,  233,  233,  233,  233,  233,  233,  233,  233,  233,
-      233,  233,  233,  233,  233,  237,  233,  233,  233,  233,
-      233,  233,  233,  233,  233,  233,  233,  233,  233,  233,
-      233,  233,  233,  233,  233,  233,  237,  233,  233,  233,
+      249,  249,  249,  249,  249,  249,  249,  249,  249,  247,
+      247,  248,  247,  247,  247,  251,  247,  253,  247,  247,
+      252,  247,  247,  247,  247,  249,  249,  249,  249,  249,
+      249,  249,  249,  249,  249,  249,  249,  249,  249,  249,
+      249,  249,  249,  249,  249,  249,  249,  249,  249,  249,
+      249,  249,  249,  249,  247,  247,  254,  247,  247,  247,
+      249,  249,  249,  249,  249,  249,  249,  249,  249,  249,
+      249,  249,  249,  249,  249,  249,  249,  249,  249,  249,
+      249,  249,  249,  249,  249,  249,  249,  249,  255,  247,
+      247,  247,  249,  249,  249,  249,  249,  249,  249,  249,
 
-      233,  233,  233,  233,  233,  233,  233,  233,  233,  233,
-      233,  237,  233,  233,  233,  233,  233,  233,  237,  233,
-      233,  233,  233,  237,  237,  237,  237,  237,  237,  237,
-        0,  231,  231,  231,  231,  231,  231
+      249,  249,  249,  249,  249,  249,  249,  249,  249,  249,
+      249,  249,  255,  249,  249,  249,  249,  249,  249,  249,
+      249,  249,  249,  249,  249,  249,  249,  255,  249,  249,
+      249,  249,  249,  249,  255,  249,  249,  249,  249,  255,
+      255,  255,  255,  255,  255,  255,    0,  247,  247,  247,
+      247,  247,  247,  247,  247
     } ;
 
-static yyconst flex_int16_t yy_nxt[449] =
+static yyconst flex_int16_t yy_nxt[509] =
     {   0,
         4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
        14,   15,   16,   17,   18,   19,   20,   21,   22,   22,
@@ -523,51 +528,58 @@ static yyconst flex_int16_t yy_nxt[449] =
        33,   34,   35,   36,   37,   38,   39,   29,   40,   29,
        41,   29,   29,   29,   29,   42,   43,   44,   45,   46,
        47,   29,   29,   29,   48,   49,   50,   51,   56,   59,
-       61,   63,   63,   63,   63,   63,   63,   63,   73,   74,
-       76,   77,   90,   62,   60,   91,  134,   57,   65,  212,
-       66,   66,   66,   66,   66,   66,   67,   85,   82,   87,
+       78,   79,   60,  228,   61,   62,   62,   62,   62,   62,
+       62,   81,   82,  239,   63,   64,   60,   57,   61,   62,
+       62,   62,   62,   62,   62,  247,  110,  238,   65,   66,
 
-      231,   88,  131,  135,   68,   83,   86,   69,   69,   70,
-       89,   84,   93,  132,   97,   98,  223,   68,  105,   94,
-      140,  136,  222,   69,   99,  231,  221,  100,  141,  220,
-      142,   69,  143,  218,   70,   65,  137,   71,   71,   71,
-       71,   71,   71,   71,  108,  108,  108,  108,  108,  108,
-      108,   68,  147,  147,   72,   72,  106,  112,  112,  112,
-      112,  112,  112,  112,   68,  152,  153,  219,  147,  212,
-       72,  228,  145,  212,  217,  229,  147,  212,   72,   63,
-       63,   63,   63,   63,   63,   63,  108,  108,  108,  108,
-      108,  108,  108,  109,  110,   65,  110,   67,   67,   67,
+       66,   66,   66,   66,   66,   66,   68,  237,   69,   69,
+       69,   69,   69,   69,   70,   90,   87,   92,   95,   93,
+      247,   96,   71,   88,   91,   72,   73,   74,   94,   89,
+       98,  119,  102,  103,  111,   71,  141,   99,  150,  165,
+      166,   72,  104,  236,  234,  105,  151,  142,  152,   73,
+      153,  233,   74,   68,  119,   75,   75,   75,   75,   75,
+       75,   75,  113,  113,  113,  113,  113,  113,  113,   71,
+      114,  120,   76,   77,   66,   66,   66,   66,   66,   66,
+       66,  114,   71,  114,  115,  122,  232,  120,   76,  115,
+      235,  231,  228,  123,  114,  115,   77,  144,  230,   68,
 
-       67,   67,   67,   67,  216,  215,  109,  110,  110,  212,
-      110,   68,  110,  111,  111,  111,  111,  111,  111,  111,
-      230,  110,  212,  214,   68,  227,  110,  109,  110,  213,
-      110,  146,  146,  146,  146,  146,  146,  146,  212,  212,
-      109,  110,  110,  212,  110,  211,  110,  212,  210,  209,
-      208,  224,  225,  226,  227,  110,  207,  225,  226,  227,
-      110,  206,  226,  227,   53,  205,   53,   53,   53,   53,
-       78,   78,   78,   78,  113,  113,  112,  204,  203,  112,
-      146,  202,  201,  146,  197,  200,  197,  197,  197,  197,
-      199,  198,  196,  195,  194,  193,  192,  191,  190,  189,
+      115,   70,   70,   70,   70,   70,   70,   70,  122,  123,
+      146,  117,  229,  117,  145,   71,  118,  118,  118,  118,
+      118,  118,  118,  155,  156,  147,  156,  228,   71,  157,
+      157,  157,  157,  157,  157,  157,  114,  113,  113,  113,
+      113,  113,  113,  113,  191,  227,  226,  159,  160,  114,
+      115,  158,  190,  158,  190,  115,  118,  118,  118,  118,
+      118,  118,  118,  159,  158,  190,  192,  191,  225,  158,
+      190,  160,  157,  157,  157,  157,  157,  157,  157,  228,
+      228,  244,  192,  228,  245,  246,  228,  228,  228,  224,
+      228,  223,  240,  241,  242,  243,  243,  222,  221,  220,
 
-      188,  187,  186,  185,  184,  183,  182,  181,  180,  179,
-      178,  177,  176,  175,  174,  173,  172,  171,  170,  169,
-      168,  167,  166,  165,  164,  163,  162,  161,  160,  159,
-      158,  157,  156,  155,  154,  151,  150,  149,  148,  107,
-      144,  139,  138,  133,  130,  129,  128,  127,  126,  125,
-      124,  123,  122,  121,  120,  119,  118,  117,  116,  115,
-      114,  107,  104,  103,  102,  101,   96,   95,   92,   81,
-       80,   79,   75,   64,   58,   55,   54,   52,  231,    3,
-      231,  231,  231,  231,  231,  231,  231,  231,  231,  231,
-      231,  231,  231,  231,  231,  231,  231,  231,  231,  231,
+      219,  218,  241,  242,  243,  242,  243,   53,  217,   53,
+       53,   53,   53,   53,   53,   53,   83,   83,   83,   83,
+       83,   83,   83,   66,  216,   66,  215,  214,  212,   66,
+      116,  211,  116,  210,  209,  208,  116,  121,  121,  121,
+      121,  118,  207,  206,  118,  205,  118,  118,  157,  204,
+      203,  157,  202,  157,  157,  213,  201,  213,  213,  213,
+      213,  213,  213,  213,  200,  199,  198,  197,  196,  195,
+      194,  193,  189,  188,  187,  186,  185,  184,  183,  182,
+      181,  180,  179,  178,  177,  176,  175,  174,  173,  172,
+      171,  170,  169,  168,  167,  164,  163,  162,  161,  112,
 
-      231,  231,  231,  231,  231,  231,  231,  231,  231,  231,
-      231,  231,  231,  231,  231,  231,  231,  231,  231,  231,
-      231,  231,  231,  231,  231,  231,  231,  231,  231,  231,
-      231,  231,  231,  231,  231,  231,  231,  231,  231,  231,
-      231,  231,  231,  231,  231,  231,  231,  231
+      154,  149,  148,  143,  140,  139,  138,  137,  136,  135,
+      134,  133,  132,  131,  130,  129,  128,  127,  126,  125,
+      124,  112,  109,  108,  107,  106,  101,  100,   97,   86,
+       85,   84,   80,   67,   58,   55,   54,   52,  247,    3,
+      247,  247,  247,  247,  247,  247,  247,  247,  247,  247,
+      247,  247,  247,  247,  247,  247,  247,  247,  247,  247,
+      247,  247,  247,  247,  247,  247,  247,  247,  247,  247,
+      247,  247,  247,  247,  247,  247,  247,  247,  247,  247,
+      247,  247,  247,  247,  247,  247,  247,  247,  247,  247,
+      247,  247,  247,  247,  247,  247,  247,  247,  247,  247,
+
+      247,  247,  247,  247,  247,  247,  247,  247
     } ;
 
-static yyconst flex_int16_t yy_chk[449] =
+static yyconst flex_int16_t yy_chk[509] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -576,48 +588,55 @@ static yyconst flex_int16_t yy_chk[449] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,   12,   16,
-       18,   19,   19,   19,   19,   19,   19,   19,   25,   25,
-       27,   27,   38,   18,   16,   38,   98,   12,   21,  227,
-       21,   21,   21,   21,   21,   21,   21,   36,   35,   37,
+       25,   25,   16,  243,   16,   16,   16,   16,   16,   16,
+       16,   27,   27,  234,   16,   18,   18,   12,   18,   18,
+       18,   18,   18,   18,   18,   69,   49,  233,   18,   19,
 
-       66,   37,   96,   98,   21,   35,   36,   21,   21,   21,
-       37,   35,   40,   96,   43,   43,  218,   21,   49,   40,
-      102,   99,  217,   21,   43,   66,  215,   43,  102,  213,
-      103,   21,  103,  211,   21,   22,   99,   22,   22,   22,
-       22,   22,   22,   22,   54,   54,   54,   54,   54,   54,
-       54,   22,  113,  113,   22,   22,   49,   68,   68,   68,
-       68,   68,   68,   68,   22,  120,  120,  212,  113,  212,
-       22,  224,  108,  224,  210,  225,  113,  225,   22,   63,
-       63,   63,   63,   63,   63,   63,  108,  108,  108,  108,
-      108,  108,  108,   63,   63,   67,   63,   67,   67,   67,
+       19,   19,   19,   19,   19,   19,   21,  231,   21,   21,
+       21,   21,   21,   21,   21,   36,   35,   37,   38,   37,
+       69,   38,   21,   35,   36,   21,   21,   21,   37,   35,
+       40,   72,   43,   43,   49,   21,  101,   40,  107,  130,
+      130,   21,   43,  229,  227,   43,  107,  101,  108,   21,
+      108,  226,   21,   22,   72,   22,   22,   22,   22,   22,
+       22,   22,   54,   54,   54,   54,   54,   54,   54,   22,
+       66,   73,   22,   22,   60,   60,   60,   60,   60,   60,
+       60,   68,   22,   66,   66,   76,  225,   73,   22,   66,
+      228,  218,  228,   77,   68,   68,   22,  103,  215,   70,
 
-       67,   67,   67,   67,  209,  202,   63,   63,  112,  230,
-      112,   67,   63,   65,   65,   65,   65,   65,   65,   65,
-      226,  112,  226,  199,   67,  230,  112,   65,   65,  198,
-       65,  109,  109,  109,  109,  109,  109,  109,  219,  197,
-       65,   65,  146,  228,  146,  195,   65,  229,  194,  192,
-      191,  219,  219,  219,  219,  146,  190,  228,  228,  228,
-      146,  189,  229,  229,  232,  188,  232,  232,  232,  232,
-      233,  233,  233,  233,  234,  234,  235,  187,  185,  235,
-      236,  184,  182,  236,  237,  181,  237,  237,  237,  237,
-      180,  179,  175,  174,  172,  171,  170,  169,  168,  167,
+       68,   70,   70,   70,   70,   70,   70,   70,   76,   77,
+      104,   71,  214,   71,  103,   70,   71,   71,   71,   71,
+       71,   71,   71,  113,  114,  104,  114,  213,   70,  114,
+      114,  114,  114,  114,  114,  114,  116,  113,  113,  113,
+      113,  113,  113,  113,  159,  211,  210,  121,  121,  116,
+      116,  118,  157,  118,  157,  116,  117,  117,  117,  117,
+      117,  117,  117,  121,  118,  157,  160,  159,  208,  118,
+      157,  121,  156,  156,  156,  156,  156,  156,  156,  235,
+      246,  240,  160,  240,  241,  242,  241,  242,  244,  207,
+      245,  206,  235,  235,  235,  235,  246,  205,  204,  203,
 
-      166,  165,  164,  163,  162,  159,  158,  155,  154,  153,
-      152,  149,  145,  144,  143,  142,  141,  140,  139,  138,
-      137,  136,  135,  134,  133,  132,  131,  130,  128,  126,
-      125,  124,  123,  122,  121,  119,  118,  117,  116,  107,
-      104,  101,  100,   97,   95,   94,   92,   91,   90,   89,
-       88,   87,   86,   85,   84,   83,   82,   81,   80,   77,
-       73,   53,   47,   46,   45,   44,   42,   41,   39,   34,
-       33,   32,   26,   20,   15,   11,   10,    8,    3,  231,
-      231,  231,  231,  231,  231,  231,  231,  231,  231,  231,
-      231,  231,  231,  231,  231,  231,  231,  231,  231,  231,
+      201,  200,  244,  244,  244,  245,  245,  248,  198,  248,
+      248,  248,  248,  248,  248,  248,  249,  249,  249,  249,
+      249,  249,  249,  250,  197,  250,  196,  195,  188,  250,
+      251,  187,  251,  185,  184,  183,  251,  252,  252,  252,
+      252,  253,  182,  181,  253,  180,  253,  253,  254,  179,
+      178,  254,  177,  254,  254,  255,  176,  255,  255,  255,
+      255,  255,  255,  255,  175,  172,  171,  168,  167,  166,
+      165,  162,  155,  154,  153,  152,  151,  150,  149,  148,
+      147,  146,  145,  144,  143,  142,  141,  140,  138,  136,
+      135,  134,  133,  132,  131,  129,  128,  127,  126,  112,
 
-      231,  231,  231,  231,  231,  231,  231,  231,  231,  231,
-      231,  231,  231,  231,  231,  231,  231,  231,  231,  231,
-      231,  231,  231,  231,  231,  231,  231,  231,  231,  231,
-      231,  231,  231,  231,  231,  231,  231,  231,  231,  231,
-      231,  231,  231,  231,  231,  231,  231,  231
+      109,  106,  105,  102,  100,   99,   97,   96,   95,   94,
+       93,   92,   91,   90,   89,   88,   87,   86,   85,   82,
+       78,   53,   47,   46,   45,   44,   42,   41,   39,   34,
+       33,   32,   26,   20,   15,   11,   10,    8,    3,  247,
+      247,  247,  247,  247,  247,  247,  247,  247,  247,  247,
+      247,  247,  247,  247,  247,  247,  247,  247,  247,  247,
+      247,  247,  247,  247,  247,  247,  247,  247,  247,  247,
+      247,  247,  247,  247,  247,  247,  247,  247,  247,  247,
+      247,  247,  247,  247,  247,  247,  247,  247,  247,  247,
+      247,  247,  247,  247,  247,  247,  247,  247,  247,  247,
+
+      247,  247,  247,  247,  247,  247,  247,  247
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -640,7 +659,7 @@ char *yytext;
 #include <string>
 #include <cstdlib>
 enum token_type {_AUTO = 256, _BREAK, _CAS, _CHAR, _CONST, _CONTINUE, _DEFAULT, _DO, _DOUBLE, _ELSE, _ENUM, _EXTERN, _FLOAT, _FOR, _GOTO, _IF, _INT, _LONG, _REGISTER, _RETURN, _SHORT, _SIGNED, _SIZEOF, _STATIC, _STRUCT, _SWITCH, _TYPEDEF, _UNION, _UNSIGNED, _VOID, _VOLATILE, _WHILE, _ID, _ADD, _SUB, _MULT, _DIV, _MOD, _AND, _OR, _XOR, _LSHIFT, _RSHIFT, _ASSIGN, _ADDA, _SUBA, _MULTA, _DIVA, _MODA, _ANDA, _ORA, _XORA, _LSHIFTA, _RSHIFTA, _LAND, _LOR, _EQUAL, _NEQUAL, _LESSEQUAL, _GREATEQUAL, _LESSTHAN, _GREATTHAN, _BITCOMP, _COMP, _INC, _DEC, _COMMA, _CASE, _COND, _SEMI, _LPAR, _RPAR, _LCBRA, _RCBRA, _LBRAK, _RBRAK, _CDEC, _CFP, _CHEX, _COCT, _STR, _WSPACE, _NEWLINE, _PREP };
-#line 645 "tokeniser/tokeniser.yy.cpp"
+#line 664 "tokeniser/tokeniser.yy.cpp"
 
 #define INITIAL 0
 
@@ -827,9 +846,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 28 "tokeniser/tokeniser.l"
+#line 25 "tokeniser/tokeniser.l"
 
-#line 834 "tokeniser/tokeniser.yy.cpp"
+#line 853 "tokeniser/tokeniser.yy.cpp"
 
 	if ( !(yy_init) )
 		{
@@ -882,13 +901,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 232 )
+				if ( yy_current_state >= 248 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 380 );
+		while ( yy_base[yy_current_state] != 440 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -914,436 +933,436 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 29 "tokeniser/tokeniser.l"
+#line 26 "tokeniser/tokeniser.l"
 return _AUTO;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 30 "tokeniser/tokeniser.l"
+#line 27 "tokeniser/tokeniser.l"
 return _BREAK;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 31 "tokeniser/tokeniser.l"
+#line 28 "tokeniser/tokeniser.l"
 return _CAS;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 32 "tokeniser/tokeniser.l"
+#line 29 "tokeniser/tokeniser.l"
 return _CHAR;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 33 "tokeniser/tokeniser.l"
+#line 30 "tokeniser/tokeniser.l"
 return _CONST;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 34 "tokeniser/tokeniser.l"
+#line 31 "tokeniser/tokeniser.l"
 return _CONTINUE;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 35 "tokeniser/tokeniser.l"
+#line 32 "tokeniser/tokeniser.l"
 return _DEFAULT;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 36 "tokeniser/tokeniser.l"
+#line 33 "tokeniser/tokeniser.l"
 return _DO;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 37 "tokeniser/tokeniser.l"
+#line 34 "tokeniser/tokeniser.l"
 return _DOUBLE;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 38 "tokeniser/tokeniser.l"
+#line 35 "tokeniser/tokeniser.l"
 return _ELSE;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 39 "tokeniser/tokeniser.l"
+#line 36 "tokeniser/tokeniser.l"
 return _ENUM;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 40 "tokeniser/tokeniser.l"
+#line 37 "tokeniser/tokeniser.l"
 return _EXTERN;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 41 "tokeniser/tokeniser.l"
+#line 38 "tokeniser/tokeniser.l"
 return _FLOAT;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 42 "tokeniser/tokeniser.l"
+#line 39 "tokeniser/tokeniser.l"
 return _FOR;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 43 "tokeniser/tokeniser.l"
+#line 40 "tokeniser/tokeniser.l"
 return _GOTO;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 44 "tokeniser/tokeniser.l"
+#line 41 "tokeniser/tokeniser.l"
 return _IF;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 45 "tokeniser/tokeniser.l"
+#line 42 "tokeniser/tokeniser.l"
 return _INT;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 46 "tokeniser/tokeniser.l"
+#line 43 "tokeniser/tokeniser.l"
 return _LONG;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 47 "tokeniser/tokeniser.l"
+#line 44 "tokeniser/tokeniser.l"
 return _REGISTER;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 48 "tokeniser/tokeniser.l"
+#line 45 "tokeniser/tokeniser.l"
 return _RETURN;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 49 "tokeniser/tokeniser.l"
+#line 46 "tokeniser/tokeniser.l"
 return _SHORT;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 50 "tokeniser/tokeniser.l"
+#line 47 "tokeniser/tokeniser.l"
 return _SIGNED;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 51 "tokeniser/tokeniser.l"
+#line 48 "tokeniser/tokeniser.l"
 return _SIZEOF;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 52 "tokeniser/tokeniser.l"
+#line 49 "tokeniser/tokeniser.l"
 return _STATIC;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 53 "tokeniser/tokeniser.l"
+#line 50 "tokeniser/tokeniser.l"
 return _STRUCT;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 54 "tokeniser/tokeniser.l"
+#line 51 "tokeniser/tokeniser.l"
 return _SWITCH;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 55 "tokeniser/tokeniser.l"
+#line 52 "tokeniser/tokeniser.l"
 return _TYPEDEF;
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 56 "tokeniser/tokeniser.l"
+#line 53 "tokeniser/tokeniser.l"
 return _UNION;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 57 "tokeniser/tokeniser.l"
+#line 54 "tokeniser/tokeniser.l"
 return _UNSIGNED;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 58 "tokeniser/tokeniser.l"
+#line 55 "tokeniser/tokeniser.l"
 return _VOID;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 59 "tokeniser/tokeniser.l"
+#line 56 "tokeniser/tokeniser.l"
 return _VOLATILE;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 60 "tokeniser/tokeniser.l"
+#line 57 "tokeniser/tokeniser.l"
 return _WHILE;
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 63 "tokeniser/tokeniser.l"
+#line 60 "tokeniser/tokeniser.l"
 return _ID;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 66 "tokeniser/tokeniser.l"
+#line 63 "tokeniser/tokeniser.l"
 return _ADD;
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 67 "tokeniser/tokeniser.l"
+#line 64 "tokeniser/tokeniser.l"
 return _SUB;
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 68 "tokeniser/tokeniser.l"
+#line 65 "tokeniser/tokeniser.l"
 return _MULT;
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 69 "tokeniser/tokeniser.l"
+#line 66 "tokeniser/tokeniser.l"
 return _DIV;
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 70 "tokeniser/tokeniser.l"
+#line 67 "tokeniser/tokeniser.l"
 return _MOD;
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 72 "tokeniser/tokeniser.l"
+#line 69 "tokeniser/tokeniser.l"
 return _AND;
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 73 "tokeniser/tokeniser.l"
+#line 70 "tokeniser/tokeniser.l"
 return _OR;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 74 "tokeniser/tokeniser.l"
+#line 71 "tokeniser/tokeniser.l"
 return _XOR;
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 75 "tokeniser/tokeniser.l"
+#line 72 "tokeniser/tokeniser.l"
 return _LSHIFT;
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 76 "tokeniser/tokeniser.l"
+#line 73 "tokeniser/tokeniser.l"
 return _RSHIFT;
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 78 "tokeniser/tokeniser.l"
+#line 75 "tokeniser/tokeniser.l"
 return _ASSIGN;
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 79 "tokeniser/tokeniser.l"
+#line 76 "tokeniser/tokeniser.l"
 return _ADDA;
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 80 "tokeniser/tokeniser.l"
+#line 77 "tokeniser/tokeniser.l"
 return _SUBA;
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 81 "tokeniser/tokeniser.l"
+#line 78 "tokeniser/tokeniser.l"
 return _MULTA;
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 82 "tokeniser/tokeniser.l"
+#line 79 "tokeniser/tokeniser.l"
 return _DIVA;
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 83 "tokeniser/tokeniser.l"
+#line 80 "tokeniser/tokeniser.l"
 return _MODA;
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 84 "tokeniser/tokeniser.l"
+#line 81 "tokeniser/tokeniser.l"
 return _ANDA;
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 85 "tokeniser/tokeniser.l"
+#line 82 "tokeniser/tokeniser.l"
 return _ORA;
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 86 "tokeniser/tokeniser.l"
+#line 83 "tokeniser/tokeniser.l"
 return _XORA;
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 87 "tokeniser/tokeniser.l"
+#line 84 "tokeniser/tokeniser.l"
 return _LSHIFTA;
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 88 "tokeniser/tokeniser.l"
+#line 85 "tokeniser/tokeniser.l"
 return _RSHIFTA;
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 90 "tokeniser/tokeniser.l"
+#line 87 "tokeniser/tokeniser.l"
 return _LAND;
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 91 "tokeniser/tokeniser.l"
+#line 88 "tokeniser/tokeniser.l"
 return _LOR;
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 92 "tokeniser/tokeniser.l"
+#line 89 "tokeniser/tokeniser.l"
 return _EQUAL;
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 93 "tokeniser/tokeniser.l"
+#line 90 "tokeniser/tokeniser.l"
 return _NEQUAL;
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 94 "tokeniser/tokeniser.l"
+#line 91 "tokeniser/tokeniser.l"
 return _LESSEQUAL;
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 95 "tokeniser/tokeniser.l"
+#line 92 "tokeniser/tokeniser.l"
 return _GREATEQUAL;
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 96 "tokeniser/tokeniser.l"
+#line 93 "tokeniser/tokeniser.l"
 return _LESSTHAN;
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 97 "tokeniser/tokeniser.l"
+#line 94 "tokeniser/tokeniser.l"
 return _GREATTHAN;
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 99 "tokeniser/tokeniser.l"
+#line 96 "tokeniser/tokeniser.l"
 return _BITCOMP;
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 100 "tokeniser/tokeniser.l"
+#line 97 "tokeniser/tokeniser.l"
 return _COMP;
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 101 "tokeniser/tokeniser.l"
+#line 98 "tokeniser/tokeniser.l"
 return _INC;
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 102 "tokeniser/tokeniser.l"
+#line 99 "tokeniser/tokeniser.l"
 return _DEC;
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 104 "tokeniser/tokeniser.l"
+#line 101 "tokeniser/tokeniser.l"
 return _COMMA;
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 105 "tokeniser/tokeniser.l"
+#line 102 "tokeniser/tokeniser.l"
 return _CASE;
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 106 "tokeniser/tokeniser.l"
+#line 103 "tokeniser/tokeniser.l"
 return _COND;
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 107 "tokeniser/tokeniser.l"
+#line 104 "tokeniser/tokeniser.l"
 return _SEMI;
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 109 "tokeniser/tokeniser.l"
+#line 106 "tokeniser/tokeniser.l"
 return _LPAR;
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 110 "tokeniser/tokeniser.l"
+#line 107 "tokeniser/tokeniser.l"
 return _RPAR;
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 111 "tokeniser/tokeniser.l"
+#line 108 "tokeniser/tokeniser.l"
 return _LCBRA;
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 112 "tokeniser/tokeniser.l"
+#line 109 "tokeniser/tokeniser.l"
 return _RCBRA;
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 113 "tokeniser/tokeniser.l"
+#line 110 "tokeniser/tokeniser.l"
 return _LBRAK;
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 114 "tokeniser/tokeniser.l"
+#line 111 "tokeniser/tokeniser.l"
 return _RBRAK;
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 117 "tokeniser/tokeniser.l"
+#line 114 "tokeniser/tokeniser.l"
 return _CDEC;
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 118 "tokeniser/tokeniser.l"
+#line 115 "tokeniser/tokeniser.l"
 return _CFP;
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 119 "tokeniser/tokeniser.l"
+#line 116 "tokeniser/tokeniser.l"
 return _CHEX;
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 120 "tokeniser/tokeniser.l"
+#line 117 "tokeniser/tokeniser.l"
 return _COCT;
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 123 "tokeniser/tokeniser.l"
+#line 120 "tokeniser/tokeniser.l"
 return _STR;
 	YY_BREAK
 case 82:
 /* rule 82 can match eol */
 YY_RULE_SETUP
-#line 126 "tokeniser/tokeniser.l"
+#line 123 "tokeniser/tokeniser.l"
 return _NEWLINE;
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 127 "tokeniser/tokeniser.l"
+#line 124 "tokeniser/tokeniser.l"
 
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
-#line 128 "tokeniser/tokeniser.l"
+#line 125 "tokeniser/tokeniser.l"
 
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 129 "tokeniser/tokeniser.l"
+#line 126 "tokeniser/tokeniser.l"
 return _PREP;
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 131 "tokeniser/tokeniser.l"
+#line 128 "tokeniser/tokeniser.l"
 ECHO;
 	YY_BREAK
-#line 1348 "tokeniser/tokeniser.yy.cpp"
+#line 1367 "tokeniser/tokeniser.yy.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1635,7 +1654,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 232 )
+			if ( yy_current_state >= 248 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1663,11 +1682,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 232 )
+		if ( yy_current_state >= 248 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 231);
+	yy_is_jam = (yy_current_state == 247);
 
 	return yy_is_jam ? 0 : yy_current_state;
 }
@@ -2341,7 +2360,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 131 "tokeniser/tokeniser.l"
+#line 128 "tokeniser/tokeniser.l"
 
 
 
@@ -2350,261 +2369,267 @@ int main()
 	using namespace std;
 
 	int line_num = 1;
-	int source_line = 0;
-	string source_file;
+	int source_line = 1;
+	string source_file = "";
+
+	bool print;
+	string t_class_type;
 
 	int ttcode = yylex();
 	
 	while(ttcode != 0)
 	{
+		print = true;
+
 		switch(ttcode)
 		{
 			case _AUTO:
-				cout << yytext << " Keyword T_AUTO " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_AUTO ";
 				break;
 			case _BREAK:
-				cout << yytext << " Keyword T_BREAK " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_BREAK ";
 				break;
 			case _CAS:
-				cout << yytext << " Keyword T_CASE " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_CASE ";
 				break;
 			case _CHAR:
-				cout << yytext << " Keyword T_CHAR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_CHAR ";
 				break;
 			case _CONST:
-				cout << yytext << " Keyword T_CONST " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_CONST ";
 				break;
 			case _CONTINUE:
-				cout << yytext << " Keyword T_CONTINUE " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_CONTINUE ";
 				break;
 			case _DEFAULT:
-				cout << yytext << " Keyword T_DEFAULT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_DEFAULT ";
 				break;
 			case _DO:
-				cout << yytext << " Keyword T_DO " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_DO ";
 				break;
 			case _DOUBLE:
-				cout << yytext << " Keyword T_DOUBLE " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_DOUBLE ";
 				break;
 			case _ELSE:
-				cout << yytext << " Keyword T_ELSE " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_ELSE ";
 				break;
 			case _ENUM:
-				cout << yytext << " Keyword T_ENUM " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_ENUM ";
 				break;
 			case _EXTERN:
-				cout << yytext << " Keyword T_EXTERN " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_EXTERN ";
 				break;
 			case _FLOAT:
-				cout << yytext << " Keyword T_FLOAT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_FLOAT ";
 				break;
 			case _FOR:
-				cout << yytext << " Keyword T_FOR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_FOR ";
 				break;
 			case _GOTO:
-				cout << yytext << " Keyword T_GOTO " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_GOTO ";
 				break;
 			case _IF:
-				cout << yytext << " Keyword T_IF " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_IF ";
 				break;
 			case _INT:
-				cout << yytext << " Keyword T_INT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_INT ";
 				break;
 			case _LONG:
-				cout << yytext << " Keyword T_LONG " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_LONG ";
 				break;
 			case _REGISTER:
-				cout << yytext << " Keyword T_REGISTER " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_REGISTER ";
 				break;
 			case _RETURN:
-				cout << yytext << " Keyword T_RETURN " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_RETURN ";
 				break;
 			case _SHORT:
-				cout << yytext << " Keyword T_SHORT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_SHORT ";
 				break;
 			case _SIGNED:
-				cout << yytext << " Keyword T_SIGNED " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_SIGNED ";
 				break;
 			case _SIZEOF:
-				cout << yytext << " Keyword T_SIZEOF " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_SIZEOF ";
 				break;
 			case _STATIC:
-				cout << yytext << " Keyword T_STATIC " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_STATIC ";
 				break;
 			case _STRUCT:
-				cout << yytext << " Keyword T_STRUCT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_STRUCT ";
 				break;
 			case _SWITCH:
-				cout << yytext << " Keyword T_SWITCH " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_SWITCH ";
 				break;
 			case _TYPEDEF:
-				cout << yytext << " Keyword T_TYPEDEF " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_TYPEDEF ";
 				break;
 			case _UNION:
-				cout << yytext << " Keyword T_UNION " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_UNION ";
 				break;
 			case _UNSIGNED:
-				cout << yytext << " Keyword T_UNSIGNED " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_UNSIGNED ";
 				break;
 			case _VOID:
-				cout << yytext << " Keyword T_VOID " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_VOID ";
 				break;
 			case _VOLATILE:
-				cout << yytext << " Keyword T_VOLATILE " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_VOLATILE ";
 				break;
 			case _WHILE:
-				cout << yytext << " Keyword T_WHILE " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Keyword T_WHILE ";
 				break;
 			case _ID:
-				cout << yytext << " Identifier T_ID " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Identifier T_ID ";
 				break;
 			case _ADD:
-				cout << yytext << " Operator T_ADD " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_ADD ";
 				break;
 			case _SUB:
-				cout << yytext << " Operator T_SUB " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_SUB ";
 				break;
 			case _MULT:
-				cout << yytext << " Operator T_MULT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_MULT ";
 				break;
 			case _DIV:
-				cout << yytext << " Operator T_DIV " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_DIV ";
 				break;
 			case _MOD:
-				cout << yytext << " Operator T_MOD " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_MOD ";
 				break;
 			case _AND:
-				cout << yytext << " Operator T_AND " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_AND ";
 				break;
 			case _OR:
-				cout << yytext << " Operator T_OR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_OR ";
 				break;
 			case _XOR:
-				cout << yytext << " Operator T_XOR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_XOR ";
 				break;
 			case _LSHIFT:
-				cout << yytext << " Operator T_LSHIFT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LSHIFT ";
 				break;
 			case _RSHIFT:
-				cout << yytext << " Operator T_RSHIFT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_RSHIFT ";
 				break;
 			case _ASSIGN:
-				cout << yytext << " Operator T_ASSIGN " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_ASSIGN ";
 				break;
 			case _ADDA:
-				cout << yytext << " Operator T_ADDA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_ADDA ";
 				break;
 			case _SUBA:
-				cout << yytext << " Operator T_SUBA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_SUBA ";
 				break;
 			case _MULTA:
-				cout << yytext << " Operator T_MULTA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_MULTA ";
 				break;
 			case _DIVA:
-				cout << yytext << " Operator T_DIVA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_DIVA ";
 				break;
 			case _MODA:
-				cout << yytext << " Operator T_MODA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_MODA ";
 				break;
 			case _ANDA:
-				cout << yytext << " Operator T_ANDA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_ANDA ";
 				break;
 			case _ORA:
-				cout << yytext << " Operator T_ORA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_ORA ";
 				break;
 			case _XORA:
-				cout << yytext << " Operator T_XORA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_XORA ";
 				break;
 			case _LSHIFTA:
-				cout << yytext << " Operator T_LSHIFTA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LSHIFTA ";
 				break;
 			case _RSHIFTA:
-				cout << yytext << " Operator T_RSHIFTA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_RSHIFTA ";
 				break;
 			case _LAND:
-				cout << yytext << " Operator T_LAND " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LAND ";
 				break;
 			case _LOR:
-				cout << yytext << " Operator T_LOR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LOR ";
 				break;
 			case _EQUAL:
-				cout << yytext << " Operator T_EQUAL " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_EQUAL ";
 				break;
 			case _NEQUAL:
-				cout << yytext << " Operator T_NEQUAL " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_NEQUAL ";
 				break;
 			case _LESSEQUAL:
-				cout << yytext << " Operator T_LESSEQUAL " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LESSEQUAL ";
 				break;
 			case _GREATEQUAL:
-				cout << yytext << " Operator T_GREATEQUAL " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_GREATEQUAL ";
 				break;
 			case _LESSTHAN:
-				cout << yytext << " Operator T_LESSTHAN " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LESSTHAN ";
 				break;
 			case _GREATTHAN:
-				cout << yytext << " Operator T_GREATTHAN " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_GREATTHAN ";
 				break;
 			case _BITCOMP:
-				cout << yytext << " Operator T_BITCOMP " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_BITCOMP ";
 				break;
 			case _COMP:
-				cout << yytext << " Operator T_COMP " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_COMP ";
 				break;
 			case _INC:
-				cout << yytext << " Operator T_INC " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_INC ";
 				break;
 			case _DEC:
-				cout << yytext << " Operator T_DEC " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_DEC ";
 				break;
 			case _COMMA:
-				cout << yytext << " Operator T_COMMA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_COMMA ";
 				break;
 			case _CASE:
-				cout << yytext << " Operator T_CASE " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_CASE ";
 				break;
 			case _COND:
-				cout << yytext << " Operator T_COND " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_COND ";
 				break;
 			case _SEMI:
-				cout << yytext << " Operator T_SEMI " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_SEMI ";
 				break;
 			case _LPAR:
-				cout << yytext << " Operator T_LPAR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LPAR ";
 				break;
 			case _RPAR:
-				cout << yytext << " Operator T_RPAR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_RPAR ";
 				break;
 			case _LCBRA:
-				cout << yytext << " Operator T_LBRA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LBRA ";
 				break;
 			case _RCBRA:
-				cout << yytext << " Operator T_RBRA " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_RBRA ";
 				break;
 			case _LBRAK:
-				cout << yytext << " Operator T_LBRAK " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_LBRAK ";
 				break;
 			case _RBRAK:
-				cout << yytext << " Operator T_RBRAK " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Operator T_RBRAK ";
 				break;
 			case _CDEC:
-				cout << yytext << " Constant T_CDEC " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Constant T_CDEC ";
 				break;
 			case _CFP:
-				cout << yytext << " Constant T_CFP " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Constant T_CFP ";
 				break;
 			case _CHEX:
-				cout << yytext << " Constant T_CHEX " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Constant T_CHEX ";
 				break;
 			case _COCT:
-				cout << yytext << " Constant T_COCT " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " Constant T_COCT ";
 				break;
 			case _STR:
-				cout << yytext << " StringLiteral T_STR " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " StringLiteral T_STR ";
 				break;
 			case _NEWLINE:
 				line_num++;
 				source_line++;
+				print = false;
 				break;
 			case _PREP:
 			{
@@ -2622,12 +2647,16 @@ int main()
 				string num = prep.substr(2);
 				source_line = strtol(num.c_str(), NULL, 10);
 				source_line--;
+				print = false;
 			}
 				break;
 			default:
-				cout << yytext << " invalid T_INVALID " << line_num << " " << source_file << " " << source_line << endl;
+				t_class_type = " invalid T_INVALID ";
 				break;
 		}
+		
+		if (print)
+			cout << yytext << t_class_type << line_num << " " << source_file << " " << source_line << endl;
 
 		ttcode = yylex();
 	}
