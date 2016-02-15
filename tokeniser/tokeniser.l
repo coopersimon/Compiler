@@ -7,18 +7,19 @@ enum token_type {_AUTO = 256, _BREAK, _CAS, _CHAR, _CONST, _CONTINUE, _DEFAULT, 
 %}
 
 DIGIT		[0-9]
+OCT			[0-7]
+HEX			[0-9a-fA-F]
 LETTER		[a-zA-Z_]
 CHAR		[0-9a-zA-Z_]
-STRING		\"[^\n\"\\]*\"
-HEX			[0-9a-fA-F]
-OCT			[0-7]
+ESCCHAR		(\\\?|\\\\|\\'|\\\"|\\a|\\b|\\f|\\n|\\r|\\t|\\v|\\{OCT}{OCT}?{OCT}?|\\x{HEX}+)
+STRING		\"([^\n\"\\]|{ESCCHAR})*\"
 S			(([uU][lL]?)|([lL][uU]?))?
 
 FLOAT1		(([0-9]*\.[0-9]+)|([0-9]+\.[0-9]*))[fFlL]?
 FLOAT2		[0-9]+[eE][+-]?[0-9]+[fFlL]?
 FLOAT3		(([0-9]*\.[0-9]+)|([0-9]+\.[0-9]*))[eE][+-]?[0-9]+[fFlL]?
 
-CCHAR		\'[^\n'\\]+\'
+CCHAR		'([^\n'\\]|{ESCCHAR})+'
 
 WHITESPACE	[ \t]
 
