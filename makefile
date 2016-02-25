@@ -2,24 +2,18 @@ CC=g++
 
 all : bin/c_parser
 
-bin/c_parser : source/lexer.o source/parser.o
-	$(CC) source/parser.o source/lexer.o -o c_parser
+bin/c_parser : source/parser.tab.cpp source/lexer.yy.cpp source/ast.cpp source/parser.tab.hpp source/ast.hpp
+	$(CC) source/parser.tab.cpp source/lexer.yy.cpp source/ast.cpp source/main.cpp -o bin/c_parser
 
-source/parser.o : source/parser.tab.cpp source/ast.hpp
-	$(CC) -c source/parser.tab.cpp -o source/parser.o
+source/parser.tab.cpp source/parser.tab.hpp : source/parser.y source/ast.hpp
+	bison -d source/parser.y -o source/parser.tab.cpp
 
-source/parser.tab.cpp : source/parser.y
-	bison -o source/parser.tab.cpp source/parser.y
-
-source/lexer.o : source/lexer.yy.cpp source/tokens.tab.hpp
-	$(CC) -c source/lexer.yy.cpp -o source/lexer.o
-
-source/lexer.yy.cpp : source/lexer.l	
+source/lexer.yy.cpp : source/lexer.l source/ast.hpp source/parser.tab.hpp
 	flex -o source/lexer.yy.cpp source/lexer.l
 
 clean :
+	rm source/parser.tab.hpp
 	rm source/parser.tab.cpp
-	rm source/parser.o
 	rm source/lexer.yy.cpp
-	rm source/lexer.o
+	rm source/*.o
 	rm bin/c_parser

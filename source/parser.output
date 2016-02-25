@@ -1,0 +1,1356 @@
+Terminals unused in grammar
+
+   _CHAR
+   _DOUBLE
+   _FLOAT
+   _LONG
+   _SHORT
+   _SIGNED
+   _UNSIGNED
+   _VOID
+   _FOR
+   _BREAK
+   _CONTINUE
+   _GOTO
+   _CAS
+   _DEFAULT
+   _SWITCH
+   _AUTO
+   _CONST
+   _EXTERN
+   _REGISTER
+   _STATIC
+   _VOLATILE
+   _ENUM
+   _STRUCT
+   _TYPEDEF
+   _UNION
+   _CFP
+   _CCHAR
+   _STR
+   _MULT
+   _DIV
+   _MOD
+   _AND
+   _OR
+   _XOR
+   _LSHIFT
+   _RSHIFT
+   _SUBA
+   _MULTA
+   _DIVA
+   _MODA
+   _ANDA
+   _ORA
+   _XORA
+   _LSHIFTA
+   _RSHIFTA
+   _LAND
+   _LOR
+   _NEQUAL
+   _LESSEQUAL
+   _GREATEQUAL
+   _LESSTHAN
+   _GREATTHAN
+   _BITCOMP
+   _COMP
+   _INC
+   _DEC
+   _CASE
+   _COND
+   _ELLIPSIS
+   _LBRAK
+   _RBRAK
+   _DOT
+   _ARROW
+   _SIZEOF
+   _NEWLINE
+   _PREP
+
+
+State 8 conflicts: 1 shift/reduce
+State 40 conflicts: 1 shift/reduce
+State 91 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: root $end
+
+    1 root: trans_unit
+
+    2 trans_unit: func_def
+    3           | trans_unit func_def
+
+    4 func_def: type_spec direct_decl
+    5         | direct_decl
+    6         | decl_list comp_stat
+    7         | comp_stat
+
+    8 direct_decl: _ID
+    9            | _LPAR direct_decl _RPAR
+   10            | direct_decl _LPAR param_list _RPAR
+   11            | direct_decl _LPAR _RPAR
+
+   12 param_list: param_decl
+   13           | param_list _COMMA param_decl
+
+   14 param_decl: type_spec direct_decl
+
+   15 type_spec: _INT
+
+   16 comp_stat: _LCBRA _RCBRA
+   17          | _LCBRA decl_list _RCBRA
+   18          | _LCBRA stat_list _RCBRA
+   19          | _LCBRA decl_list stat_list _RCBRA
+
+   20 decl_list: declaration
+   21          | decl_list declaration
+
+   22 declaration: type_spec init_decl _SEMI
+
+   23 init_decl: direct_decl
+   24          | direct_decl _ASSIGN assign_exp
+
+   25 stat_list: statement
+   26          | stat_list statement
+
+   27 statement: comp_stat
+   28          | expr_stat
+   29          | select_stat
+   30          | iter_stat
+   31          | jump_stat
+
+   32 expr_stat: expr _SEMI
+   33          | _SEMI
+
+   34 select_stat: _IF _LPAR expr _RPAR statement
+   35            | _IF _LPAR expr _RPAR statement _ELSE statement
+
+   36 iter_stat: _WHILE _LPAR expr _RPAR statement
+   37          | _DO statement _WHILE _LPAR expr _RPAR _SEMI
+
+   38 jump_stat: _RETURN _SEMI
+   39          | _RETURN expr _SEMI
+
+   40 expr: assign_exp
+   41     | expr _COMMA assign_exp
+
+   42 assign_exp: equal_exp
+   43           | prim_exp assign_op assign_exp
+
+   44 equal_exp: add_exp
+   45          | equal_exp _EQUAL add_exp
+
+   46 add_exp: prim_exp
+   47        | prim_exp _ADD add_exp
+   48        | prim_exp _SUB add_exp
+
+   49 prim_exp: _ID
+   50         | _CNUM
+   51         | _LPAR expr _RPAR
+
+   52 assign_op: _ASSIGN
+   53          | _ADDA
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+_CHAR (258)
+_DOUBLE (259)
+_FLOAT (260)
+_INT (261) 15
+_LONG (262)
+_SHORT (263)
+_SIGNED (264)
+_UNSIGNED (265)
+_VOID (266)
+_DO (267) 37
+_ELSE (268) 35
+_FOR (269)
+_IF (270) 34 35
+_WHILE (271) 36 37
+_BREAK (272)
+_CONTINUE (273)
+_GOTO (274)
+_RETURN (275) 38 39
+_CAS (276)
+_DEFAULT (277)
+_SWITCH (278)
+_AUTO (279)
+_CONST (280)
+_EXTERN (281)
+_REGISTER (282)
+_STATIC (283)
+_VOLATILE (284)
+_ENUM (285)
+_STRUCT (286)
+_TYPEDEF (287)
+_UNION (288)
+_ID (289) 8 49
+_CNUM (290) 50
+_CFP (291)
+_CCHAR (292)
+_STR (293)
+_ADD (294) 47
+_SUB (295) 48
+_MULT (296)
+_DIV (297)
+_MOD (298)
+_AND (299)
+_OR (300)
+_XOR (301)
+_LSHIFT (302)
+_RSHIFT (303)
+_ASSIGN (304) 24 52
+_ADDA (305) 53
+_SUBA (306)
+_MULTA (307)
+_DIVA (308)
+_MODA (309)
+_ANDA (310)
+_ORA (311)
+_XORA (312)
+_LSHIFTA (313)
+_RSHIFTA (314)
+_LAND (315)
+_LOR (316)
+_EQUAL (317) 45
+_NEQUAL (318)
+_LESSEQUAL (319)
+_GREATEQUAL (320)
+_LESSTHAN (321)
+_GREATTHAN (322)
+_BITCOMP (323)
+_COMP (324)
+_INC (325)
+_DEC (326)
+_COMMA (327) 13 41
+_CASE (328)
+_COND (329)
+_SEMI (330) 22 32 33 37 38 39
+_ELLIPSIS (331)
+_LPAR (332) 9 10 11 34 35 36 37 51
+_RPAR (333) 9 10 11 34 35 36 37 51
+_LCBRA (334) 16 17 18 19
+_RCBRA (335) 16 17 18 19
+_LBRAK (336)
+_RBRAK (337)
+_DOT (338)
+_ARROW (339)
+_SIZEOF (340)
+_NEWLINE (341)
+_PREP (342)
+
+
+Nonterminals, with rules where they appear
+
+$accept (88)
+    on left: 0
+root (89)
+    on left: 1, on right: 0
+trans_unit (90)
+    on left: 2 3, on right: 1 3
+func_def (91)
+    on left: 4 5 6 7, on right: 2 3
+direct_decl (92)
+    on left: 8 9 10 11, on right: 4 5 9 10 11 14 23 24
+param_list (93)
+    on left: 12 13, on right: 10 13
+param_decl (94)
+    on left: 14, on right: 12 13
+type_spec (95)
+    on left: 15, on right: 4 14 22
+comp_stat (96)
+    on left: 16 17 18 19, on right: 6 7 27
+decl_list (97)
+    on left: 20 21, on right: 6 17 19 21
+declaration (98)
+    on left: 22, on right: 20 21
+init_decl (99)
+    on left: 23 24, on right: 22
+stat_list (100)
+    on left: 25 26, on right: 18 19 26
+statement (101)
+    on left: 27 28 29 30 31, on right: 25 26 34 35 36 37
+expr_stat (102)
+    on left: 32 33, on right: 28
+select_stat (103)
+    on left: 34 35, on right: 29
+iter_stat (104)
+    on left: 36 37, on right: 30
+jump_stat (105)
+    on left: 38 39, on right: 31
+expr (106)
+    on left: 40 41, on right: 32 34 35 36 37 39 41 51
+assign_exp (107)
+    on left: 42 43, on right: 24 40 41 43
+equal_exp (108)
+    on left: 44 45, on right: 42 45
+add_exp (109)
+    on left: 46 47 48, on right: 44 45 47 48
+prim_exp (110)
+    on left: 49 50 51, on right: 43 46 47 48
+assign_op (111)
+    on left: 52 53, on right: 43
+
+
+State 0
+
+    0 $accept: . root $end
+
+    _INT    shift, and go to state 1
+    _ID     shift, and go to state 2
+    _LPAR   shift, and go to state 3
+    _LCBRA  shift, and go to state 4
+
+    root         go to state 5
+    trans_unit   go to state 6
+    func_def     go to state 7
+    direct_decl  go to state 8
+    type_spec    go to state 9
+    comp_stat    go to state 10
+    decl_list    go to state 11
+    declaration  go to state 12
+
+
+State 1
+
+   15 type_spec: _INT .
+
+    $default  reduce using rule 15 (type_spec)
+
+
+State 2
+
+    8 direct_decl: _ID .
+
+    $default  reduce using rule 8 (direct_decl)
+
+
+State 3
+
+    9 direct_decl: _LPAR . direct_decl _RPAR
+
+    _ID    shift, and go to state 2
+    _LPAR  shift, and go to state 3
+
+    direct_decl  go to state 13
+
+
+State 4
+
+   16 comp_stat: _LCBRA . _RCBRA
+   17          | _LCBRA . decl_list _RCBRA
+   18          | _LCBRA . stat_list _RCBRA
+   19          | _LCBRA . decl_list stat_list _RCBRA
+
+    _INT     shift, and go to state 1
+    _DO      shift, and go to state 14
+    _IF      shift, and go to state 15
+    _WHILE   shift, and go to state 16
+    _RETURN  shift, and go to state 17
+    _ID      shift, and go to state 18
+    _CNUM    shift, and go to state 19
+    _SEMI    shift, and go to state 20
+    _LPAR    shift, and go to state 21
+    _LCBRA   shift, and go to state 4
+    _RCBRA   shift, and go to state 22
+
+    type_spec    go to state 23
+    comp_stat    go to state 24
+    decl_list    go to state 25
+    declaration  go to state 12
+    stat_list    go to state 26
+    statement    go to state 27
+    expr_stat    go to state 28
+    select_stat  go to state 29
+    iter_stat    go to state 30
+    jump_stat    go to state 31
+    expr         go to state 32
+    assign_exp   go to state 33
+    equal_exp    go to state 34
+    add_exp      go to state 35
+    prim_exp     go to state 36
+
+
+State 5
+
+    0 $accept: root . $end
+
+    $end  shift, and go to state 37
+
+
+State 6
+
+    1 root: trans_unit .
+    3 trans_unit: trans_unit . func_def
+
+    _INT    shift, and go to state 1
+    _ID     shift, and go to state 2
+    _LPAR   shift, and go to state 3
+    _LCBRA  shift, and go to state 4
+
+    $default  reduce using rule 1 (root)
+
+    func_def     go to state 38
+    direct_decl  go to state 8
+    type_spec    go to state 9
+    comp_stat    go to state 10
+    decl_list    go to state 11
+    declaration  go to state 12
+
+
+State 7
+
+    2 trans_unit: func_def .
+
+    $default  reduce using rule 2 (trans_unit)
+
+
+State 8
+
+    5 func_def: direct_decl .
+   10 direct_decl: direct_decl . _LPAR param_list _RPAR
+   11            | direct_decl . _LPAR _RPAR
+
+    _LPAR  shift, and go to state 39
+
+    _LPAR     [reduce using rule 5 (func_def)]
+    $default  reduce using rule 5 (func_def)
+
+
+State 9
+
+    4 func_def: type_spec . direct_decl
+   22 declaration: type_spec . init_decl _SEMI
+
+    _ID    shift, and go to state 2
+    _LPAR  shift, and go to state 3
+
+    direct_decl  go to state 40
+    init_decl    go to state 41
+
+
+State 10
+
+    7 func_def: comp_stat .
+
+    $default  reduce using rule 7 (func_def)
+
+
+State 11
+
+    6 func_def: decl_list . comp_stat
+   21 decl_list: decl_list . declaration
+
+    _INT    shift, and go to state 1
+    _LCBRA  shift, and go to state 4
+
+    type_spec    go to state 23
+    comp_stat    go to state 42
+    declaration  go to state 43
+
+
+State 12
+
+   20 decl_list: declaration .
+
+    $default  reduce using rule 20 (decl_list)
+
+
+State 13
+
+    9 direct_decl: _LPAR direct_decl . _RPAR
+   10            | direct_decl . _LPAR param_list _RPAR
+   11            | direct_decl . _LPAR _RPAR
+
+    _LPAR  shift, and go to state 39
+    _RPAR  shift, and go to state 44
+
+
+State 14
+
+   37 iter_stat: _DO . statement _WHILE _LPAR expr _RPAR _SEMI
+
+    _DO      shift, and go to state 14
+    _IF      shift, and go to state 15
+    _WHILE   shift, and go to state 16
+    _RETURN  shift, and go to state 17
+    _ID      shift, and go to state 18
+    _CNUM    shift, and go to state 19
+    _SEMI    shift, and go to state 20
+    _LPAR    shift, and go to state 21
+    _LCBRA   shift, and go to state 4
+
+    comp_stat    go to state 24
+    statement    go to state 45
+    expr_stat    go to state 28
+    select_stat  go to state 29
+    iter_stat    go to state 30
+    jump_stat    go to state 31
+    expr         go to state 32
+    assign_exp   go to state 33
+    equal_exp    go to state 34
+    add_exp      go to state 35
+    prim_exp     go to state 36
+
+
+State 15
+
+   34 select_stat: _IF . _LPAR expr _RPAR statement
+   35            | _IF . _LPAR expr _RPAR statement _ELSE statement
+
+    _LPAR  shift, and go to state 46
+
+
+State 16
+
+   36 iter_stat: _WHILE . _LPAR expr _RPAR statement
+
+    _LPAR  shift, and go to state 47
+
+
+State 17
+
+   38 jump_stat: _RETURN . _SEMI
+   39          | _RETURN . expr _SEMI
+
+    _ID    shift, and go to state 18
+    _CNUM  shift, and go to state 19
+    _SEMI  shift, and go to state 48
+    _LPAR  shift, and go to state 21
+
+    expr        go to state 49
+    assign_exp  go to state 33
+    equal_exp   go to state 34
+    add_exp     go to state 35
+    prim_exp    go to state 36
+
+
+State 18
+
+   49 prim_exp: _ID .
+
+    $default  reduce using rule 49 (prim_exp)
+
+
+State 19
+
+   50 prim_exp: _CNUM .
+
+    $default  reduce using rule 50 (prim_exp)
+
+
+State 20
+
+   33 expr_stat: _SEMI .
+
+    $default  reduce using rule 33 (expr_stat)
+
+
+State 21
+
+   51 prim_exp: _LPAR . expr _RPAR
+
+    _ID    shift, and go to state 18
+    _CNUM  shift, and go to state 19
+    _LPAR  shift, and go to state 21
+
+    expr        go to state 50
+    assign_exp  go to state 33
+    equal_exp   go to state 34
+    add_exp     go to state 35
+    prim_exp    go to state 36
+
+
+State 22
+
+   16 comp_stat: _LCBRA _RCBRA .
+
+    $default  reduce using rule 16 (comp_stat)
+
+
+State 23
+
+   22 declaration: type_spec . init_decl _SEMI
+
+    _ID    shift, and go to state 2
+    _LPAR  shift, and go to state 3
+
+    direct_decl  go to state 51
+    init_decl    go to state 41
+
+
+State 24
+
+   27 statement: comp_stat .
+
+    $default  reduce using rule 27 (statement)
+
+
+State 25
+
+   17 comp_stat: _LCBRA decl_list . _RCBRA
+   19          | _LCBRA decl_list . stat_list _RCBRA
+   21 decl_list: decl_list . declaration
+
+    _INT     shift, and go to state 1
+    _DO      shift, and go to state 14
+    _IF      shift, and go to state 15
+    _WHILE   shift, and go to state 16
+    _RETURN  shift, and go to state 17
+    _ID      shift, and go to state 18
+    _CNUM    shift, and go to state 19
+    _SEMI    shift, and go to state 20
+    _LPAR    shift, and go to state 21
+    _LCBRA   shift, and go to state 4
+    _RCBRA   shift, and go to state 52
+
+    type_spec    go to state 23
+    comp_stat    go to state 24
+    declaration  go to state 43
+    stat_list    go to state 53
+    statement    go to state 27
+    expr_stat    go to state 28
+    select_stat  go to state 29
+    iter_stat    go to state 30
+    jump_stat    go to state 31
+    expr         go to state 32
+    assign_exp   go to state 33
+    equal_exp    go to state 34
+    add_exp      go to state 35
+    prim_exp     go to state 36
+
+
+State 26
+
+   18 comp_stat: _LCBRA stat_list . _RCBRA
+   26 stat_list: stat_list . statement
+
+    _DO      shift, and go to state 14
+    _IF      shift, and go to state 15
+    _WHILE   shift, and go to state 16
+    _RETURN  shift, and go to state 17
+    _ID      shift, and go to state 18
+    _CNUM    shift, and go to state 19
+    _SEMI    shift, and go to state 20
+    _LPAR    shift, and go to state 21
+    _LCBRA   shift, and go to state 4
+    _RCBRA   shift, and go to state 54
+
+    comp_stat    go to state 24
+    statement    go to state 55
+    expr_stat    go to state 28
+    select_stat  go to state 29
+    iter_stat    go to state 30
+    jump_stat    go to state 31
+    expr         go to state 32
+    assign_exp   go to state 33
+    equal_exp    go to state 34
+    add_exp      go to state 35
+    prim_exp     go to state 36
+
+
+State 27
+
+   25 stat_list: statement .
+
+    $default  reduce using rule 25 (stat_list)
+
+
+State 28
+
+   28 statement: expr_stat .
+
+    $default  reduce using rule 28 (statement)
+
+
+State 29
+
+   29 statement: select_stat .
+
+    $default  reduce using rule 29 (statement)
+
+
+State 30
+
+   30 statement: iter_stat .
+
+    $default  reduce using rule 30 (statement)
+
+
+State 31
+
+   31 statement: jump_stat .
+
+    $default  reduce using rule 31 (statement)
+
+
+State 32
+
+   32 expr_stat: expr . _SEMI
+   41 expr: expr . _COMMA assign_exp
+
+    _COMMA  shift, and go to state 56
+    _SEMI   shift, and go to state 57
+
+
+State 33
+
+   40 expr: assign_exp .
+
+    $default  reduce using rule 40 (expr)
+
+
+State 34
+
+   42 assign_exp: equal_exp .
+   45 equal_exp: equal_exp . _EQUAL add_exp
+
+    _EQUAL  shift, and go to state 58
+
+    $default  reduce using rule 42 (assign_exp)
+
+
+State 35
+
+   44 equal_exp: add_exp .
+
+    $default  reduce using rule 44 (equal_exp)
+
+
+State 36
+
+   43 assign_exp: prim_exp . assign_op assign_exp
+   46 add_exp: prim_exp .
+   47        | prim_exp . _ADD add_exp
+   48        | prim_exp . _SUB add_exp
+
+    _ADD     shift, and go to state 59
+    _SUB     shift, and go to state 60
+    _ASSIGN  shift, and go to state 61
+    _ADDA    shift, and go to state 62
+
+    $default  reduce using rule 46 (add_exp)
+
+    assign_op  go to state 63
+
+
+State 37
+
+    0 $accept: root $end .
+
+    $default  accept
+
+
+State 38
+
+    3 trans_unit: trans_unit func_def .
+
+    $default  reduce using rule 3 (trans_unit)
+
+
+State 39
+
+   10 direct_decl: direct_decl _LPAR . param_list _RPAR
+   11            | direct_decl _LPAR . _RPAR
+
+    _INT   shift, and go to state 1
+    _RPAR  shift, and go to state 64
+
+    param_list  go to state 65
+    param_decl  go to state 66
+    type_spec   go to state 67
+
+
+State 40
+
+    4 func_def: type_spec direct_decl .
+   10 direct_decl: direct_decl . _LPAR param_list _RPAR
+   11            | direct_decl . _LPAR _RPAR
+   23 init_decl: direct_decl .
+   24          | direct_decl . _ASSIGN assign_exp
+
+    _ASSIGN  shift, and go to state 68
+    _LPAR    shift, and go to state 39
+
+    _SEMI     reduce using rule 23 (init_decl)
+    _LPAR     [reduce using rule 4 (func_def)]
+    $default  reduce using rule 4 (func_def)
+
+
+State 41
+
+   22 declaration: type_spec init_decl . _SEMI
+
+    _SEMI  shift, and go to state 69
+
+
+State 42
+
+    6 func_def: decl_list comp_stat .
+
+    $default  reduce using rule 6 (func_def)
+
+
+State 43
+
+   21 decl_list: decl_list declaration .
+
+    $default  reduce using rule 21 (decl_list)
+
+
+State 44
+
+    9 direct_decl: _LPAR direct_decl _RPAR .
+
+    $default  reduce using rule 9 (direct_decl)
+
+
+State 45
+
+   37 iter_stat: _DO statement . _WHILE _LPAR expr _RPAR _SEMI
+
+    _WHILE  shift, and go to state 70
+
+
+State 46
+
+   34 select_stat: _IF _LPAR . expr _RPAR statement
+   35            | _IF _LPAR . expr _RPAR statement _ELSE statement
+
+    _ID    shift, and go to state 18
+    _CNUM  shift, and go to state 19
+    _LPAR  shift, and go to state 21
+
+    expr        go to state 71
+    assign_exp  go to state 33
+    equal_exp   go to state 34
+    add_exp     go to state 35
+    prim_exp    go to state 36
+
+
+State 47
+
+   36 iter_stat: _WHILE _LPAR . expr _RPAR statement
+
+    _ID    shift, and go to state 18
+    _CNUM  shift, and go to state 19
+    _LPAR  shift, and go to state 21
+
+    expr        go to state 72
+    assign_exp  go to state 33
+    equal_exp   go to state 34
+    add_exp     go to state 35
+    prim_exp    go to state 36
+
+
+State 48
+
+   38 jump_stat: _RETURN _SEMI .
+
+    $default  reduce using rule 38 (jump_stat)
+
+
+State 49
+
+   39 jump_stat: _RETURN expr . _SEMI
+   41 expr: expr . _COMMA assign_exp
+
+    _COMMA  shift, and go to state 56
+    _SEMI   shift, and go to state 73
+
+
+State 50
+
+   41 expr: expr . _COMMA assign_exp
+   51 prim_exp: _LPAR expr . _RPAR
+
+    _COMMA  shift, and go to state 56
+    _RPAR   shift, and go to state 74
+
+
+State 51
+
+   10 direct_decl: direct_decl . _LPAR param_list _RPAR
+   11            | direct_decl . _LPAR _RPAR
+   23 init_decl: direct_decl .
+   24          | direct_decl . _ASSIGN assign_exp
+
+    _ASSIGN  shift, and go to state 68
+    _LPAR    shift, and go to state 39
+
+    $default  reduce using rule 23 (init_decl)
+
+
+State 52
+
+   17 comp_stat: _LCBRA decl_list _RCBRA .
+
+    $default  reduce using rule 17 (comp_stat)
+
+
+State 53
+
+   19 comp_stat: _LCBRA decl_list stat_list . _RCBRA
+   26 stat_list: stat_list . statement
+
+    _DO      shift, and go to state 14
+    _IF      shift, and go to state 15
+    _WHILE   shift, and go to state 16
+    _RETURN  shift, and go to state 17
+    _ID      shift, and go to state 18
+    _CNUM    shift, and go to state 19
+    _SEMI    shift, and go to state 20
+    _LPAR    shift, and go to state 21
+    _LCBRA   shift, and go to state 4
+    _RCBRA   shift, and go to state 75
+
+    comp_stat    go to state 24
+    statement    go to state 55
+    expr_stat    go to state 28
+    select_stat  go to state 29
+    iter_stat    go to state 30
+    jump_stat    go to state 31
+    expr         go to state 32
+    assign_exp   go to state 33
+    equal_exp    go to state 34
+    add_exp      go to state 35
+    prim_exp     go to state 36
+
+
+State 54
+
+   18 comp_stat: _LCBRA stat_list _RCBRA .
+
+    $default  reduce using rule 18 (comp_stat)
+
+
+State 55
+
+   26 stat_list: stat_list statement .
+
+    $default  reduce using rule 26 (stat_list)
+
+
+State 56
+
+   41 expr: expr _COMMA . assign_exp
+
+    _ID    shift, and go to state 18
+    _CNUM  shift, and go to state 19
+    _LPAR  shift, and go to state 21
+
+    assign_exp  go to state 76
+    equal_exp   go to state 34
+    add_exp     go to state 35
+    prim_exp    go to state 36
+
+
+State 57
+
+   32 expr_stat: expr _SEMI .
+
+    $default  reduce using rule 32 (expr_stat)
+
+
+State 58
+
+   45 equal_exp: equal_exp _EQUAL . add_exp
+
+    _ID    shift, and go to state 18
+    _CNUM  shift, and go to state 19
+    _LPAR  shift, and go to state 21
+
+    add_exp   go to state 77
+    prim_exp  go to state 78
+
+
+State 59
+
+   47 add_exp: prim_exp _ADD . add_exp
+
+    _ID    shift, and go to state 18
+    _CNUM  shift, and go to state 19
+    _LPAR  shift, and go to state 21
+
+    add_exp   go to state 79
+    prim_exp  go to state 78
+
+
+State 60
+
+   48 add_exp: prim_exp _SUB . add_exp
+
+    _ID    shift, and go to state 18
+    _CNUM  shift, and go to state 19
+    _LPAR  shift, and go to state 21
+
+    add_exp   go to state 80
+    prim_exp  go to state 78
+
+
+State 61
+
+   52 assign_op: _ASSIGN .
+
+    $default  reduce using rule 52 (assign_op)
+
+
+State 62
+
+   53 assign_op: _ADDA .
+
+    $default  reduce using rule 53 (assign_op)
+
+
+State 63
+
+   43 assign_exp: prim_exp assign_op . assign_exp
+
+    _ID    shift, and go to state 18
+    _CNUM  shift, and go to state 19
+    _LPAR  shift, and go to state 21
+
+    assign_exp  go to state 81
+    equal_exp   go to state 34
+    add_exp     go to state 35
+    prim_exp    go to state 36
+
+
+State 64
+
+   11 direct_decl: direct_decl _LPAR _RPAR .
+
+    $default  reduce using rule 11 (direct_decl)
+
+
+State 65
+
+   10 direct_decl: direct_decl _LPAR param_list . _RPAR
+   13 param_list: param_list . _COMMA param_decl
+
+    _COMMA  shift, and go to state 82
+    _RPAR   shift, and go to state 83
+
+
+State 66
+
+   12 param_list: param_decl .
+
+    $default  reduce using rule 12 (param_list)
+
+
+State 67
+
+   14 param_decl: type_spec . direct_decl
+
+    _ID    shift, and go to state 2
+    _LPAR  shift, and go to state 3
+
+    direct_decl  go to state 84
+
+
+State 68
+
+   24 init_decl: direct_decl _ASSIGN . assign_exp
+
+    _ID    shift, and go to state 18
+    _CNUM  shift, and go to state 19
+    _LPAR  shift, and go to state 21
+
+    assign_exp  go to state 85
+    equal_exp   go to state 34
+    add_exp     go to state 35
+    prim_exp    go to state 36
+
+
+State 69
+
+   22 declaration: type_spec init_decl _SEMI .
+
+    $default  reduce using rule 22 (declaration)
+
+
+State 70
+
+   37 iter_stat: _DO statement _WHILE . _LPAR expr _RPAR _SEMI
+
+    _LPAR  shift, and go to state 86
+
+
+State 71
+
+   34 select_stat: _IF _LPAR expr . _RPAR statement
+   35            | _IF _LPAR expr . _RPAR statement _ELSE statement
+   41 expr: expr . _COMMA assign_exp
+
+    _COMMA  shift, and go to state 56
+    _RPAR   shift, and go to state 87
+
+
+State 72
+
+   36 iter_stat: _WHILE _LPAR expr . _RPAR statement
+   41 expr: expr . _COMMA assign_exp
+
+    _COMMA  shift, and go to state 56
+    _RPAR   shift, and go to state 88
+
+
+State 73
+
+   39 jump_stat: _RETURN expr _SEMI .
+
+    $default  reduce using rule 39 (jump_stat)
+
+
+State 74
+
+   51 prim_exp: _LPAR expr _RPAR .
+
+    $default  reduce using rule 51 (prim_exp)
+
+
+State 75
+
+   19 comp_stat: _LCBRA decl_list stat_list _RCBRA .
+
+    $default  reduce using rule 19 (comp_stat)
+
+
+State 76
+
+   41 expr: expr _COMMA assign_exp .
+
+    $default  reduce using rule 41 (expr)
+
+
+State 77
+
+   45 equal_exp: equal_exp _EQUAL add_exp .
+
+    $default  reduce using rule 45 (equal_exp)
+
+
+State 78
+
+   46 add_exp: prim_exp .
+   47        | prim_exp . _ADD add_exp
+   48        | prim_exp . _SUB add_exp
+
+    _ADD  shift, and go to state 59
+    _SUB  shift, and go to state 60
+
+    $default  reduce using rule 46 (add_exp)
+
+
+State 79
+
+   47 add_exp: prim_exp _ADD add_exp .
+
+    $default  reduce using rule 47 (add_exp)
+
+
+State 80
+
+   48 add_exp: prim_exp _SUB add_exp .
+
+    $default  reduce using rule 48 (add_exp)
+
+
+State 81
+
+   43 assign_exp: prim_exp assign_op assign_exp .
+
+    $default  reduce using rule 43 (assign_exp)
+
+
+State 82
+
+   13 param_list: param_list _COMMA . param_decl
+
+    _INT  shift, and go to state 1
+
+    param_decl  go to state 89
+    type_spec   go to state 67
+
+
+State 83
+
+   10 direct_decl: direct_decl _LPAR param_list _RPAR .
+
+    $default  reduce using rule 10 (direct_decl)
+
+
+State 84
+
+   10 direct_decl: direct_decl . _LPAR param_list _RPAR
+   11            | direct_decl . _LPAR _RPAR
+   14 param_decl: type_spec direct_decl .
+
+    _LPAR  shift, and go to state 39
+
+    $default  reduce using rule 14 (param_decl)
+
+
+State 85
+
+   24 init_decl: direct_decl _ASSIGN assign_exp .
+
+    $default  reduce using rule 24 (init_decl)
+
+
+State 86
+
+   37 iter_stat: _DO statement _WHILE _LPAR . expr _RPAR _SEMI
+
+    _ID    shift, and go to state 18
+    _CNUM  shift, and go to state 19
+    _LPAR  shift, and go to state 21
+
+    expr        go to state 90
+    assign_exp  go to state 33
+    equal_exp   go to state 34
+    add_exp     go to state 35
+    prim_exp    go to state 36
+
+
+State 87
+
+   34 select_stat: _IF _LPAR expr _RPAR . statement
+   35            | _IF _LPAR expr _RPAR . statement _ELSE statement
+
+    _DO      shift, and go to state 14
+    _IF      shift, and go to state 15
+    _WHILE   shift, and go to state 16
+    _RETURN  shift, and go to state 17
+    _ID      shift, and go to state 18
+    _CNUM    shift, and go to state 19
+    _SEMI    shift, and go to state 20
+    _LPAR    shift, and go to state 21
+    _LCBRA   shift, and go to state 4
+
+    comp_stat    go to state 24
+    statement    go to state 91
+    expr_stat    go to state 28
+    select_stat  go to state 29
+    iter_stat    go to state 30
+    jump_stat    go to state 31
+    expr         go to state 32
+    assign_exp   go to state 33
+    equal_exp    go to state 34
+    add_exp      go to state 35
+    prim_exp     go to state 36
+
+
+State 88
+
+   36 iter_stat: _WHILE _LPAR expr _RPAR . statement
+
+    _DO      shift, and go to state 14
+    _IF      shift, and go to state 15
+    _WHILE   shift, and go to state 16
+    _RETURN  shift, and go to state 17
+    _ID      shift, and go to state 18
+    _CNUM    shift, and go to state 19
+    _SEMI    shift, and go to state 20
+    _LPAR    shift, and go to state 21
+    _LCBRA   shift, and go to state 4
+
+    comp_stat    go to state 24
+    statement    go to state 92
+    expr_stat    go to state 28
+    select_stat  go to state 29
+    iter_stat    go to state 30
+    jump_stat    go to state 31
+    expr         go to state 32
+    assign_exp   go to state 33
+    equal_exp    go to state 34
+    add_exp      go to state 35
+    prim_exp     go to state 36
+
+
+State 89
+
+   13 param_list: param_list _COMMA param_decl .
+
+    $default  reduce using rule 13 (param_list)
+
+
+State 90
+
+   37 iter_stat: _DO statement _WHILE _LPAR expr . _RPAR _SEMI
+   41 expr: expr . _COMMA assign_exp
+
+    _COMMA  shift, and go to state 56
+    _RPAR   shift, and go to state 93
+
+
+State 91
+
+   34 select_stat: _IF _LPAR expr _RPAR statement .
+   35            | _IF _LPAR expr _RPAR statement . _ELSE statement
+
+    _ELSE  shift, and go to state 94
+
+    _ELSE     [reduce using rule 34 (select_stat)]
+    $default  reduce using rule 34 (select_stat)
+
+
+State 92
+
+   36 iter_stat: _WHILE _LPAR expr _RPAR statement .
+
+    $default  reduce using rule 36 (iter_stat)
+
+
+State 93
+
+   37 iter_stat: _DO statement _WHILE _LPAR expr _RPAR . _SEMI
+
+    _SEMI  shift, and go to state 95
+
+
+State 94
+
+   35 select_stat: _IF _LPAR expr _RPAR statement _ELSE . statement
+
+    _DO      shift, and go to state 14
+    _IF      shift, and go to state 15
+    _WHILE   shift, and go to state 16
+    _RETURN  shift, and go to state 17
+    _ID      shift, and go to state 18
+    _CNUM    shift, and go to state 19
+    _SEMI    shift, and go to state 20
+    _LPAR    shift, and go to state 21
+    _LCBRA   shift, and go to state 4
+
+    comp_stat    go to state 24
+    statement    go to state 96
+    expr_stat    go to state 28
+    select_stat  go to state 29
+    iter_stat    go to state 30
+    jump_stat    go to state 31
+    expr         go to state 32
+    assign_exp   go to state 33
+    equal_exp    go to state 34
+    add_exp      go to state 35
+    prim_exp     go to state 36
+
+
+State 95
+
+   37 iter_stat: _DO statement _WHILE _LPAR expr _RPAR _SEMI .
+
+    $default  reduce using rule 37 (iter_stat)
+
+
+State 96
+
+   35 select_stat: _IF _LPAR expr _RPAR statement _ELSE statement .
+
+    $default  reduce using rule 35 (select_stat)

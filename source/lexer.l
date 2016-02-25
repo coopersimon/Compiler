@@ -1,7 +1,8 @@
 %option noyywrap
 %{
 #include <cstdlib>
-#include "tokens.tab.hpp"
+#include "ast.hpp"
+#include "parser.tab.hpp"
 %}
 
 DIGIT		[0-9]
@@ -125,7 +126,7 @@ sizeof			return _SIZEOF;
 [L]?{STRING}		return _STR;
 
 
-\n				return _NEWLINE;
+\n
 \t
 [ ]
 {SOURCE}		return _PREP;
