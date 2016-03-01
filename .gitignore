@@ -1,5 +1,4 @@
 bin/*
-test/*
 testdump/*
 tokeniser/*
 parser/*

@@ -1,5 +1,6 @@
 #include "ast.hpp"
 #include "parser.tab.hpp"
+#include <iostream>
 
 ast_value* c_ast;
 
@@ -11,7 +12,7 @@ int main()
 
 	ast_root root(ast);
 
-	root.print();
+	root.print(std::cout);
 
 	return 0;
 }

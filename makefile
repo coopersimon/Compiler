@@ -15,5 +15,4 @@ clean :
 	rm source/parser.tab.hpp
 	rm source/parser.tab.cpp
 	rm source/lexer.yy.cpp
-	rm source/*.o
 	rm bin/c_parser

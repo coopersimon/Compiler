@@ -2,13 +2,17 @@
 #define C_AST_HPP
 
 #include <string>
+#include <ostream>
+
+// function to print tabs for scopes:
+std::string tab(int scope);
 
 // virtual base class
 class ast_value
 {
 	public:
 		virtual ~ast_value() {}
-		virtual void print(int& scope) {}
+		virtual void print(int& scope, std::ostream& out) {}
 };
 
 // the root of the tree: contains a pointer to the tree itself
@@ -20,29 +24,25 @@ class ast_root
 	public:
 		ast_root(ast_value* t_in) : tree(t_in), scope(0) {}
 		~ast_root();
-		void print();
+		void print(std::ostream& out);
 };
 
 class v_int : public ast_value
 {
 	private:
 		int value;
-		bool hidden;
 	public:
-		v_int(int in) : value(in), hidden(false) {}
-		v_int(int in, bool h_in) : value(in), hidden(h_in) {}
-		void print(int& scope);
+		v_int(int in) : value(in) {}
+		void print(int& scope, std::ostream& out);
 };
 
 class v_str : public ast_value
 {
 	private:
 		std::string value;
-		bool hidden;
 	public:
-		v_str(std::string in) : value(std::string(in)), hidden(false) {}
-		v_str(std::string in, bool h_in) : value(in), hidden(h_in) {}
-		void print(int& scope);
+		v_str(std::string in) : value(std::string(in)) {}
+		void print(int& scope, std::ostream& out);
 };
 
 // generic node: used for things which dont need special printing
@@ -55,35 +55,49 @@ class ast_node : public ast_value
 		ast_node();
 		ast_node(ast_value* l_in, ast_value* r_in) : left(l_in), right(r_in) {}
 		~ast_node();
-		void print(int& scope);
+		void print(int& scope, std::ostream& out);
 };
 
-class n_direct_decl : public ast_node
+class n_func_decl : public ast_node
 {
 	public:
-		n_direct_decl(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope);
+		n_func_decl(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
+		void print(int& scope, std::ostream& out);
+};
+
+class n_list : public ast_node
+{
+	public:
+		n_list(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
+		void print(int& scope, std::ostream& out);
 };
 
 class n_param_decl : public ast_node
 {
 	public:
 		n_param_decl(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope);
+		void print(int& scope, std::ostream& out);
 };
 
 class n_comp_stat : public ast_node
 {
 	public:
 		n_comp_stat(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope);
+		void print(int& scope, std::ostream& out);
+};
+
+class n_stat : public ast_node
+{
+	public:
+		n_stat(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
+		void print(int& scope, std::ostream& out);
 };
 
 class n_init_decl : public ast_node
 {
 	public:
 		n_init_decl(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope);
+		void print(int& scope, std::ostream& out);
 };
 
 class n_expression : public ast_node
@@ -92,6 +106,7 @@ class n_expression : public ast_node
 		std::string opstr;
 	public:
 		n_expression(ast_value* l_in, ast_value* r_in, std::string op_in) : ast_node(l_in, r_in), opstr(std::string(op_in)) {}
+		void print(int& scope, std::ostream& out);
 };
 
 class n_ifelse : public ast_node
@@ -100,16 +115,16 @@ class n_ifelse : public ast_node
 		ast_value* else_node;
 	public:
 		n_ifelse(ast_value* l_in, ast_value* r_in, ast_value* e_in) : ast_node(l_in, r_in), else_node(e_in) {}
-		void print(int& scope);
+		~n_ifelse();
+		void print(int& scope, std::ostream& out);
 };
 
-/*class n_for : public ast_node
+class n_while : public ast_node
 {
-	private:
-		ast_value* 
 	public:
-		n_for(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope);
-};*/
+		n_while(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
+		void print(int& scope, std::ostream& out);
+};
+
 
 #endif

@@ -1,29 +1,34 @@
 #include "ast.hpp"
-#include <iostream>
 #include <typeinfo>
+
+std::string tab(int scope)
+{
+	std::string out = "";
+	for (int i = 0; i < scope; i++)
+		out += "\t";
+	return out;
+}
 
 ast_root::~ast_root()
 {
 	delete tree;
 }
 
-void ast_root::print()
+void ast_root::print(std::ostream& out)
 {
-	tree->print(scope);
+	tree->print(scope, out);
 	return;
 }
 
-void v_int::print(int& scope)
+void v_int::print(int& scope, std::ostream& out)
 {
-	if (!hidden)
-		std::cout << value;
+	out << value;
 	return;
 }
 
-void v_str::print(int& scope)
+void v_str::print(int& scope, std::ostream& out)
 {
-	if (!hidden)
-		std::cout << value;
+	out << value;
 	return;
 }
 
@@ -39,91 +44,132 @@ ast_node::~ast_node()
 	delete right;
 }
 
-void ast_node::print(int& scope)
+void ast_node::print(int& scope, std::ostream& out)
 {
 	if (left != NULL)
-		left->print(scope);
+		left->print(scope, out);
 	if (right != NULL)
-		right->print(scope);
+		right->print(scope, out);
 	return;
 }
 
-void n_direct_decl::print(int& scope)
+void n_func_decl::print(int& scope, std::ostream& out)
 {
+	out << " ";
 	if (left != NULL)
-	{
-		for(int i = 0; i < scope; i++)
-			std::cout << "    ";
-		std::cout << "FUNCTION : ";
-		left->print(scope);
-		std::cout << std::endl;
-	}
+		left->print(scope, out);
+
+	out << " (";
 	if (right != NULL)
-		right->print(scope);
+		right->print(scope, out);
+
+	out << ")";
 	return;
 }
 
-void n_param_decl::print(int& scope)
+void n_list::print(int& scope, std::ostream& out)
 {
 	if (left != NULL)
-		left->print(scope);
+		left->print(scope, out);
 	if (right != NULL)
 	{
-		for(int i = 0; i < scope; i++)
-			std::cout << "    ";
-		std::cout << "    PARAMETER : ";
-		right->print(scope);
-		std::cout << std::endl;
+		out << ", ";
+		right->print(scope, out);
 	}
 	return;
 }
 
-void n_comp_stat::print(int& scope)
+void n_param_decl::print(int& scope, std::ostream& out)
 {
-	for(int i = 0; i < scope; i++)
-		std::cout << "    ";
-	std::cout << "SCOPE" << std::endl;
+	if (left != NULL)
+		left->print(scope, out);
+	out << " ";
+	if (right != NULL)
+		right->print(scope, out);
+	return;
+}
+
+void n_comp_stat::print(int& scope, std::ostream& out)
+{
 	scope++;
+	out << "{\n";
 	if (left != NULL)
-		left->print(scope);
+		left->print(scope, out);
 	if (right != NULL)
-		right->print(scope);
+		right->print(scope, out);
+	out << "}";
 	scope--;
 	return;
 }
 
-void n_init_decl::print(int& scope)
+void n_stat::print(int& scope, std::ostream& out)
 {
 	if (left != NULL)
-	{
-		for(int i = 0; i < scope; i++)
-			std::cout << "    ";
-		std::cout << "VARIABLE : ";
-		left->print(scope);
-		std::cout << std::endl;
-	}
-	if (right!= NULL)
-		right->print(scope);
-}
-
-void n_ifelse::print(int& scope)
-{
-	if (left != NULL)
-		left->print(scope);
+		left->print(scope, out);
 	if (right != NULL)
-		right->print(scope);
-	if (else_node != NULL)
-		else_node->print(scope);
+	{
+		out << " ";
+		right->print(scope, out);
+	}
+	out << ";\n";
 	return;
 }
 
-/*void n_for::print(int& scope)
+void n_init_decl::print(int& scope, std::ostream& out)
 {
 	if (left != NULL)
-		left->print(scope);
+		left->print(scope, out);
 	if (right != NULL)
-		right->print(scope);
-}*/
+	{
+		out << "=";
+		right->print(scope, out);
+	}
+	return;
+}
+
+void n_expression::print(int& scope, std::ostream& out)
+{
+	out << "(";
+	if (left != NULL)
+		left->print(scope, out);
+	out << opstr;
+	if (right != NULL)
+		right->print(scope, out);
+	out << ")";
+	return;
+}
+
+n_ifelse::~n_ifelse()
+{
+	delete else_node;
+}
+
+void n_ifelse::print(int& scope, std::ostream& out)
+{
+	out << "if (";
+	if (left != NULL)
+		left->print(scope, out);
+	out << ")\n";
+	if (right != NULL)
+		right->print(scope, out);
+	if (else_node != NULL)
+	{
+		out << "else\n";
+		else_node->print(scope, out);
+	}
+	return;
+}
+
+void n_while::print(int& scope, std::ostream& out)
+{
+	out << "while (";
+	if (left != NULL)
+		left->print(scope, out);
+	out << ")\n";
+	if (right != NULL)
+		right->print(scope, out);
+	return;
+}
 
 
 
