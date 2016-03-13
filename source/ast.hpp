@@ -54,6 +54,13 @@ class v_str : public ast_value
 		void code_gen(status& stat, std::ostream& out);
 };
 
+class v_type : public v_str // cheap hack to avoid printing "int" as a variable
+{
+	public:
+		v_type(std::string in) : v_str(in) {}
+		void code_gen(status& stat, std::ostream& out);
+};
+
 // generic node: used for things which dont need special printing
 class ast_node : public ast_value
 {
@@ -91,6 +98,7 @@ class n_param_decl : public ast_node
 	public:
 		n_param_decl(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
 		void print(int& scope, std::ostream& out);
+		void build_status(status& stat);
 		//void code_gen(status& stat, std::ostream& out);
 };
 

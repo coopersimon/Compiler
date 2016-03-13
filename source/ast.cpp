@@ -1,6 +1,6 @@
 #include "ast.hpp"
 #include <sstream>
-
+#include <iostream>
 /*std::string tab(int scope)
 {
 	std::string out = "";
@@ -212,6 +212,26 @@ void n_func_decl::build_status(status& stat)
 	return;
 }
 
+/*void n_func_def::build_status(status& stat)
+{
+	
+}*/
+
+void n_param_decl::build_status(status& stat)
+{
+	if (left != NULL)
+		left->build_status(stat);
+	if (right != NULL)
+	{
+		std::stringstream id;
+		int tmp;
+		right->print(tmp, id);
+		stat.add_parameter(id.str());
+	}
+
+	return;
+}
+
 void n_init_decl::build_status(status& stat)
 {
 	if (left != NULL)
@@ -232,9 +252,16 @@ void n_init_decl::build_status(status& stat)
 void ast_root::code_gen(std::ostream& out)
 {
 	out << "\t.text\n"; // init
-	stat.reset_current_function();
-	tree->build_status(stat);
-	tree->code_gen(stat, out);
+	try
+	{
+		tree->build_status(stat);
+		stat.reset_current_function();
+		tree->code_gen(stat, out);
+	}
+	catch (int e)
+	{
+		out << "Attempted use of uninitialised variable.\n";
+	}
 	return;
 }
 
@@ -247,7 +274,18 @@ void v_int::code_gen(status& stat, std::ostream& out)
 
 void v_str::code_gen(status& stat, std::ostream& out)
 {
-	out << "\tlw\t$t" << stat.get_register() << "," << stat.variable_offset(value) << "($fp)\n";
+	std::string location = stat.variable_location(value);
+	if (location[0] == '$') // if the location is a register
+		out << "\tmove\t";
+	else // if the location is on the stack
+		out << "\tlw\t";
+
+	out << "$t" << stat.get_register() << "," << location << "\n";
+	return;
+}
+
+void v_type::code_gen(status& stat, std::ostream& out)
+{
 	return;
 }
 
@@ -269,8 +307,8 @@ void n_func_decl::code_gen(status& stat, std::ostream& out)
 		left->print(tmp, id);
 		stat.name_function(id.str());
 	}
-	if (right != NULL) // parameters/arguments. I'll deal with this later...
-		right->code_gen(stat, out);
+	//if (right != NULL) // parameters/arguments. I'll deal with this later...
+	//	right->code_gen(stat, out);
 }
 
 void n_func_def::code_gen(status& stat, std::ostream& out)
@@ -313,13 +351,14 @@ void n_init_decl::code_gen(status& stat, std::ostream& out)
 {
 	if (right != NULL) // if variable is initialised to value
 	{
-		stat.lock_register();
+		stat.lock_register(out);
 		right->code_gen(stat, out);
 		std::stringstream id;
 		int tmp;
 		left->print(tmp, id);
-		out << "\tsw\t$t" << stat.get_register() << stat.variable_offset(id.str()) << "($fp)\n";
-		stat.unlock_register();
+		out << "\tsw\t$t" << stat.get_register() << "," << stat.variable_location(id.str());
+		out << "\t# " << id.str() << "\n";
+		stat.unlock_register(out);
 	}
 
 	return;
@@ -331,36 +370,38 @@ void n_expression::code_gen(status& stat, std::ostream& out)
 	if (opstr == "+")
 	{
 		left->code_gen(stat, out);
-		if (stat.lock_register())
-		{
-			right->code_gen(stat, out);
-		}	
+		stat.lock_register(out);
+		right->code_gen(stat, out);
 		int op2 = stat.get_register();
-		stat.unlock_register();
+		stat.unlock_register(out);
 		out << "\tadd\t$t" << stat.get_register();
 		out << ",$t" << stat.get_register() << ",$t" << op2 << "\n";
 	}
 	else if (opstr == "-")
 	{
 		left->code_gen(stat, out);
-		if (stat.lock_register())
-		{
-			right->code_gen(stat, out);
-		}	
+		stat.lock_register(out);
+		right->code_gen(stat, out);
 		int op2 = stat.get_register();
-		stat.unlock_register();
+		stat.unlock_register(out);
 		out << "\tsub\t$t" << stat.get_register();
 		out << ",$t" << stat.get_register() << ",$t" << op2 << "\n";
 	}
 	else if (opstr == "=")
 	{
-		stat.lock_register();
+		if (!stat.get_jump_expr())
+			stat.lock_register(out);
 		right->code_gen(stat, out);
 		std::stringstream id;
 		int tmp;
 		left->print(tmp, id);
-		out << "\tsw\t$t" << stat.get_register() << "," << stat.variable_offset(id.str()) << "($fp)\n";
-		stat.unlock_register();
+		std::string location = stat.variable_location(id.str());
+		if (location[0] == '$') // if the location is a register
+			out << "\tmove\t" << location << ",$t" << stat.get_register() << "\n";
+		else // if the location is on the stack
+			out << "\tsw\t$t" << stat.get_register() << "," << location << "\n";
+		if (!stat.get_jump_expr())
+			stat.unlock_register(out);
 	}
 	
 
@@ -371,10 +412,12 @@ void n_jump_stat::code_gen(status& stat, std::ostream& out)
 {
 	if (left != NULL)
 	{
-		stat.lock_register();
+		stat.lock_register(out);
+		stat.set_jump_expr();
 		left->code_gen(stat, out);
 		out << "\tmove\t$v0,$t" << stat.get_register() << "\n";
-		stat.unlock_register();
+		stat.set_jump_expr();
+		stat.unlock_register(out);
 	}
 
 	return;

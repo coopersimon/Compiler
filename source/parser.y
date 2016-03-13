@@ -82,7 +82,7 @@ param_list	: param_decl { $$ = $1; }
 param_decl	: type_spec direct_decl { $$ = new n_param_decl($1, $2); }
 		   	;
 
-type_spec	: _INT { $$ = new v_str("int"); }
+type_spec	: _INT { $$ = new v_type("int"); }
 		  	;
 
 id_list		: _ID { $$ = new v_str($1); }
