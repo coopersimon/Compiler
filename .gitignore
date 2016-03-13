@@ -1,5 +1,6 @@
 bin/*
+test/*
 testdump/*
 tokeniser/*
 parser/*
-source/oldsrc/*
+testall.sh

@@ -63,8 +63,9 @@ ext_decl	: func_def { $$ = $1; }
 
 func_def	: type_spec direct_decl { $$ = new ast_node($1, $2); }
 		 	| direct_decl { $$ = $1; }
-			| decl_list comp_stat { $$ = new ast_node($1, $2); }
-			| comp_stat { $$ = $1; }
+			| decl_list comp_stat { ast_value* func = new n_func_def($2);
+						$$ = new ast_node($1, func); }
+			| comp_stat { $$ = new n_func_def($1); }
 		 	;
 
 direct_decl	: _ID { $$ = new v_str($1); }
@@ -155,10 +156,8 @@ iter_stat	: _WHILE _LPAR expr _RPAR statement { $$ = new n_while($3, $5); }
 																	  $$ = new ast_node($3, loop); }
 			;
 
-jump_stat	: _RETURN _SEMI { ast_value* rtn = new v_str("return");
-		  						$$ = new n_stat(rtn, NULL); }
-		  	| _RETURN expr _SEMI	{ ast_value* rtn = new v_str("return");
-									  $$ = new n_stat(rtn, $2); }
+jump_stat	: _RETURN _SEMI { $$ = new n_jump_stat(NULL, "return"); }
+		  	| _RETURN expr _SEMI	{ $$ = new n_jump_stat($2, "return"); }
 			;
 
 expr		: assign_exp { $$ = $1; }
