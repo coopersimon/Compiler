@@ -1,10 +1,11 @@
 #include "status.hpp"
 #include <sstream>
+#include <iostream>
 
-std::string status::label_gen(std::string in)
+std::string status::label_gen()
 {
 	std::stringstream ss;
-	ss << in << "_label_" << label_no;
+	ss << "label_" << label_no;
 	label_no++;
 	return ss.str();
 }
@@ -14,6 +15,7 @@ void status::add_function()
 	current_function++;
 	function_vars.push_back(function());
 	function_params.push_back(parameters());
+	variable_count.push_back(0);
 	return;
 }
 
@@ -25,21 +27,13 @@ void status::reset_current_function()
 
 void status::add_variable(std::string var_name)
 {
-	function_vars[current_function].add_variable(var_name);
+	function_vars[current_function].add_variable(var_name, scope);
 	return;
 }
 
 std::string status::variable_location(std::string var_name)
 {
-	int offset = function_vars[current_function].variable_offset(var_name);
-	if (offset != -1) // if var_name is a local variable
-	{
-		std::stringstream ss;
-		ss << offset << "($fp)";
-		return ss.str();
-	}
-	
-	offset = function_params[current_function].variable_offset(var_name);
+	int offset = function_params[current_function].variable_offset(var_name);
 	if (offset != -1) // if var_name is a parameter
 	{
 		if (offset < 4) // if parameter is in the arguments
@@ -56,20 +50,29 @@ std::string status::variable_location(std::string var_name)
 		}
 	}
 
+	offset = function_vars[current_function].variable_offset(var_name, scope); // look for variable
+	if (offset != -1) // if var_name is a local variable
+	{
+		offset -= 12; // subtract base stack area
+		std::stringstream ss;
+		ss << offset << "($fp)";
+		return ss.str();
+	}
+	
 	throw 404; // if not found
 	return "error";
 }
 
 int status::number_variables()
 {
+	//int count = variable_count[current_function]
 	current_function++;
-	int function_variables = function_vars[current_function].var_count();
-	return function_variables;
+	return variable_count[current_function];
 }
 
 void status::add_parameter(std::string param_name)
 {
-	function_params[current_function].add_variable(param_name);
+	function_params[current_function + 1].add_variable(param_name);
 	return;
 }
 
@@ -98,7 +101,6 @@ void status::lock_register(std::ostream& out)
 	}
 	return;
 }
-
 
 int status::get_register()
 {
@@ -170,6 +172,26 @@ void status::unlock_arg_registers(std::ostream& out)
 	return;
 }
 
+void status::count_variable()
+{
+	variable_count[current_function]++;
+	return;
+}
+
+void status::new_scope()
+{
+	scope++;
+	function_vars[current_function].add_scope();
+	return;
+}
+
+void status::delete_scope()
+{
+	scope--;
+	function_vars[current_function].remove_scope();
+	return;
+}
+
 void status::set_jump_expr()
 {
 	if (jump_expr)
@@ -184,24 +206,78 @@ bool status::get_jump_expr()
 	return jump_expr;
 }
 
-void function::add_variable(std::string var_name)
+function::function()
+{
+	scopes.push_back(scope_vars());
+	return;
+}
+
+void function::add_scope()
+{
+	scopes.push_back(scope_vars());
+	return;
+}
+
+void function::remove_scope()
+{
+	scopes.pop_back();
+	return;
+}
+
+void function::add_variable(std::string var_name, int scope)
+{
+	scopes[scope].add_variable(var_name);
+	return;
+}
+
+int function::variable_offset(std::string var_name, int scope)
+{
+	int offset_count;
+	// look in top scope first
+	for (int i = scope; i >= 0; i--)
+	{
+		offset_count = scopes[i].variable_offset(var_name);
+		if (offset_count != -1) // if the variable is found within scope.
+		{
+			// add all the previous scopes' counts on stack.
+			for (int j = 0; j < i; j++)
+				offset_count -= (scopes[j].var_count() * 4);
+			return offset_count;
+		}
+	}
+
+	return -1;
+}
+
+int function::var_count()
+{
+	int count = 0;
+	for (int i = 0; i < scopes.size(); i++)
+	{
+		count += scopes[i].var_count(); 
+	}
+	return count;
+}
+
+
+void scope_vars::add_variable(std::string var_name)
 {
 	variables.push_back(std::string(var_name));
 	return;
 }
 
-int function::variable_offset(std::string var_name)
+int scope_vars::variable_offset(std::string var_name)
 {
 	for (int i = 0; i < variables.size(); i++)
 	{
 		if (variables[i] == var_name)
-			return (-12 -(i*4));
+			return -(i*4);
 	}
 	
 	return -1;
 }
 
-int function::var_count()
+int scope_vars::var_count()
 {
 	return variables.size();
 }
@@ -218,6 +294,8 @@ int parameters::variable_offset(std::string var_name)
 	
 	return -1;
 }
+
+
 
 
 /*void status::dump_vars()

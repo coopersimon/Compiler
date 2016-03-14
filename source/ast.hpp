@@ -98,8 +98,7 @@ class n_param_decl : public ast_node
 	public:
 		n_param_decl(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
 		void print(int& scope, std::ostream& out);
-		void build_status(status& stat);
-		//void code_gen(status& stat, std::ostream& out);
+		void code_gen(status& stat, std::ostream& out);
 };
 
 class n_func_def : public ast_node // not to be confused with func_decl!
@@ -114,7 +113,7 @@ class n_comp_stat : public ast_node
 	public:
 		n_comp_stat(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
 		void print(int& scope, std::ostream& out);
-		//void code_gen(status& stat, std::ostream& out);
+		void code_gen(status& stat, std::ostream& out);
 };
 
 class n_stat : public ast_node
@@ -152,13 +151,32 @@ class n_ifelse : public ast_node
 		n_ifelse(ast_value* l_in, ast_value* r_in, ast_value* e_in) : ast_node(l_in, r_in), else_node(e_in) {}
 		~n_ifelse();
 		void print(int& scope, std::ostream& out);
-		//void code_gen(status& stat, std::ostream& out);
+		void code_gen(status& stat, std::ostream& out);
 };
 
 class n_while : public ast_node
 {
 	public:
 		n_while(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
+		void print(int& scope, std::ostream& out);
+		void code_gen(status& stat, std::ostream& out);
+};
+
+class n_dowhile : public ast_node
+{
+	public:
+		n_dowhile(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
+		void print(int& scope, std::ostream& out);
+		void code_gen(status& stat, std::ostream& out);
+};
+
+class n_for : public ast_node
+{
+	private:
+		ast_value* init;
+		ast_value* cond;
+	public:
+		n_for(ast_value* init_expr, ast_value* cond_expr, ast_value* loop_expr, ast_value* body) : ast_node(body, loop_expr), init(init_expr), cond(cond_expr) {}
 		void print(int& scope, std::ostream& out);
 		//void code_gen(status& stat, std::ostream& out);
 };

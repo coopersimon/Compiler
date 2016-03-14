@@ -131,29 +131,19 @@ select_stat	: _IF _LPAR expr _RPAR statement { $$ = new n_ifelse($3, $5, NULL); 
 			;
 
 iter_stat	: _WHILE _LPAR expr _RPAR statement { $$ = new n_while($3, $5); }
-		  	| _DO statement _WHILE _LPAR expr _RPAR _SEMI { $$ = new n_while($5, $2); }
-			/* for loop is built as a while loop with an expression before and after. */
-			/* not fully tested! but it scopes properly. */
+		  	| _DO statement _WHILE _LPAR expr _RPAR _SEMI { $$ = new n_dowhile($2, $5); }
 			| _FOR _LPAR _SEMI _SEMI _RPAR statement	{ ast_value* cond = new v_int(1);
-														  $$ = new n_while(cond, $6); }
+										$$ = new n_for(NULL, cond, NULL, $6); }
 			| _FOR _LPAR expr _SEMI _SEMI _RPAR statement	{ ast_value* cond = new v_int(1);
-															  ast_value* loop = new n_while(cond, $7);
-															  $$ = new ast_node($3, loop); }
-			| _FOR _LPAR _SEMI expr _SEMI _RPAR statement	{ $$ = new ast_node($4, $7); }
+										$$ = new n_for($3, cond, NULL, $7); }
+			| _FOR _LPAR _SEMI expr _SEMI _RPAR statement	{ $$ = new n_for(NULL, $4, NULL, $7); }
 			| _FOR _LPAR _SEMI _SEMI expr _RPAR statement	{ ast_value* cond = new v_int(1);
-															  ast_value* stat = new ast_node($7, $5);
-															  $$ = new n_while(cond, stat); }
-			| _FOR _LPAR expr _SEMI expr _SEMI _RPAR statement { ast_value* loop = new n_while($5, $8);
-																 $$ = new ast_node($3, loop); }
+										$$ = new n_for(NULL, cond, $5, $7); }
+			| _FOR _LPAR expr _SEMI expr _SEMI _RPAR statement { $$ = new n_for($3, $5, NULL, $8); }
 			| _FOR _LPAR expr _SEMI _SEMI expr _RPAR statement { ast_value* cond = new v_int(1);
-																 ast_value* stat = new ast_node($8, $6);
-																 ast_value* loop = new n_while(cond, stat);
-																 $$ = new ast_node($3, loop); }
-			| _FOR _LPAR _SEMI expr _SEMI expr _RPAR statement { ast_value* stat = new ast_node($8, $6);
-																 $$ = new n_while($4, stat); }
-			| _FOR _LPAR expr _SEMI expr _SEMI expr _RPAR statement { ast_value* stat = new ast_node($9, $7);
-																	  ast_value* loop = new n_while($5, stat);
-																	  $$ = new ast_node($3, loop); }
+										$$ = new n_for($3, cond, $6, $8); }
+			| _FOR _LPAR _SEMI expr _SEMI expr _RPAR statement { $$ = new n_for(NULL, $4, $6, $8); }
+			| _FOR _LPAR expr _SEMI expr _SEMI expr _RPAR statement { $$ = new n_for($3, $5, $7, $9); }
 			;
 
 jump_stat	: _RETURN _SEMI { $$ = new n_jump_stat(NULL, "return"); }

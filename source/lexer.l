@@ -22,6 +22,8 @@ CCHAR		'([^\n'\\]|{ESCCHAR})+'
 
 WHITESPACE	[ \t]
 
+COMMENT		\/\*(.|[\n])*\*\/
+
 SOURCE		#[ ]{DIGIT}+[ ]{STRING}([ ]1)?([ ]2)?([ ]3)?([ ]4)?
 
 %%
@@ -130,6 +132,8 @@ sizeof			return _SIZEOF;
 \t
 [ ]
 {SOURCE}		return _PREP;
+
+{COMMENT}
 
 %%
 
