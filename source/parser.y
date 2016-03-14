@@ -40,7 +40,7 @@ void yyerror(const char*);
 %type <node> statement expr_stat jump_stat select_stat iter_stat
 %type <node> lor_exp land_exp or_exp xor_exp and_exp
 %type <node> assign_exp equal_exp relate_exp shift_exp add_exp mult_exp
-%type <node> param_list decl_list stat_list
+%type <node> param_list decl_list stat_list arg_exp_list
 %type <node> direct_decl
 %type <node> param_decl
 %type <node> comp_stat
@@ -224,12 +224,18 @@ unary_exp	: post_exp { $$ = $1; }
 post_exp	: prim_exp { $$ = $1; }
 		 	| post_exp _INC { $$ = new n_expression($1, NULL, "++"); }
 			| post_exp _DEC { $$ = new n_expression($1, NULL, "--"); }
+			| post_exp _LPAR arg_exp_list _RPAR { $$ = new n_func_call($1, $3); }
+			| post_exp _LPAR _RPAR { $$ = new n_func_call($1, NULL); }
 			;
 
 prim_exp	: _ID { $$ = new v_str($1); }
 		 	| _CNUM { $$ = new v_int($1); }
 			| _LPAR expr _RPAR { $$ = $2; }
 			;
+
+arg_exp_list	: assign_exp { $$ = new n_arg_list(NULL, $1); }
+		| arg_exp_list _COMMA assign_exp { $$ = new n_arg_list($1, $3); }
+		;
 
 assign_op	: _ASSIGN { $$ = "="; }
 	  		| _ADDA { $$ = "+="; }

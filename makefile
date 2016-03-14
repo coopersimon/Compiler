@@ -1,9 +1,9 @@
 CC=g++ -g
 
-all : bin/compiler
+all : bin/c_codegen
 
-bin/compiler : source/parser.tab.cpp source/lexer.yy.cpp source/ast.cpp source/parser.tab.hpp source/ast.hpp source/status.hpp source/status.cpp source/compiler.cpp
-	$(CC) source/parser.tab.cpp source/lexer.yy.cpp source/ast.cpp source/status.cpp source/compiler.cpp -o bin/compiler
+bin/c_codegen : source/parser.tab.cpp source/lexer.yy.cpp source/ast.cpp source/parser.tab.hpp source/ast.hpp source/status.hpp source/status.cpp source/compiler.cpp
+	$(CC) source/parser.tab.cpp source/lexer.yy.cpp source/ast.cpp source/status.cpp source/compiler.cpp -o bin/c_codegen
 
 source/parser.tab.cpp source/parser.tab.hpp : source/parser.y source/ast.hpp
 	bison -d source/parser.y -o source/parser.tab.cpp
@@ -15,4 +15,4 @@ clean :
 	rm source/parser.tab.hpp
 	rm source/parser.tab.cpp
 	rm source/lexer.yy.cpp
-	rm bin/compiler
+	rm bin/c_codegen

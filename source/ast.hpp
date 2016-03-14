@@ -173,4 +173,19 @@ class n_jump_stat : public ast_node
 		void code_gen(status& stat, std::ostream& out);
 };
 
+class n_func_call : public ast_node
+{
+	public:
+		n_func_call(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
+		void print(int& scope, std::ostream& out);
+		void code_gen(status& stat, std::ostream& out);
+};
+
+class n_arg_list : public n_list
+{
+	public:
+		n_arg_list(ast_value* l_in, ast_value* r_in) : n_list(l_in, r_in) {}
+		void code_gen(status& stat, std::ostream& out);
+};
+
 #endif

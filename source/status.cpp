@@ -51,7 +51,7 @@ std::string status::variable_location(std::string var_name)
 		else // if parameter is on the stack
 		{
 			std::stringstream ss;
-			ss << offset << "(fp)";
+			ss << (offset - 4) << "($fp)";
 			return ss.str();
 		}
 	}
@@ -121,6 +121,55 @@ void status::unlock_register(std::ostream& out)
 	return;
 }
 
+void status::push_arg_registers(std::ostream& out)
+{
+	int arg_regs = function_params[current_function].var_count();
+	if (arg_regs > 3)
+		arg_regs = 3;
+
+	out << "\taddiu\t$sp,$sp,-" << (arg_regs * 4) << "\n";
+	for (int i = 0; i < arg_regs; i++)
+	{
+		out << "\tsw\t$a" << i << "," << (i * 4) << "($sp)\n";
+	}
+	return;
+}
+
+void status::pop_arg_registers(std::ostream& out)
+{
+	int arg_regs = function_params[current_function].var_count();
+	if (arg_regs > 3)
+		arg_regs = 3;
+	
+	for (int i = 0; i < arg_regs; i++)
+	{
+		out << "\tlw\t$a" << i << "," << (i * 4) << "($sp)\n";
+	}
+	out << "\taddiu\t$sp,$sp," << (arg_regs * 4) << "\n";
+	return;
+}
+
+int status::lock_arg_register(std::ostream& out)
+{
+	int reg_val = no_args;
+	no_args++;
+	if (reg_val > 3)
+	{
+		out << "\taddiu\t$sp,$sp,-4\n";
+	}
+	return reg_val;
+}
+
+void status::unlock_arg_registers(std::ostream& out)
+{
+	if (no_args > 4)
+	{
+		out << "\taddiu\t$sp,$sp," << ((no_args - 4) * 4) << "\n";
+	}
+	no_args = 0;
+	return;
+}
+
 void status::set_jump_expr()
 {
 	if (jump_expr)
@@ -164,7 +213,7 @@ int parameters::variable_offset(std::string var_name)
 		if (variables[i] == var_name && i < 4)
 			return i;
 		if (variables[i] == var_name && i >= 4)
-			return (i - 4) * 4;
+			return (variables.size() - i) * 4;
 	}
 	
 	return -1;

@@ -180,6 +180,17 @@ void n_jump_stat::print(int& scope, std::ostream& out)
 	return;
 }
 
+void n_func_call::print(int& scope, std::ostream& out)
+{
+	if (left != NULL)
+		left->print(scope, out);
+	out << "(";
+	if (right != NULL)
+		right->print(scope, out);
+	out << ")";
+	return;
+}
+
 // pre-code gen functions
 // pre code gen is for checking and counting variables
 
@@ -387,6 +398,36 @@ void n_expression::code_gen(status& stat, std::ostream& out)
 		out << "\tsub\t$t" << stat.get_register();
 		out << ",$t" << stat.get_register() << ",$t" << op2 << "\n";
 	}
+	else if (opstr == "*")
+	{
+		left->code_gen(stat, out);
+		stat.lock_register(out);
+		right->code_gen(stat, out);
+		int op2 = stat.get_register();
+		stat.unlock_register(out);
+		out << "\tmult\t$t" << stat.get_register() << ",$t" << op2 << "\n";
+		out << "\tmflo\t$t" << stat.get_register() << "\n";
+	}
+	else if (opstr == "/")
+	{
+		left->code_gen(stat, out);
+		stat.lock_register(out);
+		right->code_gen(stat, out);
+		int op2 = stat.get_register();
+		stat.unlock_register(out);
+		out << "\tdiv\t$t" << stat.get_register() << ",$t" << op2 << "\n";
+		out << "\tmflo\t$t" << stat.get_register() << "\n";
+	}
+	else if (opstr == "%")
+	{
+		left->code_gen(stat, out);
+		stat.lock_register(out);
+		right->code_gen(stat, out);
+		int op2 = stat.get_register();
+		stat.unlock_register(out);
+		out << "\tdiv\t$t" << stat.get_register() << ",$t" << op2 << "\n";
+		out << "\tmfhi\t$t" << stat.get_register() << "\n";
+	}
 	else if (opstr == "=")
 	{
 		if (!stat.get_jump_expr())
@@ -422,4 +463,50 @@ void n_jump_stat::code_gen(status& stat, std::ostream& out)
 
 	return;
 }
+
+void n_func_call::code_gen(status& stat, std::ostream& out)
+{
+	// first, save the current return address in preallocated space.
+	out << "\tsw\t$ra,-8($fp)\n";
+	// next, push argument registers in use on the stack.
+	stat.push_arg_registers(out);
+	// next, load arguments into registers/stack.
+	right->code_gen(stat, out);
+	// next, call the function
+	std::stringstream id;
+	int tmp;
+	left->print(tmp, id);
+	out << "\tjal\t" << id.str() << "\n";
+	out << "\tnop\n";
+	// store return value in preallocated register: 
+	/***ASSUMING INT RETURN!!!!****/
+	if (stat.get_register() >= 0)
+		out << "\tmove\t$t" << stat.get_register() << ",$v0\n";
+	// next, pop arguments 4+ off the stack.
+	stat.unlock_arg_registers(out);
+	// next, pop argument registers back off the stack.
+	stat.pop_arg_registers(out);
+	// finally, reload return address.
+	out << "\tlw\t$ra,-8($fp)\n";
+	return;
+}
+
+void n_arg_list::code_gen(status& stat, std::ostream& out)
+{
+	if (left != NULL)
+		left->code_gen(stat, out);
+
+	stat.lock_register(out);
+	right->code_gen(stat, out);
+	int arg_reg = stat.lock_arg_register(out);
+	if (arg_reg < 4)
+		out << "\tmove\t$a" << arg_reg << ",$t" << stat.get_register() << "\n";
+	else
+		out << "\tsw\t$t" << stat.get_register() << ",($sp)\n";
+	stat.unlock_register(out);
+	return;
+}
+
+
+
 
