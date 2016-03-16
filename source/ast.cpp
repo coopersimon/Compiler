@@ -176,7 +176,11 @@ void n_dowhile::print(int& scope, std::ostream& out)
 	out << "do\n";
 	if (left != NULL)
 		left->print(scope, out);
-	
+	out << "while (";
+	if (right != NULL)
+		right->print(scope, out);
+	out << ")\n";
+	return;
 }
 
 void n_for::print(int& scope, std::ostream& out)
@@ -371,7 +375,7 @@ void n_func_def::code_gen(status& stat, std::ostream& out)
 	out << "\tj\t" << "$ra\n"; // return
 	out << "\tnop\n";
 
-	out << "\t.end\t" << stat.get_function_name() << "\n";
+	out << "\t.end\t" << stat.get_function_name() << "\n\n";
 
 	return;
 }
@@ -404,7 +408,11 @@ void n_init_decl::code_gen(status& stat, std::ostream& out)
 		std::stringstream id;
 		int tmp;
 		left->print(tmp, id);
-		out << "\tsw\t$t" << stat.get_register() << "," << stat.variable_location(id.str());
+		std::string location = stat.variable_location(id.str());
+		if (location[0] == '$') // if the location is a register
+			out << "\tmove\t" << location << ",$t" << stat.get_register();
+		else // if the location is on the stack
+			out << "\tsw\t$t" << stat.get_register() << "," << location;
 		out << "\t# " << id.str() << "\n";
 		stat.unlock_register(out);
 	}
@@ -482,10 +490,30 @@ void n_dowhile::code_gen(status& stat, std::ostream& out)
 	return;
 }
 
-
-
-
-
+void n_for::code_gen(status& stat, std::ostream& out)
+{
+	if (init != NULL) // initialising expression
+		init->code_gen(stat, out);
+	// start of loop: this is a lot like a while loop.
+	std::string loop_label = stat.label_gen();
+	out << loop_label << ":\n";
+	stat.lock_register(out);
+	// check expression
+	cond->code_gen(stat, out);
+	std::string exit_label = stat.label_gen();
+	// exit loop if expression equals zero
+	out << "\tbeqz\t$t" << stat.get_register() << "," << exit_label << "\n";
+	out << "\tnop\n";
+	stat.unlock_register(out);
+	// loop statement
+	left->code_gen(stat, out);
+	if (right != NULL) // loop expression (something like i++)
+		right->code_gen(stat, out);
+	out << "\tb\t" << loop_label << "\n";
+	out << "\tnop\n";
+	out << exit_label << ":\n";
+	return;
+}
 
 void n_expression::code_gen(status& stat, std::ostream& out)
 {
@@ -503,7 +531,7 @@ void n_expression::code_gen(status& stat, std::ostream& out)
 	else if (opstr == "-")
 	{
 		left->code_gen(stat, out);
-		stat.lock_register(out);
+			stat.lock_register(out);
 		right->code_gen(stat, out);
 		int op2 = stat.get_register();
 		stat.unlock_register(out);
@@ -570,6 +598,26 @@ void n_expression::code_gen(status& stat, std::ostream& out)
 		out << "\txor\t$t" << stat.get_register();
 		out << ",$t" << stat.get_register() << ",$t" << op2 << "\n";
 	}
+	else if (opstr == "<<")
+	{
+		left->code_gen(stat, out);
+		stat.lock_register(out);
+		right->code_gen(stat, out);
+		int op2 = stat.get_register();
+		stat.unlock_register(out);
+		out << "\tsllv\t$t" << stat.get_register();
+		out << ",$t" << stat.get_register() << ",$t" << op2 << "\n";
+	}	
+	else if (opstr == ">>")
+	{
+		left->code_gen(stat, out);
+		stat.lock_register(out);
+		right->code_gen(stat, out);
+		int op2 = stat.get_register();
+		stat.unlock_register(out);
+		out << "\tsrav\t$t" << stat.get_register();
+		out << ",$t" << stat.get_register() << ",$t" << op2 << "\n";
+	}
 	else if (opstr == "==")
 	{
 		left->code_gen(stat, out);
@@ -624,40 +672,90 @@ void n_expression::code_gen(status& stat, std::ostream& out)
 		stat.unlock_register(out);
 		out << "\tsge\t$t" << stat.get_register() << ",$t" << stat.get_register() << ",$t" << op2 << "\n";
 	}
-	/*else if (opstr == "++")
+	else if (opstr == "++")
 	{
-		int op;
-		if (left != NULL)
-		{
-			op = stat.get_register();
-			left->code_gen(stat, out);
-		}
-		if (right != NULL)
-		{
+		int lock_needed = stat.get_register();
+		if (lock_needed == -1)
 			stat.lock_register(out);
-			right->code_gen(stat, out);
-			op = stat.get_register();
+		if (left != NULL) // postfix
+		{
+			left->code_gen(stat, out);
+			int op1 = stat.get_register();
+			stat.lock_register(out);
+			out << "\tadd\t$t" << stat.get_register() << ",$t" << op1 << ",1\n";
+			std::stringstream id;
+			int tmp;
+			left->print(tmp, id);
+			std::string location = stat.variable_location(id.str());
+			if (location[0] == '$') // if the location is a register
+				out << "\tmove\t" << location << ",$t" << stat.get_register() << "\n";
+			else // if the location is on the stack
+				out << "\tsw\t$t" << stat.get_register() << "," << location << "\n";
 			stat.unlock_register(out);
 		}
-		out << "\taddiu\t$t" << op << ",$t" << op << ",1\n";
+		else if (right != NULL) // prefix
+		{
+			right->code_gen(stat, out);
+			out << "\tadd\t$t" << stat.get_register() << ",$t" << stat.get_register() << ",1\n";
+			std::stringstream id;
+			int tmp;
+			right->print(tmp, id);
+			std::string location = stat.variable_location(id.str());
+			if (location[0] == '$') // if the location is a register
+				out << "\tmove\t" << location << ",$t" << stat.get_register() << "\n";
+			else // if the location is on the stack
+				out << "\tsw\t$t" << stat.get_register() << "," << location << "\n";
+		}
+		if (lock_needed == -1)
+			stat.unlock_register(out);
 	}
 	else if (opstr == "--")
 	{
-		int op;
-		if (left != NULL)
-		{
-			op = stat.get_register();
-			left->code_gen(stat, out);
-		}
-		if (right != NULL)
-		{
+		int lock_needed = stat.get_register();
+		if (lock_needed == -1)
 			stat.lock_register(out);
-			right->code_gen(stat, out);
-			op = stat.get_register();
+		if (left != NULL) // postfix
+		{
+			left->code_gen(stat, out);
+			int op1 = stat.get_register();
+			stat.lock_register(out);
+			out << "\tsub\t$t" << stat.get_register() << ",$t" << op1 << ",1\n";
+			std::stringstream id;
+			int tmp;
+			left->print(tmp, id);
+			std::string location = stat.variable_location(id.str());
+			if (location[0] == '$') // if the location is a register
+				out << "\tmove\t" << location << ",$t" << stat.get_register() << "\n";
+			else // if the location is on the stack
+				out << "\tsw\t$t" << stat.get_register() << "," << location << "\n";
 			stat.unlock_register(out);
 		}
-		out << "\taddiu\t$t" << op << ",$t" << op << ",-1\n";
-	}*/
+		else if (right != NULL) // prefix
+		{
+			right->code_gen(stat, out);
+			out << "\tsub\t$t" << stat.get_register() << ",$t" << stat.get_register() << ",1\n";
+				std::stringstream id;
+			int tmp;
+			right->print(tmp, id);
+			std::string location = stat.variable_location(id.str());
+			if (location[0] == '$') // if the location is a register
+				out << "\tmove\t" << location << ",$t" << stat.get_register() << "\n";
+			else // if the location is on the stack
+				out << "\tsw\t$t" << stat.get_register() << "," << location << "\n";
+		}
+		if (lock_needed == -1)
+			stat.unlock_register(out);
+	}
+	else if (opstr == "!")
+	{
+		left->code_gen(stat, out);
+		out << "\tseq\t$" << stat.get_register() << ",$zero,$t" << stat.get_register();
+	}
+	else if (opstr == "~")
+	{
+		left->code_gen(stat, out);
+		out << "\tnot\t$" << stat.get_register() << ",$t" << stat.get_register() << "\n";
+	}
 	else if (opstr == "=")
 	{
 		if (!stat.get_jump_expr())
@@ -708,8 +806,10 @@ void n_func_call::code_gen(status& stat, std::ostream& out)
 	std::stringstream id;
 	int tmp;
 	left->print(tmp, id);
+	out << "\t.option pic0\n"; // pic = position independent code
 	out << "\tjal\t" << id.str() << "\n";
 	out << "\tnop\n";
+	out << "\t.option pic2\n"; // would I be honest if I said I knew what these meant? no.
 	// store return value in preallocated register: 
 	/***ASSUMING INT RETURN!!!!****/
 	if (stat.get_register() >= 0)

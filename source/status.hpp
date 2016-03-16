@@ -6,10 +6,10 @@
 #include <map>
 #include <ostream>
 
-class scope_vars
+class variables
 {
 	protected:
-		std::vector<std::string> variables;
+		std::vector<std::string> vars;
 	public:
 		void add_variable(std::string var_name);
 		int variable_offset(std::string var_name);
@@ -18,26 +18,12 @@ class scope_vars
 		//void dump_vars();
 };
 
-class parameters : public scope_vars
+class parameters : public variables
 {
 		// parameters are stored in the variables vector (inherited)
 	public:
 		int variable_offset(std::string var_name);
-};
-
-class function
-{
-	private:
-		std::vector<scope_vars> scopes; 
-	public:
-		function();
-
-		void add_scope();
-		void remove_scope();
-
-		void add_variable(std::string var_name, int scope);
-		int variable_offset(std::string var_name, int scope);
-		int var_count();
+		void clear();
 };
 
 class status
@@ -49,15 +35,14 @@ class status
 		// dealing with functions:
 		std::string function_name; // name of function: used in code_gen
 		int current_function; // internal tracker used to access function vector
-		std::vector<function> function_vars; // vector of function classes, each containing a vector of variables within each scope
+		std::vector<variables> scope_vars; // vector of variables, for each scope.
 		std::vector<int> variable_count; // counts the variables in a function.
 		
 		// dealing with parameters:
-		std::vector<parameters> function_params;
+		parameters function_params;
 		
 		// dealing with (temp) registers:
 		int reg_no;
-		int no_temps;
 		bool jump_expr; // if jump is setting equal to something, then a register doesnt need to be reserved. e.g. return x = x + y;
 
 		// dealing with function calls:
@@ -66,7 +51,7 @@ class status
 		// dealing with scope:
 		int scope;
 	public:
-		status() : label_no(0), current_function(0), reg_no(-1), no_temps(0), jump_expr(false), no_args(0), scope(0) { function_vars.push_back(function()); function_params.push_back(parameters()); variable_count.push_back(0); }
+		status() : label_no(0), current_function(0), reg_no(-1), jump_expr(false), no_args(0), scope(0) { scope_vars.push_back(variables()); variable_count.push_back(0); }
 
 		std::string label_gen();
 

@@ -178,7 +178,7 @@ class n_for : public ast_node
 	public:
 		n_for(ast_value* init_expr, ast_value* cond_expr, ast_value* loop_expr, ast_value* body) : ast_node(body, loop_expr), init(init_expr), cond(cond_expr) {}
 		void print(int& scope, std::ostream& out);
-		//void code_gen(status& stat, std::ostream& out);
+		void code_gen(status& stat, std::ostream& out);
 };
 
 class n_jump_stat : public ast_node

@@ -209,6 +209,8 @@ mult_exp	: unary_exp { $$ = $1; }
 unary_exp	: post_exp { $$ = $1; }
 		  	| _INC unary_exp { $$ = new n_expression(NULL, $2, "++"); }
 			| _DEC unary_exp { $$ = new n_expression(NULL, $2, "--"); }
+			| _COMP unary_exp { $$ = new n_expression($2, NULL, "!"); }
+			| _BITCOMP unary_exp { $$ = new n_expression($2, NULL, "~"); }
 			;
 
 post_exp	: prim_exp { $$ = $1; }
