@@ -43,15 +43,21 @@ class status
 		
 		// dealing with (temp) registers:
 		int reg_no;
-		bool jump_expr; // if jump is setting equal to something, then a register doesnt need to be reserved. e.g. return x = x + y;
+		bool assign_expr; // if jump is setting equal to something, then a register doesnt need to be reserved. e.g. return x = x + y;
+
+		// dealing with returning
+		std::vector<int> return_count; // number of return expressions in a function
 
 		// dealing with function calls:
 		int no_args;
 
 		// dealing with scope:
 		int scope;
+
+		// dealing with text/data - start = 0, text = 1, data = 2 (more to be added later? maybe)
+		int text_data;
 	public:
-		status() : label_no(0), current_function(0), reg_no(-1), jump_expr(false), no_args(0), scope(0) { scope_vars.push_back(variables()); variable_count.push_back(0); }
+		status() : label_no(0), current_function(0), reg_no(-1), assign_expr(false), no_args(0), scope(0), text_data(0) { scope_vars.push_back(variables()); variable_count.push_back(0); return_count.push_back(0); }
 
 		std::string label_gen();
 
@@ -63,6 +69,7 @@ class status
 		int number_variables(); // get the number of variables in the current function.
 
 		void add_parameter(std::string param_name); // add a parameter to the current function
+		void remove_parameters(); // removes all parameters
 
 		void name_function(std::string name);
 		std::string get_function_name();
@@ -70,6 +77,9 @@ class status
 		void lock_register(std::ostream& out); // locks a register.
 		int get_register(); // gets the value of the last locked register.
 		void unlock_register(std::ostream& out); // unlocks the last locked register.
+
+		void add_return(); // add a return statement to the current function.
+		int number_returns();
 
 		void push_arg_registers(std::ostream& out); // pushes all argument registers in use on the stack
 		void pop_arg_registers(std::ostream& out); // pops all argument registers in use off the stack
@@ -80,10 +90,12 @@ class status
 
 		void new_scope();
 		void delete_scope();
+		bool global_var();
 
-		void set_jump_expr(); //sorry about these....
-		bool get_jump_expr();
+		void set_assign_expr(); //sorry about these....
+		bool get_assign_expr();
 
+		void change_text_data(std::string in, std::ostream& out); // print change to text or data (if needed)
 		//void dump_vars();
 };
 

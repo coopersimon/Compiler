@@ -2,17 +2,17 @@ CC=g++ -g
 
 all : bin/c_codegen
 
-bin/c_codegen : source/parser.tab.cpp source/lexer.yy.cpp source/ast.cpp source/parser.tab.hpp source/ast.hpp source/status.hpp source/status.cpp source/compiler.cpp
-	$(CC) source/parser.tab.cpp source/lexer.yy.cpp source/ast.cpp source/status.cpp source/compiler.cpp -o bin/c_codegen
+bin/c_codegen : src/parser.tab.cpp src/lexer.yy.cpp src/ast.cpp src/parser.tab.hpp src/ast.hpp src/status.hpp src/status.cpp src/compiler.cpp
+	$(CC) src/parser.tab.cpp src/lexer.yy.cpp src/ast.cpp src/status.cpp src/compiler.cpp -o bin/c_codegen
 
-source/parser.tab.cpp source/parser.tab.hpp : source/parser.y source/ast.hpp
-	bison -d source/parser.y -o source/parser.tab.cpp
+src/parser.tab.cpp src/parser.tab.hpp : src/parser.y src/ast.hpp
+	bison -d src/parser.y -o src/parser.tab.cpp
 
-source/lexer.yy.cpp : source/lexer.l source/ast.hpp source/parser.tab.hpp
-	flex -o source/lexer.yy.cpp source/lexer.l
+src/lexer.yy.cpp : src/lexer.l src/ast.hpp src/parser.tab.hpp
+	flex -o src/lexer.yy.cpp src/lexer.l
 
 clean :
-	rm source/parser.tab.hpp
-	rm source/parser.tab.cpp
-	rm source/lexer.yy.cpp
+	rm src/parser.tab.hpp
+	rm src/parser.tab.cpp
+	rm src/lexer.yy.cpp
 	rm bin/c_codegen

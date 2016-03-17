@@ -1,7 +1,4 @@
-bin/*
+bin/c_codegen
 test/*
-testold/*
 testdump/*
-tokeniser/*
-parser/*
 testall.sh

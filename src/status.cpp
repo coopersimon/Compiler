@@ -13,8 +13,8 @@ std::string status::label_gen()
 void status::add_function()
 {
 	current_function++;
-	function_params.clear();
 	variable_count.push_back(0);
+	return_count.push_back(0);
 	return;
 }
 
@@ -42,6 +42,12 @@ void status::add_parameter(std::string param_name)
 	return;
 }
 
+void status::remove_parameters()
+{
+	function_params.clear();
+	return;
+}
+
 std::string status::variable_location(std::string var_name)
 {
 	int offset = function_params.variable_offset(var_name);
@@ -65,8 +71,10 @@ std::string status::variable_location(std::string var_name)
 	for (; i >= 0; i--) // look in each scope for variable
 	{
 		offset = scope_vars[i].variable_offset(var_name);
-		if (offset != -1) // if var_name is a local variable
+		if (offset != -1) // if var_name is a local/global variable
 		{
+			if (i == 0) // if var_name is global
+				return var_name;
 			for (int j = 1; j < i; j++) // get scope offset
 				offset -= (scope_vars[j].var_count() * 4);
 			offset -= 12; // subtract base stack area
@@ -76,8 +84,7 @@ std::string status::variable_location(std::string var_name)
 		}
 	}
 
-	// if scope == 0: get from .data
-		throw 404; // if not found
+	throw 404; // if not found
 	return "error";
 }
 
@@ -119,6 +126,17 @@ void status::unlock_register(std::ostream& out)
 
 	reg_no--;
 	return;
+}
+
+void status::add_return()
+{
+	return_count[current_function]++;
+	return;
+}
+
+int status::number_returns()
+{
+	return return_count[current_function];
 }
 
 void status::push_arg_registers(std::ostream& out)
@@ -193,19 +211,42 @@ void status::delete_scope()
 	return;
 }
 
-void status::set_jump_expr()
+bool status::global_var()
 {
-	if (jump_expr)
-		jump_expr = false;
+	if (scope == 0)
+		return true;
 	else
-		jump_expr = true;
+		return false;
+}
+
+void status::set_assign_expr()
+{
+	if (assign_expr)
+		assign_expr = false;
+	else
+		assign_expr = true;
 	return;
 }
 
-
-bool status::get_jump_expr()
+bool status::get_assign_expr()
 {
-	return jump_expr;
+	return assign_expr;
+}
+
+void status::change_text_data(std::string in, std::ostream& out)
+{
+	if (in == "text")
+	{
+		if (text_data != 1)
+			out << "\t.text\n";
+	}
+	else if (in == "data")
+	{
+		if (text_data != 2)
+			out << "\t.data\n";
+	}
+
+	return;
 }
 
 void variables::add_variable(std::string var_name)
