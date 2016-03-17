@@ -154,14 +154,14 @@ expr		: assign_exp { $$ = $1; }
 	  		| expr _COMMA assign_exp { $$ = new n_list($1, $3); }
 			;
 
-assign_exp	: lor_exp { $$ = $1; }
+assign_exp	: cond_exp { $$ = $1; }
 		   	| unary_exp _ASSIGN assign_exp { $$ = new n_expression($1, $3, "="); }
 			| unary_exp assign_op assign_exp { ast_value* result = new n_expression($1, $3, $2);
 							$$ = new n_expression($1, result, "="); }
 			;
 
 cond_exp	: lor_exp { $$ = $1; }
-			| lor_exp _COND expr _CASE cond_exp
+			| lor_exp _COND expr _CASE cond_exp { $$ = new n_ternary($1, $3, $5); }
 			;
 
 lor_exp		: land_exp { $$ = $1; }
@@ -217,10 +217,8 @@ unary_exp	: post_exp { $$ = $1; }
 			| _DEC unary_exp { $$ = new n_expression(NULL, $2, "--"); }
 			| _COMP unary_exp { $$ = new n_expression($2, NULL, "!"); }
 			| _BITCOMP unary_exp { $$ = new n_expression($2, NULL, "~"); }
-			| _ADD unary_exp { ast_value* zero = new v_int(0);
-						$$ = new n_expression(zero, $2, "+"); }
-			| _SUB unary_exp { ast_value* zero = new v_int(0);
-						$$ = new n_expression(zero, $2, "-"); }
+			| _ADD unary_exp { $$ = new n_expression(NULL, $2, "+"); }
+			| _SUB unary_exp { $$ = new n_expression(NULL, $2, "-"); }
 			;
 
 post_exp	: prim_exp { $$ = $1; }

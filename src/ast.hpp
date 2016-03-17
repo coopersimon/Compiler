@@ -143,6 +143,17 @@ class n_expression : public ast_node
 		void code_gen(status& stat, std::ostream& out);
 };
 
+class n_ternary : public ast_node
+{
+	private:
+		ast_value* cond;
+	public:
+		n_ternary(ast_value* cond_in, ast_value* true_in, ast_value* false_in) : ast_node(true_in, false_in), cond(cond_in) {}
+		~n_ternary();
+		void print(int& scope, std::ostream& out);
+		void code_gen(status& stat, std::ostream& out);
+};
+
 class n_ifelse : public ast_node
 {
 	private:

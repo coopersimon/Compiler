@@ -1,4 +1,4 @@
-CC=g++ -g
+CC=g++
 
 all : bin/c_codegen
 
