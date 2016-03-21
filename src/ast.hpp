@@ -43,21 +43,21 @@ class v_int : public ast_value
 		void code_gen(status& stat, std::ostream& out);
 };
 
-class v_str : public ast_value
+class v_id : public ast_value
 {
 	private:
 		std::string value;
 	public:
-		v_str(std::string in) : value(std::string(in)) {}
+		v_id(std::string in) : value(std::string(in)) {}
 		void print(int& scope, std::ostream& out);
 		void build_status(status& stat);
 		void code_gen(status& stat, std::ostream& out);
 };
 
-class v_type : public v_str // cheap hack to avoid printing "int" as a variable
+class v_type : public v_id // cheap hack to avoid printing "int" as a variable
 {
 	public:
-		v_type(std::string in) : v_str(in) {}
+		v_type(std::string in) : v_id(in) {}
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -165,6 +165,22 @@ class n_ifelse : public ast_node
 		void code_gen(status& stat, std::ostream& out);
 };
 
+class n_switch : public ast_node
+{
+	public:
+		n_switch(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
+		void print(int& scope, std::ostream& out);
+		void code_gen(status& stat, std::ostream& out);
+};
+
+class n_case : public ast_node
+{
+	public:
+		n_case(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
+		void print(int& scope, std::ostream& out);
+		void code_gen(status& stat, std::ostream& out);
+};
+
 class n_while : public ast_node
 {
 	public:
@@ -204,6 +220,16 @@ class n_jump_stat : public ast_node
 		void code_gen(status& stat, std::ostream& out);
 };
 
+class n_label : public ast_node
+{
+	private:
+		std::string label;
+	public:
+		n_label(std::string label_in, ast_value* stat_in) : ast_node(stat_in, NULL), label(std::string(label_in)) {}
+		void print(int& scope, std::ostream& out);
+		void code_gen(status& stat, std::ostream& out);
+};
+
 class n_func_call : public ast_node
 {
 	public:
@@ -217,6 +243,13 @@ class n_arg_list : public n_list
 	public:
 		n_arg_list(ast_value* l_in, ast_value* r_in) : n_list(l_in, r_in) {}
 		void code_gen(status& stat, std::ostream& out);
+};
+
+class n_pointer : public ast_node
+{
+	public:
+		n_pointer(ast_value* l_in) : ast_node(l_in, NULL) {}
+		void print(int& scope, std::ostream& out);
 };
 
 #endif

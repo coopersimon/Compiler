@@ -29,7 +29,7 @@ SOURCE		#[ ]{DIGIT}+[ ]{STRING}([ ]1)?([ ]2)?([ ]3)?([ ]4)?
 %%
 auto			return _AUTO;
 break			return _BREAK;
-case			return _CAS;
+case			return _CASE;
 char			return _CHAR;
 const			return _CONST;
 continue		return _CONTINUE;
@@ -103,7 +103,7 @@ sizeof			return _SIZEOF;
 --				return _DEC;
 
 ,				return _COMMA;
-:				return _CASE;
+:				return _COLON;
 \?				return _COND;
 ;				return _SEMI;
 \.\.\.			return _ELLIPSIS;
@@ -131,9 +131,8 @@ sizeof			return _SIZEOF;
 \n
 \t
 [ ]
+{COMMENT}	
 {SOURCE}		return _PREP;
-
-{COMMENT}
 
 %%
 

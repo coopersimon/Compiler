@@ -67,9 +67,9 @@ std::string status::variable_location(std::string var_name)
 		}
 	}
 
-	int i = scope;
-	for (; i >= 0; i--) // look in each scope for variable
+	for (int i = scope; i >= 0; i--) // look in each scope for variable
 	{
+		
 		offset = scope_vars[i].variable_offset(var_name);
 		if (offset != -1) // if var_name is a local/global variable
 		{
@@ -79,7 +79,9 @@ std::string status::variable_location(std::string var_name)
 				offset -= (scope_vars[j].var_count() * 4);
 			offset -= 12; // subtract base stack area
 			std::stringstream ss;
-			ss << offset << "($fp)";
+			ss << offset;
+			if (!pointer)
+				ss << "($fp)";
 			return ss.str();
 		}
 	}
@@ -97,6 +99,55 @@ void status::name_function(std::string in)
 std::string status::get_function_name()
 {
 	return function_name;
+}
+
+void status::set_decl(bool param)
+{
+	declaration = !declaration;
+	param_decl = param;
+	pointer = false;
+	return;
+}
+
+bool status::get_decl(bool& param)
+{
+	param = param_decl;
+	return (declaration && !pointer);
+}
+
+void status::set_assign_var()
+{
+	assign = !assign;
+	return;
+}
+
+bool status::get_assign_var()
+{
+	return assign;
+}
+
+void status::set_reference()
+{
+	pointer = !pointer;
+	declaration = false;
+	return;
+}
+
+bool status::get_reference()
+{
+	return (pointer && !declaration);
+}
+
+void status::set_dereference()
+{
+	pointer = !pointer;
+	declaration = !declaration;
+	return;
+}
+
+bool status::get_dereference()
+{
+	return (pointer && declaration);
 }
 
 void status::lock_register(std::ostream& out)
@@ -221,16 +272,45 @@ bool status::global_var()
 
 void status::set_assign_expr()
 {
-	if (assign_expr)
-		assign_expr = false;
-	else
-		assign_expr = true;
+	assign_expr = !assign_expr;
 	return;
 }
 
 bool status::get_assign_expr()
 {
 	return assign_expr;
+}
+
+void status::reset_labels(bool cont)
+{
+	if (cont)
+		continue_label.pop_back();
+	break_label.pop_back();
+	return;
+}
+
+void status::set_continue_label()
+{
+	std::string label = label_gen();
+	continue_label.push_back(label);
+	return;
+}
+
+std::string status::get_continue_label()
+{
+	return continue_label[continue_label.size() - 1];
+}
+
+void status::set_break_label()
+{
+	std::string label = label_gen();
+	break_label.push_back(label);
+	return;
+}
+
+std::string status::get_break_label()
+{
+	return break_label[break_label.size() - 1];
 }
 
 void status::change_text_data(std::string in, std::ostream& out)

@@ -41,12 +41,22 @@ class status
 		// dealing with parameters:
 		parameters function_params;
 		
+		// dealing with variables:
+		bool declaration;
+		bool param_decl;
+		bool assign;
+
+		// dealing with pointers:
+		bool pointer;
+
 		// dealing with (temp) registers:
 		int reg_no;
 		bool assign_expr; // if jump is setting equal to something, then a register doesnt need to be reserved. e.g. return x = x + y;
 
-		// dealing with returning
+		// dealing with jumps
 		std::vector<int> return_count; // number of return expressions in a function
+		std::vector<std::string> continue_label; // the labels in use for continues
+		std::vector<std::string> break_label; // the labels in use for breaks
 
 		// dealing with function calls:
 		int no_args;
@@ -57,7 +67,7 @@ class status
 		// dealing with text/data - start = 0, text = 1, data = 2 (more to be added later? maybe)
 		int text_data;
 	public:
-		status() : label_no(0), current_function(0), reg_no(-1), assign_expr(false), no_args(0), scope(0), text_data(0) { scope_vars.push_back(variables()); variable_count.push_back(0); return_count.push_back(0); }
+		status() : label_no(0), current_function(0), reg_no(-1), assign_expr(false), no_args(0), scope(0), text_data(0), declaration(false), assign(false), param_decl(false), pointer(false) { scope_vars.push_back(variables()); variable_count.push_back(0); return_count.push_back(0); }
 
 		std::string label_gen();
 
@@ -73,6 +83,16 @@ class status
 
 		void name_function(std::string name);
 		std::string get_function_name();
+
+		void set_decl(bool param); // for if a variable is being declared
+		bool get_decl(bool &param);
+		void set_assign_var(); // for if a variable is being assigned a value
+		bool get_assign_var();
+
+		void set_reference(); // for if a value is being referenced
+		bool get_reference();
+		void set_dereference(); // for if a value is being dereferenced
+		bool get_dereference();
 
 		void lock_register(std::ostream& out); // locks a register.
 		int get_register(); // gets the value of the last locked register.
@@ -94,6 +114,12 @@ class status
 
 		void set_assign_expr(); //sorry about these....
 		bool get_assign_expr();
+
+		void reset_labels(bool cont); // empties break (& optionally continue) labels
+		void set_continue_label(); // sets the label used for contiues within a loop
+		std::string get_continue_label(); // gets the continue label
+		void set_break_label();
+		std::string get_break_label();
 
 		void change_text_data(std::string in, std::ostream& out); // print change to text or data (if needed)
 		//void dump_vars();

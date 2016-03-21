@@ -1,4 +1,5 @@
-bin/c_codegen
+bin/*
 test/*
+test_simon/*
 testdump/*
-testall.sh
+*.sh
