@@ -1,6 +1,7 @@
 %define parse.error verbose
 %{
 #include "ast.hpp"
+#include "variables.hpp"
 #include <iostream>
 
 extern ast_value* c_ast;
@@ -73,7 +74,8 @@ declarator	: _MULT direct_decl { $$ = new n_pointer($2); }
 		;
 
 direct_decl	: _ID { $$ = new v_id($1); }
-		/*	| _LPAR direct_decl _RPAR { $$ = $2; }*/
+			| _LPAR declarator _RPAR { $$ = $2; }
+			| direct_decl _LBRAK _CNUM _RBRAK { $$ = new n_array($1, $3); }
 		   	| direct_decl _LPAR param_list _RPAR { $$ = new n_func_decl($1, $3); }
 			| direct_decl _LPAR id_list _RPAR { $$ = new n_func_decl($1, $3); }
 			| direct_decl _LPAR _RPAR { $$ = new n_func_decl($1, NULL); }
@@ -86,7 +88,7 @@ param_list	: param_decl { $$ = $1; }
 param_decl	: type_spec declarator { $$ = new n_param_decl($1, $2); }
 		   	;
 
-type_spec	: _INT { $$ = new v_type("int"); }
+type_spec	: _INT { $$ = new v_type(long_s); }
 		  	;
 
 id_list		: _ID { $$ = new v_id($1); }
@@ -245,6 +247,7 @@ unary_op	: _COMP { $$ = "!"; }
 		;
 
 post_exp	: prim_exp { $$ = $1; }
+			| post_exp _LBRAK expr _RBRAK { $$ = new n_expression($1, $3, "[]"); }
 		 	| post_exp _INC { $$ = new n_expression($1, NULL, "++"); }
 			| post_exp _DEC { $$ = new n_expression($1, NULL, "--"); }
 			| post_exp _LPAR arg_exp_list _RPAR { $$ = new n_func_call($1, $3); }

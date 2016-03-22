@@ -22,13 +22,17 @@ Assignment operators (not fully tested but mostly good)
 
 Switch, break and continue implemented (not at all tested)
 
-Pointers working! (slightly tested)
+Pointers working! (slightly tested) : now broken, need to take a look at pointer declaration & relation to type
+
+Arrays implemented but needs to be properly tested.
+
+Groundwork for types has been completed.
 
 Goto has been written but doesnt work due to label issues: some bison issue (very strange)
 
 TODO:
 
-Stress-test the above.
+Stress-test the above: everything needs to be properly properly tested.
 
 General optimisation:
 	
@@ -44,6 +48,6 @@ General optimisation:
 
 ... and probably more
 
-TYPES
+TYPES: proper implementation (could be hellish)
 
-STRUCTS
+STRUCTS : very low priority

@@ -54,10 +54,12 @@ class v_id : public ast_value
 		void code_gen(status& stat, std::ostream& out);
 };
 
-class v_type : public v_id // cheap hack to avoid printing "int" as a variable
+class v_type : public ast_value
 {
+	private:
+		type value;
 	public:
-		v_type(std::string in) : v_id(in) {}
+		v_type(type in) : value(in) {}
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -71,6 +73,25 @@ class ast_node : public ast_value
 		ast_node();
 		ast_node(ast_value* l_in, ast_value* r_in) : left(l_in), right(r_in) {}
 		~ast_node();
+		void print(int& scope, std::ostream& out);
+		void build_status(status& stat);
+		void code_gen(status& stat, std::ostream& out);
+};
+
+class n_pointer : public ast_node
+{
+	public:
+		n_pointer(ast_value* l_in) : ast_node(l_in, NULL) {}
+		void print(int& scope, std::ostream& out);
+		void code_gen(status& stat, std::ostream& out);
+};
+
+class n_array : public ast_node
+{
+	private:
+		int size;
+	public:
+		n_array(ast_value* l_in, int size_in) : ast_node(l_in, NULL), size(size_in) {}
 		void print(int& scope, std::ostream& out);
 		void build_status(status& stat);
 		void code_gen(status& stat, std::ostream& out);
@@ -243,13 +264,6 @@ class n_arg_list : public n_list
 	public:
 		n_arg_list(ast_value* l_in, ast_value* r_in) : n_list(l_in, r_in) {}
 		void code_gen(status& stat, std::ostream& out);
-};
-
-class n_pointer : public ast_node
-{
-	public:
-		n_pointer(ast_value* l_in) : ast_node(l_in, NULL) {}
-		void print(int& scope, std::ostream& out);
 };
 
 #endif

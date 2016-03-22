@@ -301,6 +301,17 @@ void n_pointer::print(int& scope, std::ostream& out)
 	return;
 }
 
+void n_array::print(int& scope, std::ostream& out)
+{
+	if (left != NULL)
+		left->print(scope, out);
+	out << "[";
+	if (right != NULL)
+		right->print(scope, out);
+	out << "]";
+	return;
+}
+
 // pre-code gen functions
 // pre code gen is for checking and counting variables
 
@@ -337,11 +348,20 @@ void n_init_decl::build_status(status& stat)
 {
 	if (left != NULL)
 	{
+		left->build_status(stat);
 		stat.count_variable();
 	}
 	if (right != NULL)
 		right->build_status(stat);
 
+	return;
+}
+
+void n_array::build_status(status& stat)
+{
+	if (left != NULL)
+		left->build_status(stat);
+	stat.set_var_size(size);
 	return;
 }
 
@@ -399,7 +419,7 @@ void v_id::code_gen(status& stat, std::ostream& out)
 			}
 		}
 	}
-	else if (stat.get_assign_var() && !stat.get_dereference()) // if the variable needs to be saved
+	else if (stat.get_assign_var() && !stat.get_dereference() && !stat.get_reference()) // if the variable needs to be saved
 	{
 		std::string location = stat.variable_location(value);
 		if (location[0] == '$') // if the location is a register
@@ -412,26 +432,14 @@ void v_id::code_gen(status& stat, std::ostream& out)
 		std::string location = stat.variable_location(value);
 		out << "\taddiu\t$t" << stat.get_register() << ",$fp," << location << "\n";
 	}
-	else if (stat.get_dereference()) // if deref'd variable
+	else if (stat.get_dereference()) // if deref'd variable : used for pointers
 	{
 		std::string location = stat.variable_location(value);
-		if (stat.get_assign_var())
-			stat.lock_register(out);
-		int op2 = stat.get_register();
 
 		if (location[0] == '$') // if the location is a register
 			out << "\tmove\t$t" << stat.get_register() << "," << location << "\n";
 		else // if the location is on the stack
 			out << "\tlw\t$t" << stat.get_register() << "," << location << "($fp)\n";
-
-		if (stat.get_assign_var()) // if variable needs to be saved
-		{
-			stat.unlock_register(out);
-			out << "\tsw\t";
-		}
-		else // if variable needs to be retrieved
-			out << "\tlw\t";
-		out << "$t" << stat.get_register() << ",($t" << op2 << ")\n";
 	}
 	else // if the variable needs to be retrieved
 	{
@@ -447,6 +455,7 @@ void v_id::code_gen(status& stat, std::ostream& out)
 
 void v_type::code_gen(status& stat, std::ostream& out)
 {
+	stat.set_type(value);
 	return;
 }
 
@@ -456,6 +465,26 @@ void ast_node::code_gen(status& stat, std::ostream& out)
 		left->code_gen(stat, out);
 	if (right != NULL)
 		right->code_gen(stat, out);
+	return;
+}
+
+void n_pointer::code_gen(status& stat, std::ostream& out)
+{
+	if (left != NULL)
+	{
+		stat.set_pointer();
+		left->code_gen(stat, out);
+	}
+	return;
+}
+
+void n_array::code_gen(status& stat, std::ostream& out)
+{
+	if (left != NULL)
+	{
+		stat.set_var_size(size);
+		left->code_gen(stat, out);
+	}
 	return;
 }
 
@@ -500,10 +529,7 @@ void n_func_def::code_gen(status& stat, std::ostream& out)
 	// function 0 is global, main will probably be function 1 (not really relevant here)
 	// we need 8 + (vars*4) space on the stack. All variables assigned 4 bytes for simplicity.
 
-	int stack_space = 8;
-	int variables = stat.number_variables();
-	variables += (variables & 1); // stack must be a multiple of 8
-	stack_space += (variables * 4);
+	int stack_space = 8 + stat.size_variables();
 
 	out << "\taddiu\t" << "$sp,$sp,-" << stack_space << "\n"; // stack grows down...
 	out << "\tsw\t" << "$fp," << (stack_space - 4) << "($sp)\n"; // store the old fp at the top of the stack
@@ -770,9 +796,21 @@ void n_expression::code_gen(status& stat, std::ostream& out)
 		}
 		else // if operation is dereferencing
 		{
+			if (stat.get_assign_var())
+				stat.lock_register(out);
+			int op2 = stat.get_register();
 			stat.set_dereference();
 			right->code_gen(stat, out);
 			stat.set_dereference();
+			if (stat.get_assign_var()) // if variable needs to be saved
+			{
+				stat.unlock_register(out);
+				out << "\tsw\t";
+			}
+			else // if variable needs to be retrieved
+				out << "\tlw\t";
+			out << "$t" << stat.get_register() << ",($t" << op2 << ")\n";
+
 		}
 	}
 	else if (opstr == "/")
@@ -954,6 +992,34 @@ void n_expression::code_gen(status& stat, std::ostream& out)
 			stat.set_assign_var();
 		}
 	}
+	else if (opstr == "[]")
+	{
+		if (stat.get_assign_var())
+			stat.lock_register(out);
+		// evaluate operation
+		right->code_gen(stat, out);
+		// shift the operation to get number of bytes for array offset
+		out << "\tsll\t$t" << stat.get_register() << ",$t" << stat.get_register() << ",2\n"; // 2 for ints
+		// get offset of first element
+		stat.lock_register(out);
+		int op2 = stat.get_register();
+		stat.set_reference();
+		left->code_gen(stat, out);
+		stat.set_reference();
+		stat.unlock_register(out);
+		// add on array offset
+		out << "\taddu\t$t" << stat.get_register() << ",$t" << stat.get_register() << ",$t" << op2 << "\n";
+		// store or load the variable
+		op2 = stat.get_register();
+		if (stat.get_assign_var()) // if variable needs to be saved
+		{
+			stat.unlock_register(out);
+			out << "\tsw\t";
+		}
+		else // if variable needs to be retrieved
+			out << "\tlw\t";
+		out << "$t" << stat.get_register() << ",($t" << op2 << ")\n";
+	}
 	else if (opstr == "!")
 	{
 		left->code_gen(stat, out);
@@ -966,7 +1032,6 @@ void n_expression::code_gen(status& stat, std::ostream& out)
 	}
 	else if (opstr == "=")
 	{
-		
 		right->code_gen(stat, out);
 		stat.set_assign_var();
 		left->code_gen(stat, out);

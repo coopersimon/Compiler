@@ -26,19 +26,41 @@ void status::reset_current_function()
 
 void status::add_variable(std::string var_name)
 {
-	scope_vars[scope].add_variable(var_name);
+	scope_vars[scope].add_variable(var_name, pointer_type(current_type, pointer), var_size);
+	var_size = 1;
+	pointer = false;
 	return;
 }
 
-int status::number_variables()
+void status::count_variable()
+{
+	variable_count[current_function] += (var_size * 4);
+	var_size = 1;
+	return;
+}
+
+int status::size_variables()
 {
 	current_function++;
 	return variable_count[current_function];
 }
 
+void status::set_type(type in_type)
+{
+	current_type = in_type;
+	return;
+}
+
+void status::set_var_size(int in)
+{
+	var_size = in;
+	return;
+}
+
 void status::add_parameter(std::string param_name)
 {
-	function_params.add_variable(param_name);
+	function_params.add_variable(param_name, pointer_type(current_type, pointer));
+	pointer = false;
 	return;
 }
 
@@ -124,6 +146,12 @@ void status::set_assign_var()
 bool status::get_assign_var()
 {
 	return assign;
+}
+
+void status::set_pointer()
+{
+	pointer = true;
+	return;
 }
 
 void status::set_reference()
@@ -242,16 +270,10 @@ void status::unlock_arg_registers(std::ostream& out)
 	return;
 }
 
-void status::count_variable()
-{
-	variable_count[current_function]++;
-	return;
-}
-
 void status::new_scope()
 {
 	scope++;
-	scope_vars.push_back(variables());
+	scope_vars.push_back(var_list());
 	return;
 }
 
@@ -328,69 +350,5 @@ void status::change_text_data(std::string in, std::ostream& out)
 
 	return;
 }
-
-void variables::add_variable(std::string var_name)
-{
-	vars.push_back(std::string(var_name));
-	return;
-}
-
-int variables::variable_offset(std::string var_name)
-{
-	for (int i = 0; i < vars.size(); i++)
-	{
-		if (vars[i] == var_name)
-			return -(i*4);
-	}
-	
-	return -1;
-}
-
-int variables::var_count()
-{
-	return vars.size();
-}
-
-int parameters::variable_offset(std::string var_name)
-{
-	for (int i = 0; i < vars.size(); i++)
-	{
-		if (vars[i] == var_name && i < 4)
-			return i;
-		if (vars[i] == var_name && i >= 4)
-			return (vars.size() - i) * 4;
-	}
-	
-	return -1;
-}
-
-void parameters::clear()
-{
-	vars.clear();
-	return;
-}
-
-
-/*void status::dump_vars()
-{
-	for (int i =0; i < function_vars.size(); i++)
-	{
-		std::cout << i << std::endl;
-		function_vars[i].dump_vars();
-	}
-	return;
-}
-
-void function::dump_vars()
-{
-	for (int i = 0; i < variables.size(); i++)
-	{
-		std::cout << variables[i] << std::endl;
-	}
-	return;
-}*/
-
-
-
 
 
