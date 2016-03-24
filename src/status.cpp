@@ -26,9 +26,11 @@ void status::reset_current_function()
 
 void status::add_variable(std::string var_name)
 {
-	scope_vars[scope].add_variable(var_name, pointer_type(current_type, pointer), var_size);
+	if (var_size == 0)
+		scope_vars[scope].add_variable(var_name, pointer_type(current_type), 1);
+	else
+		scope_vars[scope].add_variable(var_name, current_type, var_size);
 	var_size = 1;
-	pointer = false;
 	return;
 }
 
@@ -59,8 +61,14 @@ void status::set_var_size(int in)
 
 void status::add_parameter(std::string param_name)
 {
-	function_params.add_variable(param_name, pointer_type(current_type, pointer));
-	pointer = false;
+	if (var_size == 0)
+	{
+		var_size = 1;
+		function_params.add_variable(param_name, pointer_type(current_type));
+	}
+	else
+		function_params.add_variable(param_name, current_type);
+	
 	return;
 }
 
@@ -146,12 +154,6 @@ void status::set_assign_var()
 bool status::get_assign_var()
 {
 	return assign;
-}
-
-void status::set_pointer()
-{
-	pointer = true;
-	return;
 }
 
 void status::set_reference()
@@ -308,6 +310,7 @@ void status::reset_labels(bool cont)
 	if (cont)
 		continue_label.pop_back();
 	break_label.pop_back();
+	case_label = "empty";
 	return;
 }
 
@@ -333,6 +336,17 @@ void status::set_break_label()
 std::string status::get_break_label()
 {
 	return break_label[break_label.size() - 1];
+}
+
+void status::set_case_label()
+{
+	case_label = label_gen();
+	return;
+}
+
+std::string status::get_case_label()
+{
+	return case_label;
 }
 
 void status::change_text_data(std::string in, std::ostream& out)

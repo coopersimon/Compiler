@@ -13,7 +13,7 @@ class ast_value
 {
 	public:
 		virtual ~ast_value() {}
-		virtual void print(int& scope, std::ostream& out) {}
+		virtual void print(std::ostream& out) {}
 		virtual void build_status(status& stat) {}
 		virtual void code_gen(status& stat, std::ostream& out) {}
 };
@@ -38,7 +38,7 @@ class v_int : public ast_value
 		int value;
 	public:
 		v_int(int in) : value(in) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void build_status(status& stat);
 		void code_gen(status& stat, std::ostream& out);
 };
@@ -49,7 +49,7 @@ class v_id : public ast_value
 		std::string value;
 	public:
 		v_id(std::string in) : value(std::string(in)) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void build_status(status& stat);
 		void code_gen(status& stat, std::ostream& out);
 };
@@ -73,7 +73,7 @@ class ast_node : public ast_value
 		ast_node();
 		ast_node(ast_value* l_in, ast_value* r_in) : left(l_in), right(r_in) {}
 		~ast_node();
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void build_status(status& stat);
 		void code_gen(status& stat, std::ostream& out);
 };
@@ -82,7 +82,7 @@ class n_pointer : public ast_node
 {
 	public:
 		n_pointer(ast_value* l_in) : ast_node(l_in, NULL) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -92,7 +92,7 @@ class n_array : public ast_node
 		int size;
 	public:
 		n_array(ast_value* l_in, int size_in) : ast_node(l_in, NULL), size(size_in) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void build_status(status& stat);
 		void code_gen(status& stat, std::ostream& out);
 };
@@ -101,7 +101,7 @@ class n_func_decl : public ast_node
 {
 	public:
 		n_func_decl(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void build_status(status& stat);
 		void code_gen(status& stat, std::ostream& out);
 };
@@ -110,7 +110,7 @@ class n_list : public ast_node
 {
 	public:
 		n_list(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		//void code_gen(status& stat, std::ostream& out);
 };
 
@@ -118,7 +118,7 @@ class n_param_decl : public ast_node
 {
 	public:
 		n_param_decl(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -133,7 +133,7 @@ class n_comp_stat : public ast_node
 {
 	public:
 		n_comp_stat(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -141,7 +141,7 @@ class n_stat : public ast_node
 {
 	public:
 		n_stat(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		//void code_gen(status& stat, std::ostream& out);
 };
 
@@ -149,7 +149,7 @@ class n_init_decl : public ast_node
 {
 	public:
 		n_init_decl(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void build_status(status& stat);
 		void code_gen(status& stat, std::ostream& out);
 };
@@ -160,7 +160,7 @@ class n_expression : public ast_node
 		std::string opstr;
 	public:
 		n_expression(ast_value* l_in, ast_value* r_in, std::string op_in) : ast_node(l_in, r_in), opstr(std::string(op_in)) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -171,7 +171,7 @@ class n_ternary : public ast_node
 	public:
 		n_ternary(ast_value* cond_in, ast_value* true_in, ast_value* false_in) : ast_node(true_in, false_in), cond(cond_in) {}
 		~n_ternary();
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -182,7 +182,7 @@ class n_ifelse : public ast_node
 	public:
 		n_ifelse(ast_value* l_in, ast_value* r_in, ast_value* e_in) : ast_node(l_in, r_in), else_node(e_in) {}
 		~n_ifelse();
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -190,7 +190,7 @@ class n_switch : public ast_node
 {
 	public:
 		n_switch(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -198,7 +198,7 @@ class n_case : public ast_node
 {
 	public:
 		n_case(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -206,7 +206,7 @@ class n_while : public ast_node
 {
 	public:
 		n_while(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -214,7 +214,7 @@ class n_dowhile : public ast_node
 {
 	public:
 		n_dowhile(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -226,7 +226,7 @@ class n_for : public ast_node
 	public:
 		n_for(ast_value* init_expr, ast_value* cond_expr, ast_value* loop_expr, ast_value* body) : ast_node(body, loop_expr), init(init_expr), cond(cond_expr) {}
 		~n_for();
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -236,7 +236,7 @@ class n_jump_stat : public ast_node
 		std::string type;
 	public:
 		n_jump_stat(ast_value* exp_in, std::string type_in) : ast_node(exp_in, NULL), type(std::string(type_in)) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void build_status(status& stat);
 		void code_gen(status& stat, std::ostream& out);
 };
@@ -247,7 +247,7 @@ class n_label : public ast_node
 		std::string label;
 	public:
 		n_label(std::string label_in, ast_value* stat_in) : ast_node(stat_in, NULL), label(std::string(label_in)) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -255,7 +255,7 @@ class n_func_call : public ast_node
 {
 	public:
 		n_func_call(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
-		void print(int& scope, std::ostream& out);
+		void print(std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 

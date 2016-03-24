@@ -41,6 +41,7 @@ class status
 		std::vector<int> return_count; // number of return expressions in a function
 		std::vector<std::string> continue_label; // the labels in use for continues
 		std::vector<std::string> break_label; // the labels in use for breaks
+		std::string case_label; // label for cases
 
 		// dealing with function calls:
 		int no_args;
@@ -51,7 +52,7 @@ class status
 		// dealing with text/data - start = 0, text = 1, data = 2 (more to be added later? maybe)
 		int text_data;
 	public:
-		status() : label_no(0), current_function(0), current_type(long_s), var_size(1), reg_no(-1), assign_expr(false), no_args(0), scope(0), text_data(0), declaration(false), assign(false), param_decl(false), pointer(false) { scope_vars.push_back(var_list()); variable_count.push_back(0); return_count.push_back(0); }
+		status() : label_no(0), current_function(0), current_type(long_s), var_size(1), reg_no(-1), assign_expr(false), no_args(0), scope(0), text_data(0), declaration(false), assign(false), param_decl(false), pointer(false), case_label("empty") { scope_vars.push_back(var_list()); variable_count.push_back(0); return_count.push_back(0); }
 
 		std::string label_gen();
 
@@ -76,7 +77,6 @@ class status
 		void set_assign_var(); // for if a variable is being assigned a value
 		bool get_assign_var();
 
-		void set_pointer(); // for declaring pointers
 		void set_reference(); // for if a value is being referenced
 		bool get_reference();
 		void set_dereference(); // for if a value is being dereferenced
@@ -106,6 +106,8 @@ class status
 		std::string get_continue_label(); // gets the continue label
 		void set_break_label();
 		std::string get_break_label();
+		void set_case_label();
+		std::string get_case_label();
 
 		void change_text_data(std::string in, std::ostream& out); // print change to text or data (if needed)
 		//void dump_vars();

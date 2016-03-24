@@ -11,23 +11,23 @@
 
 ast_root::~ast_root()
 {
-	/*if (tree != NULL)
-		delete tree;*/
+	//if (tree != NULL)
+	//	delete tree;
 }
 
 void ast_root::print(std::ostream& out)
 {
-	tree->print(scope, out);
+	tree->print(out);
 	return;
 }
 
-void v_int::print(int& scope, std::ostream& out)
+void v_int::print(std::ostream& out)
 {
 	out << value;
 	return;
 }
 
-void v_id::print(int& scope, std::ostream& out)
+void v_id::print(std::ostream& out)
 {
 	out << value;
 	return;
@@ -47,97 +47,95 @@ ast_node::~ast_node()
 		delete right;
 }
 
-void ast_node::print(int& scope, std::ostream& out)
+void ast_node::print(std::ostream& out)
 {
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	if (right != NULL)
-		right->print(scope, out);
+		right->print(out);
 	return;
 }
 
-void n_func_decl::print(int& scope, std::ostream& out)
+void n_func_decl::print(std::ostream& out)
 {
 	out << " ";
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 
 	out << " (";
 	if (right != NULL)
-		right->print(scope, out);
+		right->print(out);
 
 	out << ")";
 	return;
 }
 
-void n_list::print(int& scope, std::ostream& out)
+void n_list::print(std::ostream& out)
 {
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	if (right != NULL)
 	{
 		out << ", ";
-		right->print(scope, out);
+		right->print(out);
 	}
 	return;
 }
 
-void n_param_decl::print(int& scope, std::ostream& out)
+void n_param_decl::print(std::ostream& out)
 {
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	out << " ";
 	if (right != NULL)
-		right->print(scope, out);
+		right->print(out);
 	return;
 }
 
-void n_comp_stat::print(int& scope, std::ostream& out)
+void n_comp_stat::print(std::ostream& out)
 {
-	scope++;
 	out << "{\n";
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	if (right != NULL)
-		right->print(scope, out);
+		right->print(out);
 	out << "}";
-	scope--;
 	return;
 }
 
-void n_stat::print(int& scope, std::ostream& out)
+void n_stat::print(std::ostream& out)
 {
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	if (right != NULL)
 	{
 		out << " ";
-		right->print(scope, out);
+		right->print(out);
 	}
 	out << ";\n";
 	return;
 }
 
-void n_init_decl::print(int& scope, std::ostream& out)
+void n_init_decl::print(std::ostream& out)
 {
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	if (right != NULL)
 	{
 		out << "=";
-		right->print(scope, out);
+		right->print(out);
 	}
 	return;
 }
 
-void n_expression::print(int& scope, std::ostream& out)
+void n_expression::print(std::ostream& out)
 {
 	out << "(";
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	out << opstr;
 	if (right != NULL)
-		right->print(scope, out);
+		right->print(out);
 	out << ")";
 	return;
 }
@@ -146,19 +144,23 @@ n_ternary::~n_ternary()
 {
 	if (cond != NULL)
 		delete cond;
+	if (left != NULL)
+		delete left;
+	if (right != NULL)
+		delete right;
 }
 
-void n_ternary::print(int& scope, std::ostream& out)
+void n_ternary::print(std::ostream& out)
 {
 	out << "(";
 	if (cond != NULL)
-		cond->print(scope, out);
+		cond->print(out);
 	out << " ? ";
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	out << " : ";
 	if (right != NULL)
-		right->print(scope, out);
+		right->print(out);
 	out << ")";
 	return;
 }
@@ -167,88 +169,92 @@ n_ifelse::~n_ifelse()
 {
 	if (else_node != NULL)
 		delete else_node;
+	if (left != NULL)
+		delete left;
+	if (right != NULL)
+		delete right;
 }
 
-void n_ifelse::print(int& scope, std::ostream& out)
+void n_ifelse::print(std::ostream& out)
 {
 	out << "if (";
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	out << ")\n";
 	if (right != NULL)
-		right->print(scope, out);
+		right->print(out);
 	if (else_node != NULL)
 	{
 		out << "else\n";
-		else_node->print(scope, out);
+		else_node->print(out);
 	}
 	return;
 }
 
-void n_switch::print(int& scope, std::ostream& out)
+void n_switch::print(std::ostream& out)
 {
 	out << "switch (";
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	out << ")\n";
 	if (right != NULL)
-		right->print(scope, out);
+		right->print(out);
 	return;
 }
 
-void n_case::print(int& scope, std::ostream& out)
+void n_case::print(std::ostream& out)
 {
 	if (left != NULL)
 	{
 		out << "case ";
-		left->print(scope, out);
+		left->print(out);
 	}
 	else
 		out << "default";
 	out << ":\n";
 	if (right != NULL)
-		right->print(scope, out);
+		right->print(out);
 	return;
 }
 
-void n_while::print(int& scope, std::ostream& out)
+void n_while::print(std::ostream& out)
 {
 	out << "while (";
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	out << ")\n";
 	if (right != NULL)
-		right->print(scope, out);
+		right->print(out);
 	return;
 }
 
-void n_dowhile::print(int& scope, std::ostream& out)
+void n_dowhile::print(std::ostream& out)
 {
 	out << "do\n";
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	out << "while (";
 	if (right != NULL)
-		right->print(scope, out);
+		right->print(out);
 	out << ")\n";
 	return;
 }
 
-void n_for::print(int& scope, std::ostream& out)
+void n_for::print(std::ostream& out)
 {
 	out << "for (";
 	if (init != NULL)
-		init->print(scope, out);
+		init->print(out);
 	out << "; ";
 	if (cond != NULL)
-		cond->print(scope, out);
+		cond->print(out);
 	out << "; ";
 	if (right != NULL)
-		right->print(scope, out);
+		right->print(out);
 	out << ")\n";
 
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	return;
 }
 
@@ -258,9 +264,13 @@ n_for::~n_for()
 		delete init;
 	if (cond != NULL)
 		delete cond;
+	if (left != NULL)
+		delete left;
+	if (right != NULL)
+		delete right;
 }
 
-void n_jump_stat::print(int& scope, std::ostream& out)
+void n_jump_stat::print(std::ostream& out)
 {
 	if (type != "continue" && type != "break" && type != "return")
 		out << "goto ";
@@ -268,46 +278,46 @@ void n_jump_stat::print(int& scope, std::ostream& out)
 	if (left != NULL)
 	{
 		out << " ";
-		left->print(scope, out);
+		left->print(out);
 	}
 	out << ";\n";
 	return;
 }
 
-void n_label::print(int& scope, std::ostream& out)
+void n_label::print(std::ostream& out)
 {
 	out << label << "label:";
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	return;
 }
 
-void n_func_call::print(int& scope, std::ostream& out)
+void n_func_call::print(std::ostream& out)
 {
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	out << "(";
 	if (right != NULL)
-		right->print(scope, out);
+		right->print(out);
 	out << ")";
 	return;
 }
 
-void n_pointer::print(int& scope, std::ostream& out)
+void n_pointer::print(std::ostream& out)
 {
 	out << "*";
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	return;
 }
 
-void n_array::print(int& scope, std::ostream& out)
+void n_array::print(std::ostream& out)
 {
 	if (left != NULL)
-		left->print(scope, out);
+		left->print(out);
 	out << "[";
 	if (right != NULL)
-		right->print(scope, out);
+		right->print(out);
 	out << "]";
 	return;
 }
@@ -360,8 +370,10 @@ void n_init_decl::build_status(status& stat)
 void n_array::build_status(status& stat)
 {
 	if (left != NULL)
+	{
+		stat.set_var_size(size);
 		left->build_status(stat);
-	stat.set_var_size(size);
+	}
 	return;
 }
 
@@ -414,8 +426,6 @@ void v_id::code_gen(status& stat, std::ostream& out)
 				out << "\t.type\t" << value << ", @object\n";
 				out << value << ":\n";
 				out << "\t.word";
-				// if variable needs to be declared to a value, here is the place to do it
-				out << "\n";
 			}
 		}
 	}
@@ -472,7 +482,7 @@ void n_pointer::code_gen(status& stat, std::ostream& out)
 {
 	if (left != NULL)
 	{
-		stat.set_pointer();
+		stat.set_var_size(0); // pointers have size 0.
 		left->code_gen(stat, out);
 	}
 	return;
@@ -493,8 +503,7 @@ void n_func_decl::code_gen(status& stat, std::ostream& out)
 	if (left != NULL) // get name of function.
 	{
 		std::stringstream id;
-		int tmp;
-		left->print(tmp, id);
+		left->print(id);
 		stat.name_function(id.str());
 	}
 	if (right != NULL) // parameters/arguments.
@@ -540,7 +549,7 @@ void n_func_def::code_gen(status& stat, std::ostream& out)
 
 	out << "\tmove\t$v0,$zero\n"; // return zero by default
 	if (stat.number_returns() > 0)
-		out << "r" << stat.get_function_name() << ":"; // label to branch to and return
+		out << "r" << stat.get_function_name() << ":\n"; // label to branch to and return
 
 	out << "\tlw\t" << "$fp," << (stack_space - 4) << "($sp)\n"; // restore the old fp
 	out << "\taddiu\t" << "$sp,$sp," << stack_space << "\n"; // move the stack back up.
@@ -571,21 +580,32 @@ void n_init_decl::code_gen(status& stat, std::ostream& out)
 	{
 		stat.set_decl(false); // let the id node know that a variable is being declared
 		left->code_gen(stat, out);
-		stat.set_decl(false);	
+		stat.set_decl(false);
 	}
 
 	if (right != NULL) // if variable is initialised to value
 	{
-		stat.lock_register(out);
-		stat.set_assign_expr();
-		// evaluate assign expr
-		right->code_gen(stat, out);
-		stat.set_assign_var(); // let the id node know that a variable is being set to a value
-		left->code_gen(stat, out);
-		stat.set_assign_var();
-		stat.unlock_register(out);
-		stat.set_assign_expr();
+		if (stat.global_var())
+		{
+			std::stringstream amount;
+			right->print(amount);
+			out << "\t" << amount.str() << "\n";
+		}
+		else
+		{
+			stat.lock_register(out);
+			stat.set_assign_expr();
+			// evaluate assign expr
+			right->code_gen(stat, out);
+			stat.set_assign_var(); // let the id node know that a variable is being set to a value
+			left->code_gen(stat, out);
+			stat.set_assign_var();
+			stat.unlock_register(out);
+			stat.set_assign_expr();
+		}
 	}
+	else if (stat.global_var())
+		out << "\n";
 
 	return;
 }
@@ -635,6 +655,7 @@ void n_switch::code_gen(status& stat, std::ostream& out)
 	right->code_gen(stat, out);
 	stat.unlock_register(out);
 	out << stat.get_break_label() << ":\n";
+	out << stat.get_case_label() << ":\n";
 	stat.reset_labels(false);
 	return;
 }
@@ -649,12 +670,20 @@ void n_case::code_gen(status& stat, std::ostream& out)
 		left->code_gen(stat, out);
 		stat.unlock_register(out);
 		stat.set_assign_expr();
-		std::string case_label = stat.label_gen();
+		std::string next_case_label = stat.label_gen();
 		// if the expressions are not equal, branch over statement
-		out << "\tbne\t$t" << stat.get_register() << ",$t" << op2 << "," << case_label << "\n";
+		out << "\tbne\t$t" << stat.get_register() << ",$t" << op2 << "," << next_case_label << "\n";
+		out << "\tnop\n";
+		// case body label
+		if (stat.get_case_label() != "empty")
+			out << stat.get_case_label() << ":\n";
+		stat.set_case_label();
 		if (right != NULL)
-			right->code_gen(stat, out);
-		out << case_label << ":\n";
+			right->code_gen(stat, out); // case body
+		// fall through: need to jump to the next case body.
+		out << "\tb\t" << stat.get_case_label() << "\n";
+		out << "\tnop\n";
+		out << next_case_label << ":\n";
 	}
 	else // default:
 	{
@@ -759,6 +788,10 @@ void n_expression::code_gen(status& stat, std::ostream& out)
 			int op2 = stat.get_register();
 			stat.unlock_register(out);
 			out << "\tadd\t$t" << stat.get_register() << ",$t" << stat.get_register() << ",$t" << op2 << "\n";
+		}
+		else
+		{
+			right->code_gen(stat, out);
 		}
 	}
 	else if (opstr == "-")
@@ -1125,8 +1158,7 @@ void n_func_call::code_gen(status& stat, std::ostream& out)
 	right->code_gen(stat, out);
 	// next, call the function
 	std::stringstream id;
-	int tmp;
-	left->print(tmp, id);
+	left->print(id);
 	out << "\t.option pic0\n"; // pic = position independent code
 	out << "\tjal\t" << id.str() << "\n";
 	out << "\tnop\n";

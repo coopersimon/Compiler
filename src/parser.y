@@ -45,7 +45,7 @@ void yyerror(const char*);
 %type <node> declarator direct_decl
 %type <node> param_decl
 %type <node> comp_stat
-%type <node> init_decl init_d_list
+%type <node> init_decl init_d_list initializer init_list
 
 %start root
 
@@ -114,8 +114,17 @@ init_d_list	: init_decl { $$ = $1; }
 			;
 
 init_decl	: declarator { $$ = new n_init_decl($1, NULL); }
-		  	| declarator _ASSIGN assign_exp { $$ = new n_init_decl($1, $3); }
+		  	| declarator _ASSIGN initializer { $$ = new n_init_decl($1, $3); }
 			;
+
+initializer	: assign_exp { $$ = $1; }
+		| _LCBRA init_list _RCBRA { $$ = $2; }
+		| _LCBRA init_list _COMMA _RCBRA { $$ = $2; }
+		;
+
+init_list	: initializer { $$ = $1; }
+		| init_list _COMMA initializer { $$ = new n_list($1, $3); }
+		;
 
 stat_list	: statement { $$ = $1; }
 		  	| stat_list statement { $$ = new ast_node($1, $2); }

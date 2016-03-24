@@ -6,7 +6,7 @@
 
 enum type {void_t, char_s, char_u, char_p, short_s, short_u, short_p, long_s, long_u, long_p, float_t, float_p};
 
-type pointer_type(type input, bool ptr);
+type pointer_type(type input);
 
 class variable
 {

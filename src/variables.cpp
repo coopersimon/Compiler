@@ -1,20 +1,15 @@
 #include "variables.hpp"
 
-type pointer_type(type input, bool ptr)
+type pointer_type(type input)
 {
-	if (ptr)
-	{
-		if (input == char_s || input == char_u)
-			return char_p;
-		else if (input == short_s || input == short_u)
-			return short_p;
-		else if (input == long_s || input == long_u)
-			return long_p;
-		else if (input == float_t)
-			return float_p;
-		else
-			return input;
-	}
+	if (input == char_s || input == char_u)
+		return char_p;
+	else if (input == short_s || input == short_u)
+		return short_p;
+	else if (input == long_s || input == long_u)
+		return long_p;
+	else if (input == float_t)
+		return float_p;
 	else
 		return input;
 }
