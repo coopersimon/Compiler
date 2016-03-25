@@ -1,36 +1,44 @@
 Compiler:
 
-Arithmetic done. (mostly tested)
+Arithmetic done.
 
-Function calls done. (mostly tested)
+Function calls done: try a nested function or returning a function.
 
-If/else done. (mostly tested)
+If/else done.
 
-While, do/while and for done. (For has not been fully tested!)
+While, do/while and for done.
 
-All arithmetic, bitwise and logical operators done (not fully tested)
+All arithmetic, bitwise and logical operators done
 
-Increment and decrement working. (mostly tested)
+Increment and decrement working.
 
-Scoping/shadowing working (not fully tested)
+Scoping/shadowing working
 
-Arguments(parameters) working (mostly tested)
+Arguments(parameters) working
 
-Global variables. (assignments need to be reimplemented)
+Global variables.
 
-Assignment operators (not fully tested but mostly good)
+Assignment operators
 
-Switch, break and continue implemented (not at all tested)
+Switch, break and continue implemented
 
-Pointers working! (slightly tested)
+Pointers working!
 
-Goto has been written but doesnt work due to label issues: some bison issue (very strange)
+Arrays!
+
+Types partially implemented: long, short, float: char might work sort of
+
+Floating point working: declarations, add, sub, mul, div: float arrays dont work & returning probably doesnt.
+
+Goto has been written but doesnt work due to label issues: some bison issue (very strange) probably a sign from the gods
 
 TODO:
 
-Stress-test the above.
+Chars
 
-General optimisation:
+Stress-test the above: everything needs to be properly properly tested.
+
+General optimisation that will not be done because it isnt marked:
 	
 	Better use of registers (i.e. stop loading from v0 to t0, back into v0)
 	
@@ -44,6 +52,4 @@ General optimisation:
 
 ... and probably more
 
-TYPES
-
-STRUCTS
+STRUCTS : very low priority

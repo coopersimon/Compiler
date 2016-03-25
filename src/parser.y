@@ -1,6 +1,7 @@
 %define parse.error verbose
 %{
 #include "ast.hpp"
+#include "variables.hpp"
 #include <iostream>
 
 extern ast_value* c_ast;
@@ -13,10 +14,11 @@ void yyerror(const char*);
 {
 	int integer;
 	char const* str;
+	float fp;
 	ast_value* node;
 }
 
-%token _CHAR _DOUBLE _FLOAT _INT _LONG _SHORT _SIGNED _UNSIGNED _VOID
+%token _CHAR _CHARU _DOUBLE _FLOAT _LONGINT _LONGINTU _SHORTINT _SHORTINTU _VOID
 %token _DO _ELSE _FOR _IF _WHILE
 %token _BREAK _CONTINUE _GOTO _RETURN
 %token _CASE _DEFAULT _SWITCH
@@ -34,6 +36,7 @@ void yyerror(const char*);
 
 %type <integer> _CNUM
 %type <str> _ID assign_op unary_op
+%type <fp> _CFP
 %type <node> type_spec
 %type <node> trans_unit ext_decl func_def declaration id_list
 %type <node> expr cast_exp unary_exp post_exp prim_exp
@@ -44,7 +47,7 @@ void yyerror(const char*);
 %type <node> declarator direct_decl
 %type <node> param_decl
 %type <node> comp_stat
-%type <node> init_decl init_d_list
+%type <node> init_decl init_d_list initializer init_list
 
 %start root
 
@@ -73,7 +76,8 @@ declarator	: _MULT direct_decl { $$ = new n_pointer($2); }
 		;
 
 direct_decl	: _ID { $$ = new v_id($1); }
-		/*	| _LPAR direct_decl _RPAR { $$ = $2; }*/
+			| _LPAR declarator _RPAR { $$ = $2; }
+			| direct_decl _LBRAK _CNUM _RBRAK { $$ = new n_array($1, $3); }
 		   	| direct_decl _LPAR param_list _RPAR { $$ = new n_func_decl($1, $3); }
 			| direct_decl _LPAR id_list _RPAR { $$ = new n_func_decl($1, $3); }
 			| direct_decl _LPAR _RPAR { $$ = new n_func_decl($1, NULL); }
@@ -86,7 +90,14 @@ param_list	: param_decl { $$ = $1; }
 param_decl	: type_spec declarator { $$ = new n_param_decl($1, $2); }
 		   	;
 
-type_spec	: _INT { $$ = new v_type("int"); }
+type_spec	: _LONGINT { $$ = new v_type(long_s); }
+		| _LONGINTU { $$ = new v_type(long_u); }
+		| _SHORTINT { $$ = new v_type(short_s); }
+		| _SHORTINTU { $$ = new v_type(short_u); }
+		| _CHAR { $$ = new v_type(char_s); }
+		| _CHARU { $$ = new v_type(char_u); }
+		| _FLOAT { $$ = new v_type(float_t); }
+		| _VOID { $$ = new v_type(void_t); }
 		  	;
 
 id_list		: _ID { $$ = new v_id($1); }
@@ -112,8 +123,17 @@ init_d_list	: init_decl { $$ = $1; }
 			;
 
 init_decl	: declarator { $$ = new n_init_decl($1, NULL); }
-		  	| declarator _ASSIGN assign_exp { $$ = new n_init_decl($1, $3); }
+		  	| declarator _ASSIGN initializer { $$ = new n_init_decl($1, $3); }
 			;
+
+initializer	: assign_exp { $$ = $1; }
+		| _LCBRA init_list _RCBRA { $$ = $2; }
+		| _LCBRA init_list _COMMA _RCBRA { $$ = $2; }
+		;
+
+init_list	: initializer { $$ = $1; }
+		| init_list _COMMA initializer { $$ = new n_list($1, $3); }
+		;
 
 stat_list	: statement { $$ = $1; }
 		  	| stat_list statement { $$ = new ast_node($1, $2); }
@@ -233,6 +253,7 @@ cast_exp	: unary_exp { $$ = $1; }
 unary_exp	: post_exp { $$ = $1; }
 		  	| _INC unary_exp { $$ = new n_expression(NULL, $2, "++"); }
 			| _DEC unary_exp { $$ = new n_expression(NULL, $2, "--"); }
+			| _SIZEOF unary_exp { $$ = new n_expression(NULL, $2, "sizeof"); }
 			| unary_op cast_exp { $$ = new n_expression(NULL, $2, $1); }
 			;
 
@@ -245,6 +266,7 @@ unary_op	: _COMP { $$ = "!"; }
 		;
 
 post_exp	: prim_exp { $$ = $1; }
+			| post_exp _LBRAK expr _RBRAK { $$ = new n_expression($1, $3, "[]"); }
 		 	| post_exp _INC { $$ = new n_expression($1, NULL, "++"); }
 			| post_exp _DEC { $$ = new n_expression($1, NULL, "--"); }
 			| post_exp _LPAR arg_exp_list _RPAR { $$ = new n_func_call($1, $3); }
@@ -253,6 +275,7 @@ post_exp	: prim_exp { $$ = $1; }
 
 prim_exp	: _ID { $$ = new v_id($1); }
 		 	| _CNUM { $$ = new v_int($1); }
+			| _CFP { $$ = new v_float($1); }
 			| _LPAR expr _RPAR { $$ = $2; }
 			;
 
