@@ -5,6 +5,12 @@
 #include <string>
 #include <ostream>
 
+typedef union
+{
+	int i;
+	float f;
+} fl_int;
+
 // function to print tabs for scopes:
 //std::string tab(int scope);
 
@@ -14,7 +20,7 @@ class ast_value
 	public:
 		virtual ~ast_value() {}
 		virtual void print(std::ostream& out) {}
-		virtual void build_status(status& stat) {}
+		virtual void build_status(status& stat, std::ostream& out) {}
 		virtual void code_gen(status& stat, std::ostream& out) {}
 };
 
@@ -39,7 +45,7 @@ class v_int : public ast_value
 	public:
 		v_int(int in) : value(in) {}
 		void print(std::ostream& out);
-		void build_status(status& stat);
+		void build_status(status& stat, std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -50,7 +56,7 @@ class v_id : public ast_value
 	public:
 		v_id(std::string in) : value(std::string(in)) {}
 		void print(std::ostream& out);
-		void build_status(status& stat);
+		void build_status(status& stat, std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -60,6 +66,30 @@ class v_type : public ast_value
 		type value;
 	public:
 		v_type(type in) : value(in) {}
+		void print(std::ostream& out);
+		void build_status(status& stat, std::ostream& out);
+		void code_gen(status& stat, std::ostream& out);
+};
+
+class v_str : public ast_value
+{
+	private:
+		std::string value;
+	public:
+		v_str(std::string in) : value(std::string(in)) {}
+		void print(std::ostream& out);
+		void build_status(status& stat, std::ostream& out);
+		void code_gen(status& stat, std::ostream& out);
+};
+
+class v_float : public ast_value
+{
+	private:
+		fl_int value;
+	public:
+		v_float(float in){ value.f = in; }
+		void print(std::ostream& out);
+		void build_status(status& stat, std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -74,7 +104,7 @@ class ast_node : public ast_value
 		ast_node(ast_value* l_in, ast_value* r_in) : left(l_in), right(r_in) {}
 		~ast_node();
 		void print(std::ostream& out);
-		void build_status(status& stat);
+		void build_status(status& stat, std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -93,7 +123,7 @@ class n_array : public ast_node
 	public:
 		n_array(ast_value* l_in, int size_in) : ast_node(l_in, NULL), size(size_in) {}
 		void print(std::ostream& out);
-		void build_status(status& stat);
+		void build_status(status& stat, std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -102,7 +132,7 @@ class n_func_decl : public ast_node
 	public:
 		n_func_decl(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
 		void print(std::ostream& out);
-		void build_status(status& stat);
+		void build_status(status& stat, std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -150,7 +180,7 @@ class n_init_decl : public ast_node
 	public:
 		n_init_decl(ast_value* l_in, ast_value* r_in) : ast_node(l_in, r_in) {}
 		void print(std::ostream& out);
-		void build_status(status& stat);
+		void build_status(status& stat, std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 
@@ -237,7 +267,7 @@ class n_jump_stat : public ast_node
 	public:
 		n_jump_stat(ast_value* exp_in, std::string type_in) : ast_node(exp_in, NULL), type(std::string(type_in)) {}
 		void print(std::ostream& out);
-		void build_status(status& stat);
+		void build_status(status& stat, std::ostream& out);
 		void code_gen(status& stat, std::ostream& out);
 };
 

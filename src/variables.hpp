@@ -18,6 +18,7 @@ class variable
 		variable(std::string name_in, type type_in) : var_name(name_in), var_type(type_in), elements(1) {}
 		variable(std::string name_in, type type_in, int e_in) : var_name(name_in), var_type(type_in), elements(e_in) {}
 		std::string name();
+		type get_var_type();
 		int var_size();
 };
 
@@ -29,6 +30,8 @@ class var_list
 		void add_variable(std::string var_name, type var_type);
 		void add_variable(std::string var_name, type var_type, int var_size);
 		int variable_offset(std::string var_name);
+		type variable_type(std::string var_name);
+		int variable_size(std::string var_name);
 		int var_count();
 		void clear();
 };

@@ -19,6 +19,11 @@ std::string variable::name()
 	return var_name;
 }
 
+type variable::get_var_type()
+{
+	return var_type;
+}
+
 int variable::var_size()
 {
 	return elements*4;
@@ -47,6 +52,28 @@ int var_list::variable_offset(std::string var_name)
 	}
 	
 	return -1;
+}
+
+type var_list::variable_type(std::string var_name)
+{
+	for (int i = 0; i < vars.size(); i++)
+	{
+		if (vars[i].name() == var_name)
+			return vars[i].get_var_type();
+	}
+	return void_t;
+}
+
+int var_list::variable_size(std::string var_name)
+{
+	for (int i = 0; i < vars.size(); i++)
+	{
+		if (vars[i].name() == var_name)
+		{
+			return vars[i].var_size();
+		}
+	}
+	return 0;
 }
 
 int var_list::var_count()
